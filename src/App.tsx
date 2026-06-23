@@ -15,6 +15,8 @@ import LogisticsPage from './pages/LogisticsPage'
 import QRCodesPage from './pages/QRCodesPage'
 import AdminPage from './pages/AdminPage'
 
+const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '')
+
 const ProtectedLayout: React.FC<{ children: React.ReactNode; roles?: string[] }> = ({ children, roles }) => (
   <ProtectedRoute roles={roles}>
     <Layout>{children}</Layout>
@@ -24,7 +26,7 @@ const ProtectedLayout: React.FC<{ children: React.ReactNode; roles?: string[] }>
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
