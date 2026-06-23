@@ -9,7 +9,7 @@ const SAMPLE_ORDERS = [
   { id: 'CMD-005', buyer: 'Épicerie Croix-Rivail', items: [{ product: 'Patate douce', qty: 50, unit: 'kg', price: 1.8 }, { product: 'Giraumon', qty: 30, unit: 'kg', price: 2.0 }], total: 150, commission: 7.5, status: 'cancelled', date: '2026-07-08', delivery: 'Magasin' },
 ]
 
-const STATUS_CFG: Record<string, { label: string; color: string; icon: any }> = {
+const STATUS_CFG: Record<string, { label: string; color: string; icon: React.ComponentType<{ size?: number }> }> = {
   pending: { label: 'En attente', color: '#F57C00', icon: Clock },
   approved: { label: 'Approuvée', color: '#2E7D32', icon: CheckCircle },
   preparing: { label: 'En préparation', color: '#0277BD', icon: Package },

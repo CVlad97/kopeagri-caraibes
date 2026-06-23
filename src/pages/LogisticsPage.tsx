@@ -9,7 +9,7 @@ const SAMPLE_TASKS = [
 ]
 
 const TYPE_ICONS: Record<string, string> = { collecte: '📦', livraison: '🚚', export: '🚢' }
-const STATUS_CFG: Record<string, { label: string; color: string; icon: any }> = {
+const STATUS_CFG: Record<string, { label: string; color: string; icon: React.ComponentType<{ size?: number }> }> = {
   pending: { label: 'En attente', color: '#F57C00', icon: Clock },
   assigned: { label: 'Affectée', color: '#0277BD', icon: Navigation },
   in_transit: { label: 'En transit', color: '#00838F', icon: Truck },

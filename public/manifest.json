@@ -2,12 +2,13 @@
   "name": "KopéAgri Caraïbes",
   "short_name": "KopéAgri",
   "description": "Plateforme coopérative agricole digitale pour la Martinique et les Caraïbes",
-  "start_url": "/",
+  "start_url": "/kopeagri-caraibes/",
   "display": "standalone",
   "background_color": "#1B5E20",
   "theme_color": "#1B5E20",
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "96x96", "type": "image/svg+xml" },
+    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "512x512", "type": "image/svg+xml" }
   ]
 }

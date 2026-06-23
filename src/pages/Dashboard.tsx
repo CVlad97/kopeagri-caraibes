@@ -14,7 +14,7 @@ const QUICK_ACTIONS = [
   { label: 'QR Codes', path: '/qr-codes', icon: QrCode, color: '#00838F' },
 ]
 
-const ROLE_STATS: Record<string, { label: string; value: string; icon: any; color: string }[]> = {
+const ROLE_STATS: Record<string, { label: string; value: string; icon: React.ComponentType<{ size?: number }>; color: string }[]> = {
   producteur: [
     { label: 'Mes lots actifs', value: '4', icon: Package, color: '#2E7D32' },
     { label: 'Commandes en cours', value: '2', icon: ShoppingCart, color: '#F57C00' },
@@ -49,7 +49,7 @@ const RECENT_ACTIVITY = [
   { action: 'Livraison effectuée', detail: 'Marché Fort-de-France', status: 'completed', time: 'Hier' },
 ]
 
-const STATUS_ICONS: Record<string, any> = {
+const STATUS_ICONS: Record<string, { icon: React.ComponentType<{ size?: number }>; color: string }> = {
   pending: { icon: Clock, color: '#F57C00' },
   approved: { icon: CheckCircle, color: '#2E7D32' },
   active: { icon: TrendingUp, color: '#0277BD' },

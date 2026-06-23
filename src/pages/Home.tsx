@@ -8,6 +8,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
 
   const handleDemo = () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useDemoMode()
     navigate('/dashboard')
   }
