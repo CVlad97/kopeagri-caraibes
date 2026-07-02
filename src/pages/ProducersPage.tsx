@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Truck } from 'lucide-react'
+import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Users } from 'lucide-react'
 import { getAll, add, toggleActive, remove } from '../services/dataService'
-import type { LogisticsProvider } from '../services/dataService'
+import type { Producer } from '../services/dataService'
 import EntityForms from '../components/EntityForms'
 
-const LogisticsPage: React.FC = () => {
-  const [providers, setProviders] = useState<LogisticsProvider[]>([])
+const ProducersPage: React.FC = () => {
+  const [producers, setProducers] = useState<Producer[]>([])
   const [search, setSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
 
-  const load = () => setProviders(getAll('logistics') as LogisticsProvider[])
+  const load = () => setProducers(getAll('producers') as Producer[])
   useEffect(load, [])
 
   const handleAdd = (data: Record<string, unknown>) => {
-    add('logistics', data as any)
+    add('producers', data as any)
     setShowForm(false)
     load()
   }
 
-  const filtered = providers.filter(p =>
+  const filtered = producers.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
     p.commune.toLowerCase().includes(search.toLowerCase())
   )
@@ -27,7 +27,7 @@ const LogisticsPage: React.FC = () => {
     <div className="page-container">
       <div className="page-header">
         <div>
-          <h1><Truck size={24} /> Transporteurs</h1>
+          <h1><Users size={24} /> Producteurs</h1>
           <p className="page-subtitle">{filtered.filter(p => p.active).length} actifs sur {filtered.length}</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowForm(true)}>
@@ -40,7 +40,7 @@ const LogisticsPage: React.FC = () => {
         <input placeholder="Chercher par nom ou commune..." value={search} onChange={e => setSearch(e.target.value)} />
       </div>
 
-      {showForm && <EntityForms type="logistics" onSubmit={handleAdd} onCancel={() => setShowForm(false)} />}
+      {showForm && <EntityForms type="producers" onSubmit={handleAdd} onCancel={() => setShowForm(false)} />}
 
       <div className="card-grid">
         {filtered.map(p => (
@@ -53,8 +53,10 @@ const LogisticsPage: React.FC = () => {
             </div>
             <div className="card-body">
               <p className="card-commune">📍 {p.commune}</p>
-              <p className="card-services">{p.services?.join(', ') || 'Aucun service'}</p>
-              <p className="card-fleet">🚛 {p.fleet || 'Flotte non renseignée'}</p>
+              <p className="card-cultures">{p.cultures?.join(', ') || 'Aucune culture'}</p>
+              {p.certifications?.length > 0 && (
+                <p className="card-certifs">✅ {p.certifications.join(', ')}</p>
+              )}
             </div>
             <div className="card-actions">
               <a
@@ -65,19 +67,19 @@ const LogisticsPage: React.FC = () => {
               >
                 <MessageCircle size={14} /> WhatsApp
               </a>
-              <button className="btn btn-sm" onClick={() => { toggleActive('logistics', p.id); load() }}>
+              <button className="btn btn-sm" onClick={() => { toggleActive('producers', p.id); load() }}>
                 {p.active ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
               </button>
-              <button className="btn btn-sm btn-danger" onClick={() => { remove('logistics', p.id); load() }}>
+              <button className="btn btn-sm btn-danger" onClick={() => { remove('producers', p.id); load() }}>
                 <Trash2 size={14} />
               </button>
             </div>
           </div>
         ))}
       </div>
-      {filtered.length === 0 && <div className="empty-state">Aucun transporteur trouvé</div>}
+      {filtered.length === 0 && <div className="empty-state">Aucun producteur trouvé</div>}
     </div>
   )
 }
 
-export default LogisticsPage
+export default ProducersPage

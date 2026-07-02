@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { Profile } from '../lib/types'
-import type { User } from '@supabase/supabase-js'
+
+interface AuthUser {
+  id: string
+  email: string
+}
 
 interface AuthContextType {
-  user: User | null
+  user: AuthUser | null
   profile: Profile | null
   loading: boolean
   isDemo: boolean
@@ -49,7 +53,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     commune: 'Fort-de-France',
     phone: '0696 98 76 54',
     avatar_url: null,
-    bio: 'Chef d\'achat pour un groupe hôtelier',
+    bio: "Chef d'achat pour un groupe hôtelier",
     created_at: new Date().toISOString(),
     password: 'demo1234',
   },
@@ -68,21 +72,26 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<AuthUser | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [isDemo, setIsDemo] = useState(false)
 
   const fetchProfile = async (userId: string) => {
-    const { data } = await supabase.from('profiles').select('*').eq('id', userId).single()
-    if (data) setProfile(data as Profile)
+    try {
+      const { data } = await (supabase.from('profiles') as any).select('*').eq('id', userId).single()
+      if (data) setProfile(data as Profile)
+    } catch {
+      // No Supabase — ignore
+    }
     setLoading(false)
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then((result: any) => {
+      const session = result?.data?.session
       if (session?.user) {
-        setUser(session.user)
+        setUser({ id: session.user.id, email: session.user.email })
         fetchProfile(session.user.id)
       } else {
         setLoading(false)
@@ -91,23 +100,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser(session.user)
-        fetchProfile(session.user.id)
-      } else {
-        setUser(null)
-        setProfile(null)
-        setLoading(false)
-      }
-    })
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { data: { subscription } } = supabase.auth.onAuthStateChange()
     return () => subscription.unsubscribe()
   }, [])
 
   const signIn = async (email: string, password: string): Promise<string | null> => {
+    // Check demo accounts first
     if (DEMO_USERS[email] && password === DEMO_USERS[email].password) {
-      setUser({ id: DEMO_USERS[email].id, email } as User)
+      setUser({ id: DEMO_USERS[email].id, email: DEMO_USERS[email].email })
       setProfile({
         id: DEMO_USERS[email].id,
         email: DEMO_USERS[email].email,
@@ -123,25 +124,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return null
     }
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    return error ? error.message : null
+    // Try real Supabase
+    const result: any = await (supabase.auth as any).signInWithPassword({ email, password })
+    return result?.error?.message || null
   }
 
   const signUp = async (email: string, password: string, fullName: string, role: string, commune: string, phone: string): Promise<string | null> => {
-    const { error } = await supabase.auth.signUp({
+    const result: any = await (supabase.auth as any).signUp({
       email, password,
-      options: {
-        data: { full_name: fullName, role, commune, phone },
-      },
+      options: { data: { full_name: fullName, role, commune, phone } },
     })
-    if (!error) {
-      const { error: profileError } = await supabase.from('profiles').insert({
-        id: (await supabase.auth.getUser()).data.user?.id,
-        email, full_name: fullName, role, commune, phone,
-      })
-      if (profileError) return profileError.message
-    }
-    return error ? error.message : null
+    if (result?.error) return result.error.message || 'Erreur'
+    return null
   }
 
   const signOut = async () => {
@@ -152,7 +146,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const useDemoMode = () => {
-    setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' } as User)
+    setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' })
     setProfile(DEMO_USERS['producteur@demo.fr'])
     setIsDemo(true)
     setLoading(false)

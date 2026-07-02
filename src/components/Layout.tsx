@@ -2,17 +2,15 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
-  Leaf, Home, Map, Package, Truck, BarChart3, LogOut, Menu, X, ShoppingCart, Grid, QrCode, Bell
+  Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart, BarChart3, MessageCircle, Send
 } from 'lucide-react'
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Tableau de bord', icon: Home, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/plots', label: 'Parcelles', icon: Map, roles: ['producteur', 'proprietaire', 'cooperative'] },
-  { path: '/resources', label: 'Ressources', icon: Grid, roles: ['producteur', 'proprietaire', 'cooperative', 'transporteur'] },
-  { path: '/lots', label: 'Lots', icon: Package, roles: ['producteur', 'cooperative', 'acheteur_b2b'] },
-  { path: '/orders', label: 'Commandes', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b'] },
-  { path: '/logistics', label: 'Logistique', icon: Truck, roles: ['transporteur', 'cooperative', 'producteur'] },
-  { path: '/qr-codes', label: 'QR Codes', icon: QrCode, roles: ['producteur', 'cooperative'] },
+  { path: '/producers', label: 'Producteurs', icon: Users, roles: ['producteur', 'proprietaire', 'cooperative', 'institution'] },
+  { path: '/logistics', label: 'Transporteurs', icon: Truck, roles: ['producteur', 'proprietaire', 'cooperative', 'transporteur', 'institution'] },
+  { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
 ]
 
@@ -90,6 +88,16 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           ))}
         </nav>
         <div className="sidebar-footer">
+          <a
+            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20j%27ai%20besoin%20d%27aide"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-item"
+            style={{ color: '#25D366' }}
+          >
+            <MessageCircle size={20} />
+            <span>Aide WhatsApp</span>
+          </a>
           <div className="nav-item clickable" onClick={handleLogout}>
             <LogOut size={20} />
             <span>Déconnexion</span>

@@ -1,117 +1,111 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { ArrowRight, Map, Package, Truck, BarChart3, QrCode, Globe, ChevronRight } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
+import { getAll } from '../services/dataService'
+import type { Producer, LogisticsProvider, Distributor } from '../services/dataService'
 
 const Home: React.FC = () => {
   const { user, useDemoMode } = useAuth()
   const navigate = useNavigate()
 
-  const handleDemo = () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDemoMode()
-    navigate('/dashboard')
-  }
+  const [counts, setCounts] = useState({ producers: 0, logistics: 0, distributors: 0, communes: 0 })
+
+  useEffect(() => {
+    const p = (getAll('producers') as Producer[]).filter(x => x.active).length
+    const l = (getAll('logistics') as LogisticsProvider[]).filter(x => x.active).length
+    const d = (getAll('distributors') as Distributor[]).filter(x => x.active).length
+    const allP = getAll('producers') as Producer[]
+    const uniqueCommunes = new Set(allP.map(x => x.commune)).size
+    setCounts({ producers: p, logistics: l, distributors: d, communes: uniqueCommunes })
+  }, [])
 
   return (
     <div className="home-page">
-      {/* Hero */}
       <section className="hero">
-        <div className="hero-overlay" />
         <div className="hero-content">
-          <div className="hero-badge">🌱 Coopérative agricole digitale</div>
-          <h1>KopéAgri <span className="text-gold">Caraïbes</span></h1>
-          <p className="hero-subtitle">Mutualisons terres, productions et ressources<br />pour nourrir la Martinique et les Caraïbes</p>
+          <h1>🌴 KopéAgri Caraïbes</h1>
+          <p className="hero-subtitle">
+            La coopérative agricole digitale de Martinique — Connectez producteurs, transporteurs et acheteurs
+          </p>
+          <div className="hero-stats">
+            <span><strong>{counts.producers}</strong> producteurs</span>
+            <span><strong>{counts.logistics}</strong> transporteurs</span>
+            <span><strong>{counts.distributors}</strong> acheteurs</span>
+            <span><strong>{counts.communes}</strong> communes</span>
+          </div>
           <div className="hero-actions">
-            {!user ? (
-              <>
-                <Link to="/register" className="btn btn-primary btn-lg">
-                  Rejoindre <ArrowRight size={20} />
-                </Link>
-                <Link to="/login" className="btn btn-outline btn-lg">
-                  Connexion
-                </Link>
-              </>
+            {user ? (
+              <button className="btn btn-primary btn-lg" onClick={() => navigate('/dashboard')}>
+                Tableau de bord <ArrowRight size={18} />
+              </button>
             ) : (
-              <Link to="/dashboard" className="btn btn-primary btn-lg">
-                Tableau de bord <ChevronRight size={20} />
-              </Link>
+              <>
+                <button className="btn btn-primary btn-lg" onClick={() => navigate('/onboarding')}>
+                  Rejoindre KopéAgri <ArrowRight size={18} />
+                </button>
+                <button className="btn btn-secondary btn-lg" onClick={useDemoMode}>
+                  Essayer la démo
+                </button>
+              </>
             )}
-            <button onClick={handleDemo} className="btn btn-demo btn-lg">
-              🧪 Essai démo
-            </button>
+          </div>
+          <a
+            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20je%20souhaite%20en%20savoir%20plus"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-whatsapp"
+          >
+            <MessageCircle size={18} /> Nous contacter sur WhatsApp
+          </a>
+        </div>
+      </section>
+
+      <section className="how-it-works">
+        <h2>Comment ça marche ?</h2>
+        <div className="steps-grid">
+          <div className="step-card">
+            <span className="step-emoji">👨‍🌾</span>
+            <span className="step-num">1</span>
+            <h3>Inscrivez-vous</h3>
+            <p>Photo, nom, téléphone — 2 minutes suffisent</p>
+          </div>
+          <div className="step-card">
+            <span className="step-emoji">🔍</span>
+            <span className="step-num">2</span>
+            <h3>Trouvez des partenaires</h3>
+            <p>Producteurs, transporteurs, acheteurs près de chez vous</p>
+          </div>
+          <div className="step-card">
+            <span className="step-emoji">💬</span>
+            <span className="step-num">3</span>
+            <h3>Contactez par WhatsApp</h3>
+            <p>Échangez directement, commandez, organisez le transport</p>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="stats-bar">
-        <div className="stat"><span className="stat-num">45+</span><span className="stat-label">Producteurs</span></div>
-        <div className="stat"><span className="stat-num">120ha</span><span className="stat-label">Terres mutualisées</span></div>
-        <div className="stat"><span className="stat-num">15</span><span className="stat-label">Communes</span></div>
-        <div className="stat"><span className="stat-num">200T</span><span className="stat-label">Volume/an</span></div>
-      </section>
-
-      {/* Vision */}
-      <section className="section">
-        <div className="section-header">
-          <h2>Notre vision</h2>
-          <p className="section-sub">Transformer des petits lots agricoles dispersés en volumes fiables, traçables et vendables sur le marché local, caribéen et international.</p>
-        </div>
-        <div className="vision-cards">
-          {[
-            { icon: Map, title: 'Mutualisation des terres', desc: 'Propriétaires et producteurs connectés pour une exploitation optimale des parcelles disponibles.' },
-            { icon: Package, title: 'Consolidation des volumes', desc: 'Regroupez plusieurs producteurs sur une même commande pour atteindre des volumes exportables.' },
-            { icon: Truck, title: 'Logistique mutualisée', desc: 'Collecte, chambre froide, transport — optimisez vos tournées et réduisez les coûts.' },
-            { icon: QrCode, title: 'Traçabilité totale', desc: 'QR code par lot : origine, producteur, qualité, certifications — transparence garantie.' },
-            { icon: BarChart3, title: 'Dashboard intelligent', desc: 'Pilotage en temps réel : production, ventes, stocks, litiges, commissions.' },
-            { icon: Globe, title: 'Export facilité', desc: 'Documents, groupage, logistique portuaire — ouvrez les marchés caribéens et internationaux.' },
-          ].map((item, i) => (
-            <div key={i} className="vision-card">
-              <div className="vision-icon"><item.icon size={32} /></div>
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Rôles */}
-      <section className="section section-alt">
-        <h2>Pour qui ?</h2>
-        <div className="roles-grid">
-          {[
-            { emoji: '👨‍🌾', title: 'Producteur', desc: 'Vendez vos lots, accédez aux ressources, consolidez vos volumes.' },
-            { emoji: '🏠', title: 'Propriétaire', desc: 'Mettez vos terres à disposition et générez des revenus.' },
-            { emoji: '🤝', title: 'Coopérative', desc: 'Administrez, validez, pilotez et gérez les commissions.' },
-            { emoji: '🏪', title: 'Acheteur B2B', desc: 'Commandez des lots tracés, qualité garantie, livraison fiable.' },
-            { emoji: '🚛', title: 'Transporteur', desc: 'Proposez vos services de collecte et de livraison.' },
-            { emoji: '🏛️', title: 'Institution', desc: 'Financez, conseillez et suivez l\'impact territorial.' },
-          ].map((role, i) => (
-            <div key={i} className="role-card">
-              <span className="role-emoji">{role.emoji}</span>
-              <h4>{role.title}</h4>
-              <p>{role.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section cta-section">
+      <section className="home-cta">
         <div className="cta-content">
-          <h2>Prêt à rejoindre la coopérative ?</h2>
-          <p>Créez votre compte gratuitement et commencez à mutualiser.</p>
-          <Link to="/register" className="btn btn-primary btn-lg">
-            Créer un compte <ArrowRight size={20} />
-          </Link>
+          <h2>Prêt à kopérer ? 🌱</h2>
+          <p>Rejoignez la communauté agricole de Martinique</p>
+          <div className="whatsapp-cta">
+            <span className="whatsapp-icon">💬</span>
+            <div>
+              <strong>Parlez-nous sur WhatsApp</strong>
+              <p>Réponse rapide, zéro complication</p>
+            </div>
+          </div>
+          <a
+            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-whatsapp"
+          >
+            <MessageCircle size={18} /> Ouvrir WhatsApp
+          </a>
         </div>
       </section>
-
-      <footer className="home-footer">
-        <p>© 2026 KopéAgri Caraïbes — Plateforme coopérative agricole digitale</p>
-        <p className="footer-small">Martinique · Caraïbes · Export</p>
-      </footer>
     </div>
   )
 }
