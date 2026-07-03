@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import OnboardingPage from './pages/OnboardingPage'
 import AppelOffrePage from './pages/AppelOffrePage'
+import AdhesionPage from './pages/AdhesionPage'
 import Dashboard from './pages/Dashboard'
 import ProducersPage from './pages/ProducersPage'
 import LogisticsPage from './pages/LogisticsPage'
@@ -30,6 +31,7 @@ function App() {
           <Route path="/logistics" element={<ProtectedRoute><Layout><LogisticsPage /></Layout></ProtectedRoute>} />
           <Route path="/distributors" element={<ProtectedRoute><Layout><DistributorsPage /></Layout></ProtectedRoute>} />
           <Route path="/appels-offre" element={<ProtectedRoute><Layout><AppelOffrePage /></Layout></ProtectedRoute>} />
+          <Route path="/adhesion" element={<ProtectedRoute><Layout><AdhesionPage /></Layout></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute><Layout><AdminPage /></Layout></ProtectedRoute>} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

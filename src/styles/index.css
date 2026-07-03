@@ -919,6 +919,103 @@ select.form-input { appearance: none; background-image: url("data:image/svg+xml,
 .rfq-card-actions .btn-outline.btn-danger { color: #F44336; border-color: #F44336; }
 .rfq-card-actions .btn-outline.btn-danger:hover { background: #F44336; color: white; }
 
+/* ===== ADHÉSION / PRICING ===== */
+.adhesion-tabs { display: flex; gap: 8px; margin-bottom: 24px; }
+.adhesion-tab { padding: 10px 20px; border-radius: 10px; border: 1px solid var(--gray-200); background: white; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.adhesion-tab.active { background: var(--green-600); color: white; border-color: var(--green-600); }
+
+.pricing-toggle-row { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 28px; font-size: 16px; }
+.active-toggle { font-weight: 700; color: var(--green-700); }
+.pricing-switch { position: relative; display: inline-block; width: 52px; height: 28px; }
+.pricing-switch input { opacity: 0; width: 0; height: 0; }
+.pricing-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--gray-300); border-radius: 28px; transition: 0.3s; }
+.pricing-slider::before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+.pricing-switch input:checked + .pricing-slider { background: var(--green-600); }
+.pricing-switch input:checked + .pricing-slider::before { transform: translateX(24px); }
+.pricing-badge-save { background: #4CAF50; color: white; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: 700; }
+
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+@media (max-width: 900px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+.pricing-card { background: white; border-radius: 16px; padding: 24px 20px; box-shadow: var(--shadow-sm); border: 2px solid var(--gray-200); display: flex; flex-direction: column; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+.pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.pricing-card.popular { border-color: var(--green-500); }
+.pricing-popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--green-600); color: white; padding: 4px 16px; border-radius: 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+
+.pricing-card-header { text-align: center; margin-bottom: 16px; }
+.pricing-emoji { font-size: 40px; }
+.pricing-card-header h3 { font-size: 22px; font-weight: 800; color: var(--gray-900); margin: 4px 0; }
+.pricing-desc { font-size: 13px; color: var(--gray-500); }
+
+.pricing-price { text-align: center; margin-bottom: 16px; padding: 12px 0; border-top: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); }
+.pricing-amount { font-size: 36px; font-weight: 900; color: var(--green-800); }
+.pricing-period { font-size: 14px; color: var(--gray-500); }
+.pricing-monthly { font-size: 13px; color: var(--gray-400); margin-top: 4px; }
+
+.pricing-features { list-style: none; padding: 0; margin: 0 0 16px; flex: 1; }
+.pricing-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--gray-700); padding: 4px 0; }
+.feature-check { color: var(--green-600); flex-shrink: 0; margin-top: 2px; }
+
+.pricing-commission { text-align: center; font-size: 13px; color: var(--gray-500); margin-bottom: 12px; padding: 8px; background: var(--green-50); border-radius: 8px; }
+.pricing-card .btn { width: 100%; justify-content: center; }
+
+.revenue-model { background: white; border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm); margin-top: 12px; }
+.revenue-model h3 { font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--gray-800); }
+.revenue-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 700px) { .revenue-grid { grid-template-columns: 1fr; } }
+.revenue-item { display: flex; gap: 12px; padding: 16px; background: var(--green-50); border-radius: 12px; }
+.revenue-icon { font-size: 28px; }
+.revenue-text strong { font-size: 15px; color: var(--green-800); }
+.revenue-text p { font-size: 13px; color: var(--gray-500); margin: 4px 0 0; }
+
+/* Checkout modal */
+.checkout-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+.checkout-modal { background: white; border-radius: 20px; padding: 28px; width: 90%; max-width: 440px; max-height: 90vh; overflow-y: auto; }
+.checkout-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.checkout-header h3 { font-size: 18px; font-weight: 700; color: var(--green-800); }
+.checkout-summary { background: var(--green-50); border-radius: 12px; padding: 16px; margin-top: 16px; }
+.checkout-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+.checkout-amount { color: var(--green-700); font-size: 18px; }
+.checkout-info { font-size: 12px; color: var(--gray-500); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-200); }
+.checkout-whatsapp { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 16px; padding: 10px; border-radius: 10px; background: #25D366; color: white; font-size: 14px; font-weight: 600; text-decoration: none; }
+
+/* Subscriptions */
+.subs-stats-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.subs-stat { display: flex; flex-direction: column; align-items: center; padding: 16px 24px; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); }
+.subs-stat-num { font-size: 28px; font-weight: 800; color: var(--green-800); }
+.subs-stat-label { font-size: 12px; color: var(--gray-500); }
+
+.subs-list { display: flex; flex-direction: column; gap: 10px; }
+.subs-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); }
+.subs-card-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; cursor: pointer; }
+.subs-card-left { display: flex; flex-direction: column; gap: 2px; }
+.subs-plan-badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 13px; font-weight: 600; background: var(--green-50); color: var(--green-700); }
+.subs-ref { font-size: 12px; color: var(--gray-400); }
+.subs-card-right { display: flex; align-items: center; gap: 12px; }
+.subs-status-badge { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+.subs-amount { font-weight: 700; color: var(--green-800); }
+.subs-card-body { padding: 14px 18px; border-top: 1px solid var(--gray-100); }
+.subs-detail-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+.subs-detail-row span { color: var(--gray-500); }
+.subs-card-actions { display: flex; gap: 8px; margin-top: 12px; }
+
+/* Commissions */
+.commissions-stats-row { display: flex; gap: 16px; margin-bottom: 24px; }
+.commissions-stat { display: flex; flex-direction: column; align-items: center; padding: 16px 24px; background: white; border-radius: 12px; border: 2px solid; }
+.commissions-stat-num { font-size: 28px; font-weight: 800; color: var(--gray-900); }
+.commissions-stat-label { font-size: 12px; color: var(--gray-500); }
+
+.commissions-list { display: flex; flex-direction: column; gap: 8px; }
+.commission-card { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: white; border-radius: 12px; box-shadow: var(--shadow-sm); }
+.commission-left { display: flex; flex-direction: column; gap: 2px; }
+.commission-left strong { font-size: 20px; color: var(--green-800); }
+.commission-rate { font-size: 12px; color: var(--gray-400); }
+.commission-sub { font-size: 13px; color: var(--gray-500); }
+.commission-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.commission-status { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+.commission-date { font-size: 11px; color: var(--gray-400); }
+
 @media (max-width: 768px) {
   .producers-grid, .logistics-grid, .distributors-grid { grid-template-columns: 1fr; }
 }
