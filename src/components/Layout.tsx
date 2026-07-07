@@ -24,7 +24,8 @@ const NAV_ITEMS = [
   { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
-  { path: '/export-data', label: 'Export données', icon: Download, roles: ['admin'] },
+  { path: '/notifications', label: 'Notifications', icon: Bell, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/export-data', label: 'Export données', icon: Download, roles: ['cooperative', 'institution'] },
 ]
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

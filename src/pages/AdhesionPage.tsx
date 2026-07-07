@@ -97,7 +97,7 @@ const AdhesionPage: React.FC = () => {
   }, 0)
 
   return (
-    <div className="page-container">
+    <div className="page">
       <div className="page-header">
         <div>
           <h1><Star size={24} /> Adhésion & Rémunération</h1>

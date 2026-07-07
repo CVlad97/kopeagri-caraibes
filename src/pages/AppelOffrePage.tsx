@@ -108,7 +108,7 @@ const AppelOffrePage: React.FC = () => {
   }
 
   return (
-    <div className="page-container">
+    <div className="page">
       <div className="page-header">
         <div>
           <h1><Send size={24} /> Appels d'Offre</h1>
