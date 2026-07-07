@@ -23,21 +23,20 @@ import type {
 // TABLE MAPPING: localStorage key prefix → Supabase table name
 // ============================================================
 export const TABLE_MAP: Record<string, string> = {
-  producers:   'producers',
-  logistics:   'logistics_providers',
-  distributors: 'distributors',
-  plots:       'plots',
-  resources:   'resources',
-  bookings:    'bookings',
-  lots:        'lots',
-  orders:      'orders',
-  rfq:         'rfqs',
-  notifications: 'notifications',
+  producers:   'producteurs',           // NOT "producers" — schema uses producteurs
+  logistics:   'logistics_providers',   // ✓
+  distributors: 'distributors',          // ✓
+  plots:       'parcelles',             // NOT "plots" — schema uses parcelles
+  resources:   'resources',             // ✓
+  bookings:    'bookings',              // ✓
+  lots:        'lots',                  // ✓
+  orders:      'orders',                // ✓
+  rfq:         'rfq',                   // NOT "rfqs" — schema uses rfq
+  notifications: 'notifications',       // ✓
   // Billing & subscriptions (future expansion)
-  documents:   'billing_documents',
-  qonto:       'qonto_transactions',
-  geo:         'geo_members',
-  subscriptions: 'subscriptions',
+  documents:   'billing_documents',     // ✓
+  qonto:       'qonto_transactions',    // ✓
+  subscriptions: 'subscriptions',       // ✓
   commissions:  'commissions',
 }
 
