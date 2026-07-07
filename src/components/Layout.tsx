@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
-  Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart, BarChart3, MessageCircle, Send, Star
+  Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart, BarChart3, MessageCircle, Send, Star, FileText
 } from 'lucide-react'
 
 const NAV_ITEMS = [
@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
 ]
 
