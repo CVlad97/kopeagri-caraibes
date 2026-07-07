@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, ShoppingCart, Pencil } from 'lucide-react'
+import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Check, X, ShoppingCart, Pencil } from 'lucide-react'
 import { getAll, add, update, toggleActive, remove } from '../services/dataService'
 import type { Distributor } from '../services/dataService'
 import EntityForms from '../components/EntityForms'
@@ -17,9 +17,12 @@ const DistributorsPage: React.FC = () => {
   const [search, setSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [editItem, setEditItem] = useState<Distributor | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
   const load = () => setDistributors(getAll('distributors') as Distributor[])
   useEffect(load, [])
+
+  const handleDelete = (id: string) => { remove('distributors', id); setConfirmDeleteId(null); load() }
 
   const handleAdd = (data: Record<string, unknown>) => {
     if (editItem) {
@@ -48,7 +51,7 @@ const DistributorsPage: React.FC = () => {
   )
 
   return (
-    <div className="page-container">
+    <div className="page">
       <div className="page-header">
         <div>
           <h1><ShoppingCart size={24} /> Distributeurs</h1>
@@ -94,9 +97,15 @@ const DistributorsPage: React.FC = () => {
               <button className="btn btn-sm" onClick={() => { toggleActive('distributors', d.id); load() }}>
                 {d.active ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
               </button>
-              <button className="btn btn-sm btn-danger" onClick={() => { remove('distributors', d.id); load() }}>
-                <Trash2 size={14} />
-              </button>
+              {confirmDeleteId === d.id ? (
+                <div className="confirm-delete">
+                  <span className="confirm-text">Confirmer ?</span>
+                  <button className="btn-icon danger" onClick={() => handleDelete(d.id)} title="Confirmer"><Check size={16} /></button>
+                  <button className="btn-icon" onClick={() => setConfirmDeleteId(null)} title="Annuler"><X size={16} /></button>
+                </div>
+              ) : (
+                <button className="btn-icon danger" onClick={() => setConfirmDeleteId(d.id)} title="Supprimer"><Trash2 size={16} /></button>
+              )}
             </div>
           </div>
         ))}

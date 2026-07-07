@@ -1,44 +1,118 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
-  Users, Truck, ShoppingCart, MapPin, Wrench, Package, QrCode, Globe,
-  ArrowRight, MessageCircle, TrendingUp, Sprout, Bell
+  Users, Truck, Package, ShoppingCart, TrendingUp, FileText, Bell, Sprout, MessageCircle
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { getAll } from '../services/dataService'
-import type { Producer, LogisticsProvider, Distributor } from '../services/dataService'
+import { getAll, getAllRFQ } from '../services/dataService'
+import type { Producer, LogisticsProvider, Distributor, Plot, Resource, Lot, Order, Booking, RFQ } from '../services/dataService'
+import { getAllDocuments } from '../services/billingService'
+import type { BillingDocument } from '../services/billingService'
 
-interface Counts {
-  producers: number; logistics: number; distributors: number;
-  plots: number; resources: number; lots: number; orders: number;
-  exports: number; communes: number;
+interface DashStats {
+  producersActive: number; producersTotal: number;
+  logisticsActive: number; logisticsTotal: number;
+  lotsApproved: number; lotsTotal: number;
+  ordersInProgress: number; ordersTotal: number;
+  revenue: number; commissions: number;
+  rfqActive: number; rfqTotal: number;
+  unpaidInvoices: number; docsTotal: number;
+  // extras for synergy
+  lotsByStatus: Record<string, number>;
+  ordersByStatus: Record<string, number>;
+  plotsAvailable: number; plotsTotal: number;
+  resourcesAvailable: number; resourcesTotal: number;
+  bookingsTotal: number;
+  producersWithoutCerts: number;
+  deliveredOrdersCount: number;
+}
+
+interface ActivityItem {
+  collection: string
+  icon: string
+  name: string
+  date: string
 }
 
 const Dashboard: React.FC = () => {
   const { profile } = useAuth()
-  const [counts, setCounts] = useState<Counts>({
-    producers: 0, logistics: 0, distributors: 0,
-    plots: 0, resources: 0, lots: 0, orders: 0,
-    exports: 0, communes: 0,
-  })
+  const [stats, setStats] = useState<DashStats | null>(null)
+  const [activities, setActivities] = useState<ActivityItem[]>([])
+  const [invoicedOrders, setInvoicedOrders] = useState<Set<string>>(new Set())
 
   useEffect(() => {
-    const p = (getAll('producers') as Producer[]).filter(x => x.active).length
-    const l = (getAll('logistics') as LogisticsProvider[]).filter(x => x.active).length
-    const d = (getAll('distributors') as Distributor[]).filter(x => x.active).length
-    const allP = getAll('producers') as Producer[]
-    const uniqueCommunes = new Set(allP.map(x => x.commune)).size
-    // Count other entities from localStorage
-    const plots = JSON.parse(localStorage.getItem('kopeagri_plots') || '[]').length
-    const resources = JSON.parse(localStorage.getItem('kopeagri_resources') || '[]').length
-    const lots = JSON.parse(localStorage.getItem('kopeagri_lots') || '[]').length
-    const orders = JSON.parse(localStorage.getItem('kopeagri_orders') || '[]').length
-    const exports_ = JSON.parse(localStorage.getItem('kopeagri_export_lots') || '[]').length
-    setCounts({
-      producers: p, logistics: l, distributors: d,
-      plots, resources, lots, orders,
-      exports: exports_, communes: uniqueCommunes,
+    const producers = getAll('producers') as Producer[]
+    const logistics = getAll('logistics') as LogisticsProvider[]
+    const distributors = getAll('distributors') as Distributor[]
+    const plots = getAll('plots') as Plot[]
+    const resources = getAll('resources') as Resource[]
+    const lots = getAll('lots') as Lot[]
+    const orders = getAll('orders') as Order[]
+    const bookings = getAll('bookings') as Booking[]
+    const rfqs = getAllRFQ()
+    const docs = getAllDocuments()
+
+    const producersActive = producers.filter(p => p.active).length
+    const logisticsActive = logistics.filter(l => l.active).length
+    const lotsByStatus: Record<string, number> = {}
+    lots.forEach(l => { lotsByStatus[l.status] = (lotsByStatus[l.status] || 0) + 1 })
+    const ordersByStatus: Record<string, number> = {}
+    orders.forEach(o => { ordersByStatus[o.status] = (ordersByStatus[o.status] || 0) + 1 })
+    const ordersInProgress = (ordersByStatus['pending'] || 0) + (ordersByStatus['approved'] || 0) + (ordersByStatus['preparing'] || 0)
+    const deliveredOrders = orders.filter(o => o.status === 'delivered')
+    const revenue = deliveredOrders.reduce((s, o) => s + (o.total || 0), 0)
+    const commissions = deliveredOrders.reduce((s, o) => s + (o.commission || 0), 0)
+    const rfqActive = rfqs.filter(r => r.status !== 'annulee').length
+    const unpaidInvoices = docs.filter(d => d.type === 'facture' && d.payment_status !== 'paye').length
+    const plotsAvailable = plots.filter(p => p.status === 'available').length
+    const resourcesAvailable = resources.filter(r => r.available).length
+    const producersWithoutCerts = producers.filter(p => p.active && (!p.certifications || p.certifications.length === 0)).length
+
+    // Check which delivered orders already have invoices
+    const invoicedOrderIds = new Set<string>()
+    docs.forEach(d => {
+      if (d.type === 'facture') {
+        // Try to match by client name or reference in notes
+        orders.forEach(o => {
+          if (o.status === 'delivered' && d.client_name === o.buyer) {
+            invoicedOrderIds.add(o.id)
+          }
+        })
+      }
     })
+    setInvoicedOrders(invoicedOrderIds)
+
+    setStats({
+      producersActive, producersTotal: producers.length,
+      logisticsActive, logisticsTotal: logistics.length,
+      lotsApproved: lotsByStatus['approved'] || 0, lotsTotal: lots.length,
+      ordersInProgress, ordersTotal: orders.length,
+      revenue, commissions,
+      rfqActive, rfqTotal: rfqs.length,
+      unpaidInvoices, docsTotal: docs.length,
+      lotsByStatus, ordersByStatus,
+      plotsAvailable, plotsTotal: plots.length,
+      resourcesAvailable, resourcesTotal: resources.length,
+      bookingsTotal: bookings.length,
+      producersWithoutCerts,
+      deliveredOrdersCount: deliveredOrders.length,
+    })
+
+    // Recent activity: collect last 5 created items across all collections
+    const allItems: ActivityItem[] = []
+    producers.forEach(p => allItems.push({ collection: 'Producteur', icon: '👨‍🌾', name: p.name, date: p.created_at }))
+    logistics.forEach(l => allItems.push({ collection: 'Transporteur', icon: '🚛', name: l.name, date: l.created_at }))
+    distributors.forEach(d => allItems.push({ collection: 'Distributeur', icon: '🏪', name: d.name, date: d.created_at }))
+    plots.forEach(p => allItems.push({ collection: 'Parcelle', icon: '🗺️', name: p.name, date: p.created_at }))
+    resources.forEach(r => allItems.push({ collection: 'Ressource', icon: '🔧', name: r.name, date: r.created_at }))
+    lots.forEach(l => allItems.push({ collection: 'Lot', icon: '📦', name: `${l.product} (${l.qty}${l.unit})`, date: l.created_at }))
+    orders.forEach(o => allItems.push({ collection: 'Commande', icon: '🛒', name: o.ref, date: o.created_at }))
+    bookings.forEach(b => allItems.push({ collection: 'Réservation', icon: '📅', name: b.item_name, date: b.created_at }))
+    rfqs.forEach(r => allItems.push({ collection: 'Appel d\'offre', icon: '📋', name: r.title, date: r.created_at }))
+    docs.forEach(d => allItems.push({ collection: 'Document', icon: '🧾', name: d.reference, date: d.created_at }))
+
+    allItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    setActivities(allItems.slice(0, 5))
   }, [])
 
   const role = profile?.role || 'producteur'
@@ -47,12 +121,13 @@ const Dashboard: React.FC = () => {
     cooperative: '🤝', proprietaire: '🏡', institution: '🏛️',
   }
 
-  // Quick actions by role — full coverage
+  // Quick actions by role
   const quickActions: Array<{ icon: string; label: string; desc: string; link: string; color: string }> = role === 'producteur' ? [
     { icon: '📦', label: 'Transport', desc: 'Trouver un transporteur frigorifique', link: '/logistics', color: 'var(--blue-100)' },
     { icon: '🏪', label: 'Acheteurs', desc: 'Vendre votre production', link: '/distributors', color: 'var(--purple)' },
     { icon: '🗺️', label: 'Parcelles', desc: 'Voir les terres disponibles', link: '/plots', color: 'var(--green-100)' },
     { icon: '📦', label: 'Mes lots', desc: 'Créer un lot de production', link: '/lots', color: 'var(--gold-100)' },
+    { icon: '🔗', label: 'Consolider', desc: 'Grouper pour l\'export', link: '/consolidation', color: '#FFF3E0' },
     { icon: '🔍', label: 'QR Traçabilité', desc: 'Générer un QR code', link: '/qr-codes', color: '#E0F7FA' },
     { icon: '🌍', label: 'Export', desc: 'Préparer un lot export', link: '/export', color: '#FFF3E0' },
     { icon: '📋', label: 'Appels d\'offre', desc: 'Répondre aux demandes', link: '/appels-offre', color: 'var(--green-100)' },
@@ -64,8 +139,9 @@ const Dashboard: React.FC = () => {
     { icon: '🔧', label: 'Ressources', desc: 'Matériel & camions', link: '/resources', color: '#E0F7FA' },
     { icon: '🌍', label: 'Export', desc: 'Logistique export', link: '/export', color: '#FFF3E0' },
   ] : role === 'acheteur_b2b' ? [
+    { icon: '📦', label: 'Commander', desc: 'Lots disponibles', link: '/lots', color: 'var(--gold-100)' },
+    { icon: '🛒', label: 'Mes commandes', desc: 'Suivi des commandes', link: '/orders', color: 'var(--gold-100)' },
     { icon: '👨‍🌾', label: 'Producteurs', desc: 'Voir l\'offre disponible', link: '/producers', color: 'var(--green-100)' },
-    { icon: '📦', label: 'Lots marché', desc: 'Lots disponibles', link: '/lots', color: 'var(--gold-100)' },
     { icon: '🚛', label: 'Transporteurs', desc: 'Organiser la livraison', link: '/logistics', color: 'var(--blue-100)' },
     { icon: '📋', label: 'Appels d\'offre', desc: 'Créer une demande', link: '/appels-offre', color: 'var(--green-100)' },
     { icon: '🔍', label: 'Traçabilité', desc: 'Scanner un QR lot', link: '/qr-codes', color: '#E0F7FA' },
@@ -86,29 +162,66 @@ const Dashboard: React.FC = () => {
     { icon: '📊', label: 'Admin', desc: 'Validation & stats', link: '/admin', color: 'var(--gray-100)' },
   ]
 
-  // AI-style suggestions by role
-  const suggestions = role === 'producteur' ? [
-    { icon: '🍌', title: 'Groupage banane', text: '3 producteurs à Saint-Pierre ont des lots prêts — groupez pour exporter !' },
-    { icon: '🌡️', title: 'Alerte saison', text: 'Saison mangue : pic de récolte en juin-juillet. Préparez vos lots maintenant.' },
-    { icon: '🚛', title: 'Transport disponible', text: 'Un transporteur frigorifique passe à Lamentin demain — réservez !' },
-  ] : role === 'acheteur_b2b' ? [
-    { icon: '📦', title: 'Lots fraîcheur', text: '12 lots de légumes pays disponibles cette semaine dans le Nord.' },
-    { icon: '💰', title: 'Prix compétitifs', text: 'Le prix banane est à 0,85€/kg — 15% sous le marché métro.' },
-    { icon: '🚛', title: 'Livraison groupée', text: 'Tournée Nord → Sud prévue vendredi, places disponibles.' },
-  ] : [
-    { icon: '📊', title: 'Volume consolidé', text: '450 kg de banane groupable ce mois-ci — record !' },
-    { icon: '✅', title: '3 adhésions en attente', text: 'Nouveaux producteurs à valider : Ducos, Saint-Pierre, Marin.' },
-    { icon: '🌍', title: 'Opportunité export', text: 'Demande Canada : 2T avocats — lots suffisants ?' },
-  ]
+  // AI Suggestions — contextual from real data
+  const suggestions = useMemo(() => {
+    if (!stats) return []
+    const s: Array<{ icon: string; title: string; text: string }> = []
+    if (stats.lotsApproved > 0) {
+      s.push({ icon: '📦', title: 'Lots approuvés', text: `Vous avez ${stats.lotsApproved} lots approuvés prêts pour la vente` })
+    }
+    if ((stats.ordersByStatus['pending'] || 0) > 0) {
+      s.push({ icon: '⏳', title: 'Commandes en attente', text: `${stats.ordersByStatus['pending']} commandes en attente de validation` })
+    }
+    if (stats.plotsAvailable > 0) {
+      s.push({ icon: '🗺️', title: 'Parcelles disponibles', text: `${stats.plotsAvailable} parcelles disponibles à la location` })
+    }
+    if (stats.producersWithoutCerts > 0) {
+      s.push({ icon: '📋', title: 'Certifications', text: `${stats.producersWithoutCerts} producteurs sans certification — aidez-les à se qualifier` })
+    }
+    if (s.length === 0) {
+      s.push({ icon: '💡', title: 'Bienvenue', text: 'Commencez par ajouter des producteurs ou créer des lots pour activer la plateforme.' })
+    }
+    return s
+  }, [stats])
 
-  // Recent activity (simulated but realistic)
-  const activities = [
-    { icon: '🧑‍🌾', text: 'Jean-Pierre (Ducos) a rejoint la coopérative', time: 'Il y a 2h' },
-    { icon: '📦', text: 'Lot #004 Banane — statut mis à jour : Disponible', time: 'Il y a 5h' },
-    { icon: '🚛', text: 'Tournée Lamentin → Fdf programmée demain 6h', time: 'Il y a 8h' },
-    { icon: '📋', text: 'Appel d\'offre #AF-003 : 500kg mangues', time: 'Hier' },
-    { icon: '✅', text: 'Marie (Saint-Pierre) validée comme producteur', time: 'Hier' },
-  ]
+  // Synergy calculations
+  const synergy = useMemo(() => {
+    if (!stats) return { lotsToOrders: 0, ordersToInvoices: 0, plotsAvailable: 0, resourcesAvailable: 0, consolidation: 0 }
+    const deliveredWithoutInvoice = Math.max(0, stats.deliveredOrdersCount - invoicedOrders.size)
+    // Consolidation: count lots with same product across different producers (groupable)
+    const lots = getAll('lots') as Lot[]
+    const productProducers = new Map<string, Set<string>>()
+    lots.filter(l => l.status === 'approved').forEach(l => {
+      if (!productProducers.has(l.product)) productProducers.set(l.product, new Set())
+      productProducers.get(l.product)!.add(l.producer)
+    })
+    const consolidation = Array.from(productProducers.values()).filter(s => s.size >= 2).length
+    return {
+      lotsToOrders: stats.lotsApproved,
+      ordersToInvoices: deliveredWithoutInvoice,
+      plotsAvailable: stats.plotsAvailable,
+      resourcesAvailable: stats.resourcesAvailable,
+      consolidation,
+    }
+  }, [stats, invoicedOrders])
+
+  const formatDate = (iso: string) => {
+    try {
+      const d = new Date(iso)
+      const now = new Date()
+      const diffMs = now.getTime() - d.getTime()
+      const diffH = Math.floor(diffMs / 3600000)
+      if (diffH < 1) return 'À l\'instant'
+      if (diffH < 24) return `Il y a ${diffH}h`
+      const diffD = Math.floor(diffH / 24)
+      if (diffD < 7) return `Il y a ${diffD}j`
+      return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+    } catch {
+      return iso
+    }
+  }
+
+  if (!stats) return <div className="page"><p>Chargement…</p></div>
 
   return (
     <div className="page">
@@ -117,43 +230,43 @@ const Dashboard: React.FC = () => {
         <h1>{roleEmoji[role] || '👋'} Bonjour, {profile?.full_name || 'Producteur'} !</h1>
       </div>
 
-      {/* Full stats */}
+      {/* 8 stat cards */}
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-icon" style={{ background: 'var(--green-100)', color: 'var(--green-700)' }}><Users size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.producers}</span><span className="stat-label">Producteurs</span></div>
+          <div className="stat-info"><span className="stat-number">{stats.producersActive}/{stats.producersTotal}</span><span className="stat-label">Producteurs actifs</span></div>
         </div>
         <div className="stat-card">
           <div className="stat-icon" style={{ background: 'var(--blue-100)', color: 'var(--blue-600)' }}><Truck size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.logistics}</span><span className="stat-label">Transporteurs</span></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#F3E5F5', color: 'var(--purple)' }}><ShoppingCart size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.distributors}</span><span className="stat-label">Distributeurs</span></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: 'var(--green-100)', color: 'var(--green-700)' }}><MapPin size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.plots}</span><span className="stat-label">Parcelles</span></div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#E0F7FA', color: 'var(--teal)' }}><Wrench size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.resources}</span><span className="stat-label">Ressources</span></div>
+          <div className="stat-info"><span className="stat-number">{stats.logisticsActive}/{stats.logisticsTotal}</span><span className="stat-label">Transporteurs actifs</span></div>
         </div>
         <div className="stat-card">
           <div className="stat-icon" style={{ background: 'var(--gold-100)', color: '#c66200' }}><Package size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.lots}</span><span className="stat-label">Lots marché</span></div>
+          <div className="stat-info"><span className="stat-number">{stats.lotsApproved}</span><span className="stat-label">Lots en vente</span></div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: 'var(--gold-100)', color: '#c66200' }}><Package size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.orders}</span><span className="stat-label">Commandes</span></div>
+          <div className="stat-icon" style={{ background: '#FFF3E0', color: 'var(--orange)' }}><ShoppingCart size={22} /></div>
+          <div className="stat-info"><span className="stat-number">{stats.ordersInProgress}</span><span className="stat-label">Commandes en cours</span></div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#FFF3E0', color: 'var(--orange)' }}><Globe size={22} /></div>
-          <div className="stat-info"><span className="stat-num">{counts.exports}</span><span className="stat-label">Lots export</span></div>
+          <div className="stat-icon" style={{ background: 'var(--green-100)', color: 'var(--green-700)' }}><TrendingUp size={22} /></div>
+          <div className="stat-info"><span className="stat-number">{stats.revenue.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span><span className="stat-label">Chiffre d'affaires</span></div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon" style={{ background: '#F3E5F5', color: 'var(--purple)' }}><TrendingUp size={22} /></div>
+          <div className="stat-info"><span className="stat-number">{stats.commissions.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</span><span className="stat-label">Commissions</span></div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon" style={{ background: '#E0F7FA', color: 'var(--teal)' }}><Sprout size={22} /></div>
+          <div className="stat-info"><span className="stat-number">{stats.rfqActive}</span><span className="stat-label">Appels d'offre actifs</span></div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon" style={{ background: '#FFEBEE', color: '#C62828' }}><FileText size={22} /></div>
+          <div className="stat-info"><span className="stat-number">{stats.unpaidInvoices}</span><span className="stat-label">Factures en attente</span></div>
         </div>
       </div>
 
-      {/* Quick actions — full MVP */}
+      {/* Quick actions */}
       <div className="section-block">
         <h2>⚡ Actions rapides</h2>
         <div className="quick-actions">
@@ -174,15 +287,16 @@ const Dashboard: React.FC = () => {
         <div className="section-block">
           <h2><Bell size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} /> Activité récente</h2>
           <div className="activity-feed">
-            {activities.map((a, i) => (
+            {activities.length > 0 ? activities.map((a, i) => (
               <div key={i} className="activity-item">
                 <div className="activity-icon" style={{ fontSize: 22 }}>{a.icon}</div>
                 <div className="activity-content">
-                  <p>{a.text}</p>
-                  <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>{a.time}</span>
+                  <p>[{a.collection}] Nouveau {a.name} — {formatDate(a.date)}</p>
                 </div>
               </div>
-            ))}
+            )) : (
+              <div className="empty-state">Aucune activité récente</div>
+            )}
           </div>
         </div>
 
@@ -202,6 +316,48 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Synergy Section */}
+      <div className="section-block">
+        <h2>🔗 Liens rapides</h2>
+        <div className="synergy-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.75rem' }}>
+          <Link to="/lots" className="synergy-card" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: 'var(--gold-100)', textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ fontSize: 28 }}>📦</span>
+            <div>
+              <strong style={{ display: 'block', fontSize: 14 }}>Lots → Commandes</strong>
+              <span style={{ fontSize: 12, color: 'var(--gray-500)' }}>{synergy.lotsToOrders} lots approuvés peuvent être commandés</span>
+            </div>
+          </Link>
+          <Link to="/facturation" className="synergy-card" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: '#FFEBEE', textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ fontSize: 28 }}>🧾</span>
+            <div>
+              <strong style={{ display: 'block', fontSize: 14 }}>Commandes → Factures</strong>
+              <span style={{ fontSize: 12, color: 'var(--gray-500)' }}>{synergy.ordersToInvoices} commandes livrées sans facture</span>
+            </div>
+          </Link>
+          <Link to="/plots" className="synergy-card" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: 'var(--green-100)', textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ fontSize: 28 }}>🗺️</span>
+            <div>
+              <strong style={{ display: 'block', fontSize: 14 }}>Parcelles → Producteurs</strong>
+              <span style={{ fontSize: 12, color: 'var(--gray-500)' }}>{synergy.plotsAvailable} parcelles disponibles</span>
+            </div>
+          </Link>
+          <Link to="/resources" className="synergy-card" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: '#E0F7FA', textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ fontSize: 28 }}>🔧</span>
+            <div>
+              <strong style={{ display: 'block', fontSize: 14 }}>Ressources → Réservations</strong>
+              <span style={{ fontSize: 12, color: 'var(--gray-500)' }}>{synergy.resourcesAvailable} ressources disponibles</span>
+            </div>
+          </Link>
+          <Link to="/consolidation" className="synergy-card" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '1rem', borderRadius: '12px', background: '#FFF3E0', textDecoration: 'none', color: 'inherit' }}>
+            <span style={{ fontSize: 28 }}>📊</span>
+            <div>
+              <strong style={{ display: 'block', fontSize: 14 }}>Consolidation</strong>
+              <span style={{ fontSize: 12, color: 'var(--gray-500)' }}>{synergy.consolidation} produits groupables pour export</span>
+            </div>
+          </Link>
+        </div>
+      </div>
+
       {/* WhatsApp banner */}
       <div className="whatsapp-banner">
         <span className="wa-banner-icon">💬</span>
@@ -210,7 +366,7 @@ const Dashboard: React.FC = () => {
           <p>Contactez-nous sur WhatsApp — réponse rapide</p>
         </div>
         <a
-          href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20j%27ai%20besoin%20d%27aide"
+          href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9Agri%2C%20j%27ai%20besoin%20d%27aide"
           target="_blank" rel="noopener noreferrer"
           className="btn btn-whatsapp"
         >

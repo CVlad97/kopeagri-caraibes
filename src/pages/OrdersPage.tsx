@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Search, Calendar, Package, Eye, CheckCircle, XCircle, Clock, Truck, XCircle as Cancel } from 'lucide-react'
+import { Search, Calendar, Package, Eye, CheckCircle, XCircle, Clock, Truck, XCircle as Cancel, FileText } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { getAll, update } from '../services/dataService'
 import type { Order } from '../services/dataService'
+import { createDocument, getAllDocuments, calcLine, calcTotals } from '../services/billingService'
+import type { BillingDocument, DocumentLine } from '../services/billingService'
 
 const STATUS_CFG: Record<string, { label: string; color: string; icon: React.ComponentType<{ size?: number }> }> = {
   pending: { label: 'En attente', color: '#F57C00', icon: Clock },
@@ -28,8 +31,27 @@ const OrdersPage: React.FC = () => {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [invoicedOrderIds, setInvoicedOrderIds] = useState<Set<string>>(new Set())
+  const [flashMsg, setFlashMsg] = useState<string | null>(null)
 
-  const load = () => setOrders(getAll('orders') as Order[])
+  const load = () => {
+    setOrders(getAll('orders') as Order[])
+    // Check which orders already have invoices
+    const docs = getAllDocuments()
+    const ids = new Set<string>()
+    docs.forEach(d => {
+      if (d.type === 'facture') {
+        // Match facture to order by client_name
+        const allOrders = getAll('orders') as Order[]
+        allOrders.forEach(o => {
+          if (o.status === 'delivered' && d.client_name === o.buyer) {
+            ids.add(o.id)
+          }
+        })
+      }
+    })
+    setInvoicedOrderIds(ids)
+  }
   useEffect(load, [])
 
   const advanceStatus = (id: string, currentStatus: string) => {
@@ -43,6 +65,52 @@ const OrdersPage: React.FC = () => {
   const cancelOrder = (id: string) => {
     update('orders', id, { status: 'cancelled' } as any)
     load()
+  }
+
+  const generateInvoice = (order: Order) => {
+    // Build DocumentLines from order items
+    const lines: DocumentLine[] = order.items.map(item => {
+      const lineData = {
+        description: item.product,
+        quantity: item.qty,
+        unit: item.unit,
+        unit_price: item.price,
+        tva_rate: 8.5,
+      }
+      const { total_ht, total_ttc } = calcLine(lineData)
+      return {
+        id: crypto.randomUUID(),
+        ...lineData,
+        total_ht,
+        total_ttc,
+      }
+    })
+
+    const { subtotal_ht, total_tva, total_ttc } = calcTotals(lines)
+    const dueDate = new Date()
+    dueDate.setDate(dueDate.getDate() + 30)
+
+    createDocument({
+      type: 'facture',
+      status: 'envoye',
+      payment_status: 'non_paye',
+      client_name: order.buyer,
+      client_email: '',
+      client_phone: '',
+      client_address: '',
+      lines,
+      subtotal_ht,
+      total_tva,
+      total_ttc,
+      due_date: dueDate.toISOString().split('T')[0],
+      sent_at: new Date().toISOString(),
+      notes: `Facture pour commande ${order.ref}`,
+      qonto_synced: false,
+    })
+
+    setInvoicedOrderIds(prev => new Set(prev).add(order.id))
+    setFlashMsg('Facture générée !')
+    setTimeout(() => setFlashMsg(null), 2500)
   }
 
   const filtered = orders.filter(o => {
@@ -60,6 +128,18 @@ const OrdersPage: React.FC = () => {
 
   return (
     <div className="page">
+      {/* Flash message */}
+      {flashMsg && (
+        <div style={{
+          position: 'fixed', top: '1rem', right: '1rem', zIndex: 9999,
+          background: '#2E7D32', color: '#fff', padding: '0.75rem 1.5rem',
+          borderRadius: '8px', fontWeight: 600, fontSize: 14,
+          boxShadow: '0 2px 12px rgba(0,0,0,0.2)',
+        }}>
+          ✓ {flashMsg}
+        </div>
+      )}
+
       <div className="page-header">
         <h1>🛒 Commandes</h1>
         <p className="page-subtitle">Suivez et gérez vos commandes B2B</p>
@@ -108,6 +188,7 @@ const OrdersPage: React.FC = () => {
           const isExpanded = expandedId === order.id
           const canAdvance = !!NEXT_STATUS[order.status]
           const canCancel = order.status !== 'cancelled' && order.status !== 'delivered'
+          const isInvoiced = invoicedOrderIds.has(order.id)
           return (
             <div key={order.id} className="order-card">
               <div className="order-header">
@@ -116,13 +197,19 @@ const OrdersPage: React.FC = () => {
                   <span className="order-status" style={{ backgroundColor: st.color + '20', color: st.color }}>
                     <StIcon size={14} /> {st.label}
                   </span>
+                  {isInvoiced && (
+                    <span className="badge badge-green" style={{ marginLeft: 6, fontSize: 11 }}>Facturée ✓</span>
+                  )}
                 </div>
                 <p className="order-buyer">{order.buyer}</p>
               </div>
               <div className="order-items">
                 {(isExpanded ? order.items : order.items.slice(0, 2)).map((item, i) => (
                   <div key={i} className="order-item-row">
-                    <span>{item.product}</span>
+                    <span>
+                      {item.product}
+                      <Link to="/lots" style={{ marginLeft: 8, fontSize: 11, color: 'var(--blue-600)', textDecoration: 'none' }}>Voir le lot →</Link>
+                    </span>
                     <span>{item.qty} {item.unit} × {item.price}€</span>
                   </div>
                 ))}
@@ -156,6 +243,15 @@ const OrdersPage: React.FC = () => {
                   {canAdvance && (
                     <button className="btn btn-sm btn-primary" onClick={() => advanceStatus(order.id, order.status)}>
                       {NEXT_STATUS_LABEL[order.status]}
+                    </button>
+                  )}
+                  {order.status === 'delivered' && !isInvoiced && (
+                    <button
+                      className="btn btn-sm"
+                      style={{ background: '#2E7D32', color: '#fff', borderColor: '#2E7D32' }}
+                      onClick={() => generateInvoice(order)}
+                    >
+                      <FileText size={14} /> Générer facture
                     </button>
                   )}
                   {canCancel && (
