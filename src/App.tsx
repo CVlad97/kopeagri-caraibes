@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import Layout from './components/Layout'
+import NotificationsPage from './pages/NotificationsPage'
 
 /* Lazy load all non-critical pages — reduces initial bundle for slow rural connections */
 const Home = lazy(() => import('./pages/Home'))
@@ -23,6 +24,8 @@ const QRCodesPage = lazy(() => import('./pages/QRCodesPage'))
 const ConsolidationPage = lazy(() => import('./pages/ConsolidationPage'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+// NotificationsPage is statically imported by Layout.tsx (getUnreadCount) — no lazy split possible
+const ExportDataPage = lazy(() => import('./pages/ExportDataPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -63,6 +66,8 @@ function App() {
             <Route path="/qr-codes" element={<ProtectedRoute><Layout><QRCodesPage /></Layout></ProtectedRoute>} />
             <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
+            <Route path="/export-data" element={<ProtectedRoute><Layout><ExportDataPage /></Layout></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

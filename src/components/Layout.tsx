@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart,
-  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers
+  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers, Download, Moon, Sun
 } from 'lucide-react'
+import { getUnreadCount } from '../pages/NotificationsPage'
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Tableau de bord', icon: Home, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
@@ -20,9 +21,10 @@ const NAV_ITEMS = [
   { path: '/consolidation', label: 'Consolidation', icon: Layers, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/export', label: 'Export', icon: Globe, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/calendar', label: 'Calendrier saisonnier', icon: CalendarDays, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
+  { path: '/export-data', label: 'Export données', icon: Download, roles: ['admin'] },
 ]
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,6 +32,33 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [dark, setDark] = useState(() => localStorage.getItem('kopeagri_dark') === 'true')
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    if (dark) {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+  }, [dark])
+
+  useEffect(() => {
+    setUnread(getUnreadCount())
+    const interval = setInterval(() => setUnread(getUnreadCount()), 5000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const toggleDark = () => {
+    const next = !dark
+    setDark(next)
+    localStorage.setItem('kopeagri_dark', String(next))
+    if (next) {
+      document.body.classList.add('dark')
+    } else {
+      document.body.classList.remove('dark')
+    }
+  }
 
   const handleLogout = async () => {
     await signOut()
@@ -70,7 +99,23 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="topbar-right">
           {profile && (
             <div className="topbar-user">
-              <Bell size={20} className="icon-muted" />
+              <button
+                className="topbar-bell"
+                onClick={() => navigate('/notifications')}
+                title="Notifications"
+              >
+                <Bell size={20} />
+                {unread > 0 && (
+                  <span className="notif-badge">{unread > 9 ? '9+' : unread}</span>
+                )}
+              </button>
+              <button
+                className="topbar-dark-toggle"
+                onClick={toggleDark}
+                title={dark ? 'Mode clair' : 'Mode sombre'}
+              >
+                {dark ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
               <div className="user-info">
                 <span className="user-name">{profile.full_name}</span>
                 <span className={`badge ${roleColor[profile.role] || 'badge-green'}`}>{roleLabel[profile.role] || profile.role}</span>

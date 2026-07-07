@@ -4,6 +4,21 @@ import { getAll, add, update, toggleActive, remove } from '../services/dataServi
 import type { Plot } from '../services/dataService'
 import { Modal, PlotForm, BookingForm } from '../components/EntityForms'
 import type { PlotFormData, BookingFormData } from '../components/EntityForms'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import * as L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import { COMMUNE_COORDS } from '../services/billingService'
+
+// Fix Leaflet default marker icon — use CDN URLs explicitly
+const markerIcon = L.icon({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+})
 
 const STATUS: Record<string, { label: string; color: string }> = {
   available: { label: 'Disponible', color: '#2E7D32' },
@@ -80,6 +95,9 @@ const PlotsPage: React.FC = () => {
     return true
   })
 
+  // Plots with known commune coordinates for map markers
+  const mapPlots = filtered.filter(p => p.active && COMMUNE_COORDS[p.commune])
+
   return (
     <div className="page">
       <div className="page-header">
@@ -105,18 +123,34 @@ const PlotsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Map Preview */}
-      <div className="map-preview">
-        <div className="map-placeholder">
-          <MapPin size={48} />
-          <p>Carte interactive — Martinique</p>
-          <span>Visualisation des parcelles par commune</span>
-          <div className="map-communes">
-            {[...new Set(filtered.filter(p => p.active).map(p => p.commune))].map(c => (
-              <span key={c} className="commune-chip">{c}</span>
-            ))}
-          </div>
-        </div>
+      {/* Interactive Leaflet Map */}
+      <div className="map-preview" style={{ height: '350px', borderRadius: '8px', overflow: 'hidden' }}>
+        <MapContainer center={[14.6415, -61.0]} zoom={10} style={{ height: '100%', width: '100%' }} scrollWheelZoom={true}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {mapPlots.map(plot => {
+            const coords = COMMUNE_COORDS[plot.commune]
+            const st = STATUS[plot.status] || { label: plot.status, color: '#666' }
+            return (
+              <Marker key={plot.id} position={[coords.lat, coords.lng]} icon={markerIcon}>
+                <Popup>
+                  <strong>{plot.name}</strong><br />
+                  {st.label} — {plot.surface} ha<br />
+                  {plot.commune}
+                </Popup>
+              </Marker>
+            )
+          })}
+        </MapContainer>
+      </div>
+
+      {/* Commune chips */}
+      <div className="map-communes" style={{ marginTop: 8 }}>
+        {[...new Set(filtered.filter(p => p.active).map(p => p.commune))].map(c => (
+          <span key={c} className="commune-chip">{c}</span>
+        ))}
       </div>
 
       {/* Plots Grid */}
