@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import {
-  Users, Truck, Package, ShoppingCart, TrendingUp, FileText, Bell, Sprout, MessageCircle
+  Users, Truck, Package, ShoppingCart, TrendingUp, FileText, Bell, Sprout, MessageCircle, RefreshCw
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -8,6 +8,8 @@ import { getAll, getAllRFQ } from '../services/dataService'
 import type { Producer, LogisticsProvider, Distributor, Plot, Resource, Lot, Order, Booking, RFQ } from '../services/dataService'
 import { getAllDocuments } from '../services/billingService'
 import type { BillingDocument } from '../services/billingService'
+import { hasCredentials, bidirectionalSync, getSyncStatus, onSyncEvent } from '../services/syncService'
+import type { SyncStatus } from '../services/syncService'
 
 interface DashStats {
   producersActive: number; producersTotal: number;
@@ -39,6 +41,40 @@ const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashStats | null>(null)
   const [activities, setActivities] = useState<ActivityItem[]>([])
   const [invoicedOrders, setInvoicedOrders] = useState<Set<string>>(new Set())
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(getSyncStatus())
+  const [syncing, setSyncing] = useState(false)
+  const [lastSyncTime, setLastSyncTime] = useState<string | null>(null)
+
+  // Subscribe to sync events for live UI updates
+  useEffect(() => {
+    const unsub = onSyncEvent((event) => {
+      setSyncStatus(getSyncStatus())
+      if (event === 'sync-complete') {
+        const now = new Date()
+        setLastSyncTime(
+          `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+        )
+      }
+    })
+    return unsub
+  }, [])
+
+  const handleSync = async () => {
+    if (!hasCredentials() || syncing) return
+    setSyncing(true)
+    try {
+      await bidirectionalSync()
+      const now = new Date()
+      setLastSyncTime(
+        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+      )
+      setSyncStatus(getSyncStatus())
+    } catch {
+      // error is captured in syncStatus
+    } finally {
+      setSyncing(false)
+    }
+  }
 
   useEffect(() => {
     const producers = getAll('producers') as Producer[]
@@ -228,6 +264,69 @@ const Dashboard: React.FC = () => {
       {/* Welcome */}
       <div className="dashboard-welcome">
         <h1>{roleEmoji[role] || '👋'} Bonjour, {profile?.full_name || 'Producteur'} !</h1>
+      </div>
+
+      {/* Supabase Sync */}
+      <div className="section-block" style={{ marginBottom: '1rem' }}>
+        <h2>☁️ Synchronisation Supabase</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{
+              width: 10, height: 10, borderRadius: '50%',
+              background: hasCredentials() ? '#4CAF50' : '#F44336',
+              display: 'inline-block',
+            }} />
+            <span style={{ fontSize: 14, fontWeight: 600 }}>
+              {hasCredentials() ? 'Connecté' : 'Mode démo (localStorage)'}
+            </span>
+          </div>
+
+          {hasCredentials() && (
+            <button
+              className="btn"
+              onClick={handleSync}
+              disabled={syncing}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                background: syncing ? 'var(--gray-200)' : 'var(--blue-100)',
+                color: syncing ? 'var(--gray-500)' : 'var(--blue-600)',
+                border: 'none', padding: '0.5rem 1rem', borderRadius: 8,
+                fontSize: 14, cursor: syncing ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {syncing ? (
+                <RefreshCw size={16} style={{ animation: 'spin 1s linear infinite' }} />
+              ) : (
+                <RefreshCw size={16} />
+              )}
+              {syncing ? 'Synchronisation…' : 'Synchroniser ↓↑'}
+            </button>
+          )}
+
+          {lastSyncTime && hasCredentials() && (
+            <span style={{ fontSize: 13, color: 'var(--green-700)' }}>
+              ✅ Synchronisé à {lastSyncTime}
+            </span>
+          )}
+
+          {syncStatus.lastSyncFromSupabase && hasCredentials() && !lastSyncTime && (
+            <span style={{ fontSize: 13, color: 'var(--gray-500)' }}>
+              Dernière sync : {new Date(syncStatus.lastSyncFromSupabase).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          )}
+        </div>
+
+        {!hasCredentials() && (
+          <p style={{ fontSize: 13, color: 'var(--gray-500)', marginTop: '0.5rem' }}>
+            Pour activer le backend Supabase, ajoutez <code>VITE_SUPABASE_URL</code> et <code>VITE_SUPABASE_ANON_KEY</code> dans <code>.env</code>
+          </p>
+        )}
+
+        {syncStatus.lastError && hasCredentials() && (
+          <p style={{ fontSize: 13, color: '#C62828', marginTop: '0.5rem' }}>
+            ⚠️ Erreur : {syncStatus.lastError}
+          </p>
+        )}
       </div>
 
       {/* 8 stat cards */}

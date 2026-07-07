@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { Profile } from '../lib/types'
+import { autoSyncOnLogin, hasCredentials, syncToSupabase } from '../services/syncService'
 
 interface AuthUser {
   id: string
@@ -121,11 +122,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         created_at: DEMO_USERS[email].created_at,
       })
       setIsDemo(true)
+      // Auto-sync on login if Supabase is configured
+      if (hasCredentials()) autoSyncOnLogin()
       return null
     }
 
     // Try real Supabase
     const result: any = await (supabase.auth as any).signInWithPassword({ email, password })
+    if (!result?.error && result?.data?.user) {
+      // Auto-sync on login after real Supabase auth
+      if (hasCredentials()) autoSyncOnLogin()
+    }
     return result?.error?.message || null
   }
 
@@ -135,6 +142,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       options: { data: { full_name: fullName, role, commune, phone } },
     })
     if (result?.error) return result.error.message || 'Erreur'
+    // Push new profile data to Supabase after successful signup
+    if (hasCredentials()) syncToSupabase()
     return null
   }
 
