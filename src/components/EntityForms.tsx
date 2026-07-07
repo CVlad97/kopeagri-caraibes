@@ -165,7 +165,7 @@ export function ProducerForm({ initial, onSubmit, onCancel }: ProducerFormProps)
       </div>
       <div className="form-actions">
         <button type="button" className="btn btn-outline" onClick={onCancel}>Annuler</button>
-        <button type="submit" className="btn btn-primary"><Plus size={16} /> Ajouter</button>
+        <button type="submit" className="btn btn-primary">{initial ? <Edit3 size={16} /> : <Plus size={16} />} {initial ? 'Modifier' : 'Ajouter'}</button>
       </div>
     </form>
   )
@@ -243,7 +243,7 @@ export function LogisticsForm({ initial, onSubmit, onCancel }: {
       </div>
       <div className="form-actions">
         <button type="button" className="btn btn-outline" onClick={onCancel}>Annuler</button>
-        <button type="submit" className="btn btn-primary"><Plus size={16} /> Ajouter</button>
+        <button type="submit" className="btn btn-primary">{initial ? <Edit3 size={16} /> : <Plus size={16} />} {initial ? 'Modifier' : 'Ajouter'}</button>
       </div>
     </form>
   )
@@ -316,7 +316,7 @@ export function DistributorForm({ initial, onSubmit, onCancel }: {
       </div>
       <div className="form-actions">
         <button type="button" className="btn btn-outline" onClick={onCancel}>Annuler</button>
-        <button type="submit" className="btn btn-primary"><Plus size={16} /> Ajouter</button>
+        <button type="submit" className="btn btn-primary">{initial ? <Edit3 size={16} /> : <Plus size={16} />} {initial ? 'Modifier' : 'Ajouter'}</button>
       </div>
     </form>
   )
@@ -327,12 +327,13 @@ interface EntityFormsWrapperProps {
   type: 'producers' | 'logistics' | 'distributors'
   onSubmit: (data: Record<string, unknown>) => void
   onCancel: () => void
+  initial?: Record<string, unknown>
 }
 
-function EntityFormsWrapper({ type, onSubmit, onCancel }: EntityFormsWrapperProps) {
-  if (type === 'producers') return <ProducerForm onSubmit={onSubmit as any} onCancel={onCancel} />
-  if (type === 'logistics') return <LogisticsForm onSubmit={onSubmit as any} onCancel={onCancel} />
-  return <DistributorForm onSubmit={onSubmit as any} onCancel={onCancel} />
+function EntityFormsWrapper({ type, onSubmit, onCancel, initial }: EntityFormsWrapperProps) {
+  if (type === 'producers') return <ProducerForm initial={initial as ProducerFormData | undefined} onSubmit={onSubmit as any} onCancel={onCancel} />
+  if (type === 'logistics') return <LogisticsForm initial={initial as LogisticsFormData | undefined} onSubmit={onSubmit as any} onCancel={onCancel} />
+  return <DistributorForm initial={initial as DistributorFormData | undefined} onSubmit={onSubmit as any} onCancel={onCancel} />
 }
 
 export default EntityFormsWrapper

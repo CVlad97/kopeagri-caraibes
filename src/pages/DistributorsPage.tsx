@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, ShoppingCart } from 'lucide-react'
-import { getAll, add, toggleActive, remove } from '../services/dataService'
+import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, ShoppingCart, Pencil } from 'lucide-react'
+import { getAll, add, update, toggleActive, remove } from '../services/dataService'
 import type { Distributor } from '../services/dataService'
 import EntityForms from '../components/EntityForms'
 
@@ -16,14 +16,30 @@ const DistributorsPage: React.FC = () => {
   const [distributors, setDistributors] = useState<Distributor[]>([])
   const [search, setSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
+  const [editItem, setEditItem] = useState<Distributor | null>(null)
 
   const load = () => setDistributors(getAll('distributors') as Distributor[])
   useEffect(load, [])
 
   const handleAdd = (data: Record<string, unknown>) => {
-    add('distributors', data as any)
+    if (editItem) {
+      update('distributors', editItem.id, data as any)
+      setEditItem(null)
+    } else {
+      add('distributors', data as any)
+    }
     setShowForm(false)
     load()
+  }
+
+  const handleEdit = (item: Distributor) => {
+    setEditItem(item)
+    setShowForm(true)
+  }
+
+  const handleCancelForm = () => {
+    setShowForm(false)
+    setEditItem(null)
   }
 
   const filtered = distributors.filter(d =>
@@ -38,7 +54,7 @@ const DistributorsPage: React.FC = () => {
           <h1><ShoppingCart size={24} /> Distributeurs</h1>
           <p className="page-subtitle">{filtered.filter(d => d.active).length} actifs sur {filtered.length}</p>
         </div>
-        <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+        <button className="btn btn-primary" onClick={() => { setEditItem(null); setShowForm(true) }}>
           <Plus size={18} /> Ajouter
         </button>
       </div>
@@ -48,7 +64,7 @@ const DistributorsPage: React.FC = () => {
         <input placeholder="Chercher par nom ou commune..." value={search} onChange={e => setSearch(e.target.value)} />
       </div>
 
-      {showForm && <EntityForms type="distributors" onSubmit={handleAdd} onCancel={() => setShowForm(false)} />}
+      {showForm && <EntityForms type="distributors" onSubmit={handleAdd} onCancel={handleCancelForm} initial={editItem ? { name: editItem.name, contact: editItem.contact, phone: editItem.phone, commune: editItem.commune, type: editItem.type } : undefined} />}
 
       <div className="card-grid">
         {filtered.map(d => (
@@ -72,6 +88,9 @@ const DistributorsPage: React.FC = () => {
               >
                 <MessageCircle size={14} /> WhatsApp
               </a>
+              <button className="btn-icon" onClick={() => handleEdit(d)} title="Modifier">
+                <Pencil size={18} />
+              </button>
               <button className="btn btn-sm" onClick={() => { toggleActive('distributors', d.id); load() }}>
                 {d.active ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
               </button>

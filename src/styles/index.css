@@ -1298,3 +1298,235 @@ select.form-input { appearance: none; background-image: url("data:image/svg+xml,
 img { max-width: 100%; height: auto; }
 img[loading="lazy"] { opacity: 0; transition: opacity 0.3s; }
 img[loading="lazy"].loaded, img.loaded { opacity: 1; }
+
+/* ===== CALENDRIER SAISONNIER ===== */
+.saison-banner {
+  background: linear-gradient(135deg, var(--green-50), var(--green-100));
+  border: 2px solid var(--green-500);
+  padding: 22px 24px;
+  margin-bottom: 20px;
+}
+.saison-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.saison-banner-emoji { font-size: 32px; }
+.saison-banner-content strong { font-size: 20px; color: var(--green-900); display: block; }
+.saison-banner-sub { font-size: 14px; color: var(--green-700); margin-top: 4px; }
+.saison-banner-months {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.saison-month-pip {
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  background: white;
+  min-width: 44px;
+  text-align: center;
+}
+.saison-month-pip.saison-month-current {
+  background: var(--green-700);
+  color: white;
+  box-shadow: 0 0 0 2px var(--gold-500);
+}
+
+/* Filtres */
+.saison-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+/* Légende */
+.saison-legend {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+.saison-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.saison-legend-pip {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.saison-legend-current {
+  border: 2px solid var(--green-700);
+  box-shadow: 0 0 0 2px var(--gold-500);
+  background: white;
+}
+
+/* Grille des cultures */
+.saison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media (max-width: 500px) {
+  .saison-grid { grid-template-columns: 1fr; }
+}
+
+/* Carte culture */
+.saison-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition);
+}
+.saison-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.saison-card.saison-card-active {
+  border-color: var(--green-500);
+}
+.saison-card.saison-card-peak {
+  border-color: var(--gold-500);
+  background: linear-gradient(to bottom, var(--gold-100), white);
+}
+
+/* En-tête de carte */
+.saison-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  min-height: var(--touch-min);
+  margin-bottom: 12px;
+}
+.saison-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.saison-card-emoji { font-size: 26px; flex-shrink: 0; }
+.saison-card-nom { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+.saison-card-creole { font-size: 14px; color: var(--gray-500); font-style: italic; }
+.saison-card-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Barre saisonnière — 12 mois */
+.saison-bar {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+}
+.saison-bar-month {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  position: relative;
+}
+.saison-bar-month:hover {
+  transform: scaleY(1.2);
+  z-index: 2;
+}
+.saison-bar-month-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--gray-700);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.saison-bar-month.saison-bar-month-current {
+  outline: 3px solid var(--green-700);
+  outline-offset: -1px;
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--gold-500);
+}
+/* Rendre le label lisible sur fond foncé */
+.saison-bar-month[style*="green-500"] .saison-bar-month-label,
+.saison-bar-month[style*="gold-500"] .saison-bar-month-label {
+  color: white;
+}
+
+/* Détails dépliables */
+.saison-card-details {
+  padding: 14px 0 4px;
+  border-top: 1px solid var(--gray-100);
+  margin-top: 12px;
+  animation: saisonSlideDown 0.2s ease;
+}
+@keyframes saisonSlideDown {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 200px; }
+}
+.saison-card-details p {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.saison-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.saison-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-700);
+}
+.saison-card-meta-item svg { color: var(--green-700); flex-shrink: 0; }
+
+/* Compteur en bas */
+.saison-count {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray-500);
+  padding: 12px 0;
+}
+.saison-count span:last-child {
+  color: var(--gray-400);
+}
+
+/* Responsive calendrier */
+@media (max-width: 768px) {
+  .saison-banner { padding: 16px; }
+  .saison-banner-content strong { font-size: 17px; }
+  .saison-grid { grid-template-columns: 1fr; }
+  .saison-bar-month { height: 28px; }
+  .saison-bar-month-label { font-size: 8px; }
+  .saison-card-header { flex-wrap: wrap; }
+  .saison-card-right { gap: 6px; }
+  .saison-legend { gap: 10px; }
+}
+@media (max-width: 400px) {
+  .saison-bar { gap: 1px; }
+  .saison-bar-month { height: 24px; border-radius: 2px; }
+  .saison-bar-month-label { font-size: 7px; }
+  .saison-month-pip { padding: 4px 6px; font-size: 10px; min-width: 34px; }
+}

@@ -18,6 +18,8 @@ const AdhesionPage = lazy(() => import('./pages/AdhesionPage'))
 const FacturationPage = lazy(() => import('./pages/FacturationPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const ExportPage = lazy(() => import('./pages/ExportPage'))
+const SeasonalCalendarPage = lazy(() => import('./pages/SeasonalCalendarPage'))
+const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
@@ -55,6 +57,8 @@ function App() {
             <Route path="/facturation" element={<ProtectedRoute><Layout><FacturationPage /></Layout></ProtectedRoute>} />
             <Route path="/admin" element={<ProtectedRoute><Layout><AdminPage /></Layout></ProtectedRoute>} />
             <Route path="/export" element={<ProtectedRoute><Layout><ExportPage /></Layout></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute><Layout><SeasonalCalendarPage /></Layout></ProtectedRoute>} />
+            <Route path="/legal" element={<LegalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

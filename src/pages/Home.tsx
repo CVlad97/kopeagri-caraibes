@@ -219,6 +219,9 @@ const Home: React.FC = () => {
       <footer className="home-footer">
         <p>© 2026 KopéAgri Caraïbes — Coopérative agricole digitale</p>
         <p className="footer-small">Fait avec 🌴 en Martinique</p>
+        <p className="footer-small" style={{ marginTop: 8 }}>
+          <a href="/legal" style={{ color: 'var(--green-500)', textDecoration: 'underline' }}>Mentions légales · CGV · RGPD</a>
+        </p>
       </footer>
     </div>
   )

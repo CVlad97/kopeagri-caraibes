@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Users } from 'lucide-react'
-import { getAll, add, toggleActive, remove } from '../services/dataService'
+import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Users, Pencil } from 'lucide-react'
+import { getAll, add, update, toggleActive, remove } from '../services/dataService'
 import type { Producer } from '../services/dataService'
 import EntityForms from '../components/EntityForms'
 
@@ -8,14 +8,30 @@ const ProducersPage: React.FC = () => {
   const [producers, setProducers] = useState<Producer[]>([])
   const [search, setSearch] = useState('')
   const [showForm, setShowForm] = useState(false)
+  const [editItem, setEditItem] = useState<Producer | null>(null)
 
   const load = () => setProducers(getAll('producers') as Producer[])
   useEffect(load, [])
 
   const handleAdd = (data: Record<string, unknown>) => {
-    add('producers', data as any)
+    if (editItem) {
+      update('producers', editItem.id, data as any)
+      setEditItem(null)
+    } else {
+      add('producers', data as any)
+    }
     setShowForm(false)
     load()
+  }
+
+  const handleEdit = (item: Producer) => {
+    setEditItem(item)
+    setShowForm(true)
+  }
+
+  const handleCancelForm = () => {
+    setShowForm(false)
+    setEditItem(null)
   }
 
   const filtered = producers.filter(p =>
@@ -30,7 +46,7 @@ const ProducersPage: React.FC = () => {
           <h1><Users size={24} /> Producteurs</h1>
           <p className="page-subtitle">{filtered.filter(p => p.active).length} actifs sur {filtered.length}</p>
         </div>
-        <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+        <button className="btn btn-primary" onClick={() => { setEditItem(null); setShowForm(true) }}>
           <Plus size={18} /> Ajouter
         </button>
       </div>
@@ -40,7 +56,7 @@ const ProducersPage: React.FC = () => {
         <input placeholder="Chercher par nom ou commune..." value={search} onChange={e => setSearch(e.target.value)} />
       </div>
 
-      {showForm && <EntityForms type="producers" onSubmit={handleAdd} onCancel={() => setShowForm(false)} />}
+      {showForm && <EntityForms type="producers" onSubmit={handleAdd} onCancel={handleCancelForm} initial={editItem ? { name: editItem.name, contact: editItem.contact, phone: editItem.phone, commune: editItem.commune, cultures: editItem.cultures, certifications: editItem.certifications } : undefined} />}
 
       <div className="card-grid">
         {filtered.map(p => (
@@ -67,6 +83,9 @@ const ProducersPage: React.FC = () => {
               >
                 <MessageCircle size={14} /> WhatsApp
               </a>
+              <button className="btn-icon" onClick={() => handleEdit(p)} title="Modifier">
+                <Pencil size={18} />
+              </button>
               <button className="btn btn-sm" onClick={() => { toggleActive('producers', p.id); load() }}>
                 {p.active ? <ToggleRight size={14} /> : <ToggleLeft size={14} />}
               </button>
