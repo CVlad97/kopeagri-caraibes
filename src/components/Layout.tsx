@@ -2,15 +2,22 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
-  Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart, BarChart3, MessageCircle, Send, Star, FileText
+  Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart,
+  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe
 } from 'lucide-react'
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Tableau de bord', icon: Home, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/producers', label: 'Producteurs', icon: Users, roles: ['producteur', 'proprietaire', 'cooperative', 'institution'] },
+  { path: '/producers', label: 'Producteurs', icon: Users, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/plots', label: 'Parcelles', icon: MapPin, roles: ['producteur', 'proprietaire', 'cooperative', 'institution'] },
+  { path: '/resources', label: 'Ressources', icon: Wrench, roles: ['producteur', 'proprietaire', 'cooperative', 'transporteur', 'institution'] },
+  { path: '/lots', label: 'Lots & Marché', icon: Package, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/orders', label: 'Commandes', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/logistics', label: 'Transporteurs', icon: Truck, roles: ['producteur', 'proprietaire', 'cooperative', 'transporteur', 'institution'] },
   { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/qr-codes', label: 'Traçabilité QR', icon: QrCode, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/export', label: 'Export', icon: Globe, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
@@ -43,6 +50,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     transporteur: 'badge-orange',
     institution: 'badge-teal',
   }
+
+  const visibleItems = NAV_ITEMS.filter(item => item.roles.includes(profile?.role || ''))
 
   return (
     <div className="app-layout">
@@ -77,7 +86,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
         {isDemo && <div className="demo-banner">🧪 Mode démo</div>}
         <nav className="sidebar-nav">
-          {NAV_ITEMS.filter(item => item.roles.includes(profile?.role || '')).map(item => (
+          {visibleItems.map(item => (
             <Link
               key={item.path}
               to={item.path}
