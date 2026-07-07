@@ -1,0 +1,61 @@
+# Supabase project config — KopéAgri Caraïbes
+[project]
+id = "kopeagri-caraibes"
+name = "KopéAgri Caraïbes"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public"]
+
+[auth]
+enabled = true
+site_url = "https://cvlad97.github.io/kopeagri-caraibes/"
+additional_redirect_urls = ["https://cvlad97.github.io/kopeagri-caraibes/"]
+jwt_expiry = 3600
+enable_signup = true
+email_double_confirm_changes = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+
+[auth.external.google]
+enabled = false
+
+[storage]
+enabled = true
+
+[[storage.buckets]]
+name = "avatars"
+public = true
+file_size_limit = "2MB"
+allowed_mime_types = ["image/jpeg", "image/png", "image/webp"]
+
+[[storage.buckets]]
+name = "products"
+public = true
+file_size_limit = "5MB"
+allowed_mime_types = ["image/jpeg", "image/png", "image/webp"]
+
+[[storage.buckets]]
+name = "documents"
+public = false
+file_size_limit = "10MB"
+allowed_mime_types = ["application/pdf"]
+
+[[storage.buckets]]
+name = "parcelles"
+public = false
+file_size_limit = "10MB"
+allowed_mime_types = ["image/jpeg", "image/png", "image/webp", "image/tiff"]
+
+[functions.send-notification]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[cron]
+enabled = true
