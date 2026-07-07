@@ -4,11 +4,10 @@
   "description": "Plateforme coopérative agricole digitale pour la Martinique et les Caraïbes",
   "start_url": "/kopeagri-caraibes/",
   "display": "standalone",
-  "background_color": "#1B5E20",
-  "theme_color": "#1B5E20",
+  "background_color": "#1a472a",
+  "theme_color": "#1a472a",
   "icons": [
-    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "96x96", "type": "image/svg+xml" },
-    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "192x192", "type": "image/svg+xml" },
-    { "src": "/kopeagri-caraibes/vite.svg", "sizes": "512x512", "type": "image/svg+xml" }
+    { "src": "/kopeagri-caraibes/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "/kopeagri-caraibes/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml" }
   ]
 }
