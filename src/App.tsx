@@ -19,6 +19,8 @@ const FacturationPage = lazy(() => import('./pages/FacturationPage'))
 const AdminPage = lazy(() => import('./pages/AdminPage'))
 const ExportPage = lazy(() => import('./pages/ExportPage'))
 const SeasonalCalendarPage = lazy(() => import('./pages/SeasonalCalendarPage'))
+const QRCodesPage = lazy(() => import('./pages/QRCodesPage'))
+const ConsolidationPage = lazy(() => import('./pages/ConsolidationPage'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
@@ -58,6 +60,8 @@ function App() {
             <Route path="/admin" element={<ProtectedRoute><Layout><AdminPage /></Layout></ProtectedRoute>} />
             <Route path="/export" element={<ProtectedRoute><Layout><ExportPage /></Layout></ProtectedRoute>} />
             <Route path="/calendar" element={<ProtectedRoute><Layout><SeasonalCalendarPage /></Layout></ProtectedRoute>} />
+            <Route path="/qr-codes" element={<ProtectedRoute><Layout><QRCodesPage /></Layout></ProtectedRoute>} />
+            <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

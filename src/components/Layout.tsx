@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart,
-  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays
+  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers
 } from 'lucide-react'
 
 const NAV_ITEMS = [
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/qr-codes', label: 'Traçabilité QR', icon: QrCode, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/consolidation', label: 'Consolidation', icon: Layers, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/export', label: 'Export', icon: Globe, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
   { path: '/calendar', label: 'Calendrier saisonnier', icon: CalendarDays, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
