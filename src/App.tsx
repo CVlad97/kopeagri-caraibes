@@ -26,6 +26,12 @@ const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 // NotificationsPage is statically imported by Layout.tsx (getUnreadCount) — no lazy split possible
 const ExportDataPage = lazy(() => import('./pages/ExportDataPage'))
+const AiArbitragePage = lazy(() => import('./pages/AiArbitragePage'))
+const PartnersPage = lazy(() => import('./pages/PartnersPage'))
+const PricingPage = lazy(() => import('./pages/PricingPage'))
+const MarketplacePage = lazy(() => import('./pages/MarketplacePage'))
+const ErpPage = lazy(() => import('./pages/ErpPage'))
+const EInvoicingPage = lazy(() => import('./pages/EInvoicingPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -68,6 +74,12 @@ function App() {
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
             <Route path="/export-data" element={<ProtectedRoute><Layout><ExportDataPage /></Layout></ProtectedRoute>} />
+            <Route path="/ai-arbitrage" element={<ProtectedRoute><Layout><AiArbitragePage /></Layout></ProtectedRoute>} />
+            <Route path="/partners" element={<ProtectedRoute><Layout><PartnersPage /></Layout></ProtectedRoute>} />
+            <Route path="/pricing" element={<ProtectedRoute><Layout><PricingPage /></Layout></ProtectedRoute>} />
+            <Route path="/marketplace" element={<ProtectedRoute><Layout><MarketplacePage /></Layout></ProtectedRoute>} />
+            <Route path="/erp" element={<ProtectedRoute><Layout><ErpPage /></Layout></ProtectedRoute>} />
+            <Route path="/e-invoicing" element={<ProtectedRoute><Layout><EInvoicingPage /></Layout></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

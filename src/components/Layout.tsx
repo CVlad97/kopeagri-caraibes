@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart,
-  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers, Download, Moon, Sun
+  BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers, Download, Moon, Sun,
+  Handshake, CreditCard, Store, Settings, FileCheck, Bot
 } from 'lucide-react'
 import { getUnreadCount } from '../pages/NotificationsPage'
 
@@ -26,6 +27,12 @@ const NAV_ITEMS = [
   { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['cooperative', 'institution'] },
   { path: '/notifications', label: 'Notifications', icon: Bell, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
   { path: '/export-data', label: 'Export données', icon: Download, roles: ['cooperative', 'institution'] },
+  { path: '/partners', label: 'Partenaires', icon: Handshake, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/pricing', label: 'Tarification', icon: CreditCard, roles: ['producteur', 'proprietaire', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/marketplace', label: 'Marketplace', icon: Store, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/erp', label: 'ERP / CRM', icon: Settings, roles: ['cooperative', 'institution'] },
+  { path: '/e-invoicing', label: 'Fact. électronique', icon: FileCheck, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
+  { path: '/ai-arbitrage', label: 'IA Arbitrage', icon: Bot, roles: ['producteur', 'cooperative', 'acheteur_b2b', 'institution'] },
 ]
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
