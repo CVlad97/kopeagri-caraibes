@@ -14,6 +14,10 @@ const Dashboard = lazy(() => import('./pages/Dashboard'))
 const ProducersPage = lazy(() => import('./pages/ProducersPage'))
 const LogisticsPage = lazy(() => import('./pages/LogisticsPage'))
 const DistributorsPage = lazy(() => import('./pages/DistributorsPage'))
+const PlotsPage = lazy(() => import('./pages/PlotsPage'))
+const ResourcesPage = lazy(() => import('./pages/ResourcesPage'))
+const LotsPage = lazy(() => import('./pages/LotsPage'))
+const OrdersPage = lazy(() => import('./pages/OrdersPage'))
 const AppelOffrePage = lazy(() => import('./pages/AppelOffrePage'))
 const AdhesionPage = lazy(() => import('./pages/AdhesionPage'))
 const FacturationPage = lazy(() => import('./pages/FacturationPage'))
@@ -63,6 +67,10 @@ function App() {
             <Route path="/producers" element={<ProtectedRoute><Layout><ProducersPage /></Layout></ProtectedRoute>} />
             <Route path="/logistics" element={<ProtectedRoute><Layout><LogisticsPage /></Layout></ProtectedRoute>} />
             <Route path="/distributors" element={<ProtectedRoute><Layout><DistributorsPage /></Layout></ProtectedRoute>} />
+            <Route path="/plots" element={<ProtectedRoute><Layout><PlotsPage /></Layout></ProtectedRoute>} />
+            <Route path="/resources" element={<ProtectedRoute><Layout><ResourcesPage /></Layout></ProtectedRoute>} />
+            <Route path="/lots" element={<ProtectedRoute><Layout><LotsPage /></Layout></ProtectedRoute>} />
+            <Route path="/orders" element={<ProtectedRoute><Layout><OrdersPage /></Layout></ProtectedRoute>} />
             <Route path="/appels-offre" element={<ProtectedRoute><Layout><AppelOffrePage /></Layout></ProtectedRoute>} />
             <Route path="/adhesion" element={<ProtectedRoute><Layout><AdhesionPage /></Layout></ProtectedRoute>} />
             <Route path="/facturation" element={<ProtectedRoute><Layout><FacturationPage /></Layout></ProtectedRoute>} />
