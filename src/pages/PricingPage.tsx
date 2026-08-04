@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import {
   Check, X, Star, Crown, Zap, Truck, ShoppingCart, Building2,
   MessageCircle, Download, HelpCircle, ChevronDown, ChevronUp,
-  Shield, Mail, Phone, ArrowRight, Sparkles
+  Shield, Mail, Phone, ArrowRight, Sparkles, CreditCard
 } from 'lucide-react'
+import { redirectToCheckout } from '../services/stripeService'
+import { useAuth } from '../contexts/AuthContext'
 
 /* ===== Pricing Tiers ===== */
 interface PricingTier {
@@ -173,9 +175,36 @@ const PricingPage: React.FC = () => {
   const [showContact, setShowContact] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string>('')
 
-  const handleChoose = (tier: PricingTier | typeof INSTITUTION_TIER) => {
-    setSelectedPlan(tier.plan)
-    setShowContact(true)
+  const { user, profile } = useAuth()
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null)
+
+  const handleChoose = async (tier: PricingTier | typeof INSTITUTION_TIER) => {
+    // Institution → contact form
+    if (!('priceMonth' in tier)) {
+      setSelectedPlan(tier.plan)
+      setShowContact(true)
+      return
+    }
+    // Stripe Checkout or WhatsApp fallback
+    setCheckoutLoading(tier.id)
+    try {
+      const { url, error } = await redirectToCheckout({
+        planId: tier.id,
+        email: user?.email || '',
+        fullName: profile?.full_name || '',
+        isAnnual: annual,
+      })
+      if (error) {
+        setSelectedPlan(tier.plan)
+        setShowContact(true)
+      } else if (url) {
+        window.open(url, '_blank')
+      }
+    } catch {
+      setSelectedPlan(tier.plan)
+      setShowContact(true)
+    }
+    setCheckoutLoading(null)
   }
 
   return (
@@ -308,8 +337,13 @@ const PricingPage: React.FC = () => {
               <button
                 className={isPopular ? 'btn btn-primary btn-full' : 'btn btn-outline btn-full'}
                 onClick={() => handleChoose(tier)}
+                disabled={checkoutLoading === tier.id}
               >
-                Choisir <ArrowRight size={16} />
+                {checkoutLoading === tier.id ? (
+                  <><span className="spinner" /> Chargement...</>
+                ) : (
+                  <>Choisir <ArrowRight size={16} /></>
+                )}
               </button>
             </div>
           )
