@@ -1,13 +1,13 @@
 # KopéAgri Caraïbes 🌱
 
-Plateforme coopérative agricole digitale pour la Martinique, les Caraïbes et l'export international.
+Plateforme GIE agricole digitale pour la Martinique, les Caraïbes et l'export international.
 
 ## 🚀 Démo rapide
 
 ```bash
 # Comptes de démonstration (mode démo intégré)
 producteur@demo.fr     # 👨‍🌾 Producteur
-cooperative@demo.fr    # 🤝 Coopérative / Admin
+gie@demo.fr    # 🤝 GIE / Admin
 acheteur@demo.fr       # 🏪 Acheteur B2B
 transporteur@demo.fr   # 🚛 Transporteur
 # Mot de passe pour tous : demo1234
@@ -25,7 +25,7 @@ Mutualiser terres, productions, équipements, ressources humaines, stockage, fro
 |------|-------------|
 | 👨‍🌾 Producteur | Vendez vos lots, accédez aux ressources, consolidez vos volumes |
 | 🏠 Propriétaire | Mettez vos terres à disposition |
-| 🤝 Coopérative / Admin | Validez, pilotez, gérez les commissions |
+| 🤝 GIE / Admin | Validez, pilotez, gérez les commissions |
 | 🏪 Acheteur B2B | Commandez des lots tracés et certifiés |
 | 🚛 Transporteur | Proposez collecte et livraison |
 | 🏛️ Institution | Financez et suivez l'impact territorial |
@@ -38,13 +38,13 @@ Mutualiser terres, productions, équipements, ressources humaines, stockage, fro
 | `/login` | Public | Connexion + comptes démo |
 | `/register` | Public | Inscription |
 | `/dashboard` | Tous | Stats, actions rapides, suggestions IA |
-| `/plots` | Producteur, Propriétaire, Coopérative | Carte des parcelles |
-| `/resources` | Producteur, Propriétaire, Coopérative, Transporteur | Bourse aux ressources |
-| `/lots` | Producteur, Coopérative, Acheteur | Lots de production |
-| `/orders` | Producteur, Coopérative, Acheteur | Commandes |
-| `/logistics` | Transporteur, Coopérative, Producteur | Logistique mutualisée |
-| `/qr-codes` | Producteur, Coopérative | QR codes traçabilité |
-| `/admin` | Coopérative, Institution | Dashboard admin + export CSV |
+| `/plots` | Producteur, Propriétaire, GIE | Carte des parcelles |
+| `/resources` | Producteur, Propriétaire, GIE, Transporteur | Bourse aux ressources |
+| `/lots` | Producteur, GIE, Acheteur | Lots de production |
+| `/orders` | Producteur, GIE, Acheteur | Commandes |
+| `/logistics` | Transporteur, GIE, Producteur | Logistique mutualisée |
+| `/qr-codes` | Producteur, GIE | QR codes traçabilité |
+| `/admin` | GIE, Institution | Dashboard admin + export CSV |
 
 ## 🛠️ Stack technique
 

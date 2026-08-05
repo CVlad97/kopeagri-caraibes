@@ -102,7 +102,7 @@ export const PLANS: Plan[] = [
     price: 49,
     priceAnnual: 490,
     emoji: '🏡',
-    description: 'Pour les coopératives et acheteurs',
+    description: 'Pour les GIE et acheteurs',
     features: [
       'Appels d\'offre illimités',
       'Fiches illimitées',
@@ -267,7 +267,7 @@ export function seedSubscriptionsIfEmpty() {
     {
       id: 'demo-sub-2',
       user_id: 'demo-user-2',
-      user_name: 'Coopérative Les Jardins Créoles',
+      user_name: 'GIE Les Jardins Créoles',
       plan: 'lakou',
       status: 'active',
       started_at: now.toISOString(),

@@ -1,7 +1,7 @@
 {
   "name": "KopéAgri Caraïbes",
   "short_name": "KopéAgri",
-  "description": "Plateforme coopérative agricole digitale pour la Martinique et les Caraïbes",
+  "description": "Plateforme GIE agricole digitale pour la Martinique et les Caraïbes",
   "start_url": "/kopeagri-caraibes/",
   "display": "standalone",
   "background_color": "#1a472a",

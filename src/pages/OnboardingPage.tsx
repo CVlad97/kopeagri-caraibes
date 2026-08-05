@@ -8,7 +8,7 @@ const ROLE_OPTIONS = [
   { value: 'producteur', label: 'Producteur', emoji: '👨‍🌾', desc: 'Je produis et vends' },
   { value: 'transporteur', label: 'Transporteur', emoji: '🚛', desc: 'Je transporte' },
   { value: 'acheteur_b2b', label: 'Acheteur', emoji: '🏪', desc: "J'achète en gros" },
-  { value: 'cooperative', label: 'Coopérative', emoji: '🤝', desc: 'Je gère un groupement' },
+  { value: 'gie', label: 'GIE', emoji: '🤝', desc: 'Je gère un groupement' },
   { value: 'proprietaire', label: 'Propriétaire', emoji: '🏡', desc: 'Je loue des terres' },
   { value: 'institution', label: 'Institution', emoji: '🏛️', desc: 'Collectivité / ONG' },
 ]

@@ -484,7 +484,7 @@ const ExportPage: React.FC = () => {
         </div>
 
         <p style={{ fontSize: '14px', color: 'var(--gray-500)', lineHeight: 1.6 }}>
-          💡 <strong>Conseil :</strong> Contactez la coopérative pour organiser un groupage.
+          💡 <strong>Conseil :</strong> Contactez le GIE pour organiser un groupage.
           Les transporteurs comme <em>LogiKarib</em> et <em>Cargo Antilles Transit</em> offrent des services de consolidation au port de Fort-de-France.
         </p>
       </div>

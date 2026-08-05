@@ -10,7 +10,7 @@ import {
 interface CRMPipeline {
   id: string
   name: string
-  type: 'prospect' | 'cooperative' | 'institution' | 'transporteur' | 'acheteur'
+  type: 'prospect' | 'gie' | 'institution' | 'transporteur' | 'acheteur'
   status: 'prospect' | 'contacté' | 'en négociation' | 'client' | 'partenaire actif'
   email: string
   phone: string
@@ -744,7 +744,7 @@ const ERPPage: React.FC = () => {
                 <div className="form-group">
                   <label>Type</label>
                   <select className="form-input" value={pType} onChange={e => setPType(e.target.value as CRMPipeline['type'])}>
-                    {['prospect', 'cooperative', 'institution', 'transporteur', 'acheteur'].map(t => <option key={t} value={t}>{t}</option>)}
+                    {['prospect', 'gie', 'institution', 'transporteur', 'acheteur'].map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                 </div>
                 <div className="form-group">

@@ -154,7 +154,7 @@ const Dashboard: React.FC = () => {
   const role = profile?.role || 'producteur'
   const roleEmoji: Record<string, string> = {
     producteur: '👨‍🌾', transporteur: '🚛', acheteur_b2b: '🏪',
-    cooperative: '🤝', proprietaire: '🏡', institution: '🏛️',
+    gie: '🤝', proprietaire: '🏡', institution: '🏛️',
   }
 
   // Quick actions by role

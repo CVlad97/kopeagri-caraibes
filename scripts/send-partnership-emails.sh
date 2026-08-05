@@ -11,7 +11,7 @@ SUBJECT="Kop%C3%A9Agri%20Cara%C3%AFbes%20%E2%80%94%20Proposition%20de%20partenar
 BODY=$(cat <<'EOF'
 Bonjour,
 
-Je suis Vladimir Claveau, fondateur de KopéAgri Caraïbes, la première plateforme coopérative agricole digitale dédiée à la Martinique et aux Caraïbes.
+Je suis Vladimir Claveau, fondateur de KopéAgri Caraïbes, la première plateforme GIE agricole digitale dédiée à la Martinique et aux Caraïbes.
 
 Notre plateforme permet aux producteurs, transporteurs, distributeurs et acheteurs de :
 - Vendre et acheter des produits agricoles locaux en circuit court

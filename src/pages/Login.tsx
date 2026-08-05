@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 
   const demoAccounts = [
     { email: 'producteur@demo.fr', label: 'Producteur', color: 'badge-green' },
-    { email: 'cooperative@demo.fr', label: 'Coopérative', color: 'badge-gold' },
+    { email: 'gie@demo.fr', label: 'GIE', color: 'badge-gold' },
     { email: 'acheteur@demo.fr', label: 'Acheteur B2B', color: 'badge-purple' },
     { email: 'transporteur@demo.fr', label: 'Transporteur', color: 'badge-orange' },
   ]
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
         <div className="auth-header">
           <Link to="/" className="auth-logo"><Leaf size={28} /> KopéAgri</Link>
           <h1>Connexion</h1>
-          <p>Accédez à votre espace coopératif</p>
+          <p>Accédez à votre espace GIE</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">

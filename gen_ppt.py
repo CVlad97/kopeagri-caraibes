@@ -69,7 +69,7 @@ add_shape(slide, 0, 0, 13.333, 7.5, GREEN_DARK)
 add_text_box(slide, 1, 1.5, 11, 1.5, '🌴 KopéAgri Caraïbes', font_size=52, bold=True, color=WHITE, alignment=PP_ALIGN.CENTER)
 
 # Sous-titre
-add_text_box(slide, 1.5, 3.2, 10, 1, 'La plateforme coopérative agricole digitale\nde Martinique et des Caraïbes', font_size=28, color=GREEN_LIGHT, alignment=PP_ALIGN.CENTER)
+add_text_box(slide, 1.5, 3.2, 10, 1, 'La plateforme GIE agricole digitale\nde Martinique et des Caraïbes', font_size=28, color=GREEN_LIGHT, alignment=PP_ALIGN.CENTER)
 
 # Bas
 add_text_box(slide, 2, 5.5, 9, 0.6, 'Développons ensemble le réseau agricole caraïbéen', font_size=20, color=GOLD, alignment=PP_ALIGN.CENTER)
@@ -106,7 +106,7 @@ solutions = [
     ('🚛', 'Mise en relation Transport', 'Matching géographique automatique entre producteurs et transporteurs'),
     ('📤', 'Appels d\'Offre Rapides', 'Création RFQ en 60s, matching partenaires, suivi et confirmation via WhatsApp'),
     ('💬', 'WhatsApp Natif', 'Communication intégrée — chaque action génère un message WhatsApp pré-rempli'),
-    ('📊', 'Dashboard par Rôle', 'Interface adaptée : producteur, transporteur, acheteur, coopérative, institution'),
+    ('📊', 'Dashboard par Rôle', 'Interface adaptée : producteur, transporteur, acheteur, GIE, institution'),
 ]
 
 for i, (emoji, title, desc) in enumerate(solutions):
@@ -207,7 +207,7 @@ avantages = [
     ('🏪', 'Acheteurs / Distributeurs', 'Accès direct aux producteurs locaux\nQualité traçable, prix transparents\nAppels d\'offre automatiques sur vos besoins'),
     ('🚛', 'Transporteurs', 'Flux régulier de missions\nOptimisation des trajets\nConfirmation rapide via WhatsApp'),
     ('🏛️', 'Institutions / Collectivités', 'Visibilité sur la production locale\nDonnées pour les politiques agricoles\nRelais territorial dans les 34 communes'),
-    ('🤝', 'Coopératives / ONG', 'Outil digital pour vos adhérents\nCoordination logistique partagée\nReporting et suivi automatisés'),
+    ('🤝', 'GIE / ONG', 'Outil digital pour vos adhérents\nCoordination logistique partagée\nReporting et suivi automatisés'),
 ]
 
 for i, (emoji, title, desc) in enumerate(avantages):

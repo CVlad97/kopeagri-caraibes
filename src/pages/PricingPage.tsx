@@ -67,8 +67,8 @@ const TIERS: PricingTier[] = [
   },
   {
     id: 'plantasyon-pro', name: 'Plantasyon Pro', plan: 'Plan Plantasyon Pro', emoji: '🏗️',
-    priceMonth: 149, priceYear: 1490, target: 'Coopérative / Organisation',
-    description: 'Pour les coopératives et organisations qui gèrent plusieurs producteurs et flux logistiques complexes.',
+    priceMonth: 149, priceYear: 1490, target: 'GIE / Organisation',
+    description: 'Pour les GIE et organisations qui gèrent plusieurs producteurs et flux logistiques complexes.',
     features: [
       'Tout le plan Plantasyon +',
       'Multi-utilisateurs (25)',

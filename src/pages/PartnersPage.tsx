@@ -8,7 +8,7 @@ import {
 interface Partner {
   id: string
   name: string
-  type: 'Institution' | 'Coopérative' | 'Transporteur' | 'Acheteur B2B' | 'Tech/Innovation'
+  type: 'Institution' | 'GIE' | 'Transporteur' | 'Acheteur B2B' | 'Tech/Innovation'
   description: string
   email: string
   phone: string
@@ -21,7 +21,7 @@ interface Partner {
 
 const LS_KEY = 'kopeagri_partners'
 
-const CATEGORIES: Partner['type'][] = ['Institution', 'Coopérative', 'Transporteur', 'Acheteur B2B', 'Tech/Innovation']
+const CATEGORIES: Partner['type'][] = ['Institution', 'GIE', 'Transporteur', 'Acheteur B2B', 'Tech/Innovation']
 const STATUSES: Partner['status'][] = ['prospect', 'contacté', 'en négociation', 'signé']
 
 const STATUS_CFG: Record<Partner['status'], { label: string; color: string; emoji: string }> = {
@@ -33,7 +33,7 @@ const STATUS_CFG: Record<Partner['status'], { label: string; color: string; emoj
 
 const TYPE_EMOJI: Record<Partner['type'], string> = {
   Institution: '🏛️',
-  Coopérative: '🤝',
+  GIE: '🤝',
   Transporteur: '🚛',
   'Acheteur B2B': '🏢',
   'Tech/Innovation': '💡',
@@ -42,7 +42,7 @@ const TYPE_EMOJI: Record<Partner['type'], string> = {
 const CATEGORY_TAB_LABELS: Record<string, string> = {
   all: 'Tous',
   Institution: '🏛️ Institutions',
-  Coopérative: '🤝 Coopératives',
+  GIE: '🤝 GIE',
   Transporteur: '🚛 Transport',
   'Acheteur B2B': '🏢 Acheteurs',
   'Tech/Innovation': '💡 Tech',
@@ -96,7 +96,7 @@ const SEED_PARTNERS: Omit<Partner, 'id' | 'created_at'>[] = [
   },
   {
     name: 'UGP Banane',
-    type: 'Coopérative',
+    type: 'GIE',
     description: 'Union des Groupements de Producteurs de Banane. Organisation de producteurs majeure pour la filière banane martiniquaise, regroupant la majorité des producteurs.',
     email: 'contact@ugp-banane.fr',
     phone: '',
@@ -107,7 +107,7 @@ const SEED_PARTNERS: Omit<Partner, 'id' | 'created_at'>[] = [
   },
   {
     name: 'CGBM — Comité Guadeloupéen de la Banane et de la Martinique',
-    type: 'Coopérative',
+    type: 'GIE',
     description: 'Interprofession bananière représentant les producteurs de banane des Antilles françaises. Défense des intérêts, recherche et développement de la filière.',
     email: 'info@cgbm.fr',
     phone: '',
@@ -163,7 +163,7 @@ const SEED_PARTNERS: Omit<Partner, 'id' | 'created_at'>[] = [
   {
     name: 'Crédit Agricole Martinique',
     type: 'Institution',
-    description: 'Banque mutualiste historique du monde agricole martiniquais. Financement agricole, assurances et accompagnement des exploitants et coopératives.',
+    description: 'Banque mutualiste historique du monde agricole martiniquais. Financement agricole, assurances et accompagnement des exploitants et GIE.',
     email: 'contact@ca-martinique.fr',
     phone: '',
     website: 'www.ca-martinique.fr',

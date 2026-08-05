@@ -15,8 +15,8 @@ const LegalPage: React.FC = () => {
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>1. Éditeur de la plateforme</h3>
         <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          <strong>KopéAgri Caraïbes</strong> — Coopérative agricole digitale<br />
-          Forme juridique : Société Coopérative Agricole (SCA) en cours d'immatriculation<br />
+          <strong>KopéAgri Caraïbes</strong> — GIE agricole digitale<br />
+          Forme juridique : Groupement d'Intérêt Économique (GIE) en cours d'immatriculation<br />
           Siège social : Martinique, 97200 Fort-de-France<br />
           Email : <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a><br />
           Téléphone : 0696 00 00 00<br />
@@ -43,12 +43,12 @@ const LegalPage: React.FC = () => {
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>Article 1 — Objet</h3>
         <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les présentes CGV régissent les relations entre KopéAgri Caraïbes (la coopérative) et ses adhérents (producteurs, transporteurs, acheteurs B2B, institutions) pour l'utilisation de la plateforme de mise en relation et de services agricoles.
+          Les présentes CGV régissent les relations entre KopéAgri Caraïbes (le GIE) et ses adhérents (producteurs, transporteurs, acheteurs B2B, institutions) pour l'utilisation de la plateforme de mise en relation et de services agricoles.
         </p>
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 2 — Adhésion</h3>
         <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          L'adhésion à la coopérative est ouverte à toute personne physique ou morale exerçant une activité agricole, logistique ou commerciale dans la zone Caraïbe. L'adhésion implique l'acceptation des présentes CGV et du règlement intérieur. Quatre plans sont proposés : Grati (gratuit), Standard, Premium, Plantasyon — chacun avec un taux de commission distinct.
+          L'adhésion au GIE est ouverte à toute personne physique ou morale exerçant une activité agricole, logistique ou commerciale dans la zone Caraïbe. L'adhésion implique l'acceptation des présentes CGV et du règlement intérieur. Quatre plans sont proposés : Grati (gratuit), Standard, Premium, Plantasyon — chacun avec un taux de commission distinct.
         </p>
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 3 — Commissions</h3>
@@ -68,7 +68,7 @@ const LegalPage: React.FC = () => {
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 5 — Livraison & Logistique</h3>
         <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          La livraison est assurée par les transporteurs partenaires de la coopérative. Les délais varient selon la destination (Martinique : J+1, Caraïbe : J+3 à J+7, International : J+10 à J+21). Le transport frigorifique est obligatoire pour les produits périssables. KopéAgri ne saurait être tenue responsable des retards imputables aux transporteurs.
+          La livraison est assurée par les transporteurs partenaires du GIE. Les délais varient selon la destination (Martinique : J+1, Caraïbe : J+3 à J+7, International : J+10 à J+21). Le transport frigorifique est obligatoire pour les produits périssables. KopéAgri ne saurait être tenue responsable des retards imputables aux transporteurs.
         </p>
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 6 — Qualité & Conformité</h3>
@@ -78,7 +78,7 @@ const LegalPage: React.FC = () => {
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 7 — Responsabilité</h3>
         <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          KopéAgri est une plateforme de mise en relation. La coopérative ne garantit ni la disponibilité permanente des produits, ni l'exactitude des informations fournies par les adhérents. KopéAgri ne saurait être tenue responsable des litiges entre adhérents, qui relèvent du droit commercial ordinaire.
+          KopéAgri est une plateforme de mise en relation. Le GIE ne garantit ni la disponibilité permanente des produits, ni l'exactitude des informations fournies par les adhérents. KopéAgri ne saurait être tenue responsable des litiges entre adhérents, qui relèvent du droit commercial ordinaire.
         </p>
 
         <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 8 — Résiliation</h3>

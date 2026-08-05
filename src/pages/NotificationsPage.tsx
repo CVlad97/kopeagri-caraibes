@@ -23,7 +23,7 @@ const TYPE_CFG: Record<string, { icon: React.ReactNode; color: string }> = {
 
 const SEED_NOTIFICATIONS: Omit<Notification, 'id' | 'created_at' | 'active'>[] = [
   { type: 'order', title: 'Nouvelle commande', message: 'CMD-006 — Hôtel Bakoua commande 200 kg de banane', read: false, link: '/orders' },
-  { type: 'lot', title: 'Lot approuvé', message: 'Lot Avocat Haas (300 kg) approuvé par la coopérative', read: false, link: '/lots' },
+  { type: 'lot', title: 'Lot approuvé', message: 'Lot Avocat Haas (300 kg) approuvé par le GIE', read: false, link: '/lots' },
   { type: 'booking', title: 'Demande de réservation', message: 'Jean-Pierre demande la parcelle Nord-Est pour septembre', read: false, link: '/plots' },
   { type: 'rfq', title: 'Réponse RFQ', message: 'Transports Férand a répondu à votre appel d\'offre transport', read: true, link: '/appels-offre' },
   { type: 'payment', title: 'Paiement reçu', message: '500€ reçu pour la commande CMD-001 — Hôtel Bakoua', read: true, link: '/facturation' },

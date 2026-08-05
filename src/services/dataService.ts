@@ -288,9 +288,9 @@ function seedPlotsIfEmpty(): void {
   const plots: Plot[] = [
     { id: 'pl1', name: 'Parcelle Nord-Est', farm: 'EARL Larcher', surface: 2.5, soil: 'Argilo-calcaire', water: true, status: 'cultivated', crop: 'Banane Cavendish', commune: 'Le Morne-Rouge', rental: '', active: true, created_at: now },
     { id: 'pl2', name: 'Terrain Basse-Terre', farm: 'EARL Larcher', surface: 1.2, soil: 'Volcanique', water: true, status: 'available', crop: '', commune: 'Saint-Pierre', rental: '', active: true, created_at: now },
-    { id: 'pl3', name: 'Jardin Créole Sud', farm: 'Coopérative Nord', surface: 3.0, soil: 'Limoneux', water: false, status: 'cultivated', crop: 'Mangue José, Avocat', commune: 'Le François', rental: '', active: true, created_at: now },
+    { id: 'pl3', name: 'Jardin Créole Sud', farm: 'GIE Nord', surface: 3.0, soil: 'Limoneux', water: false, status: 'cultivated', crop: 'Mangue José, Avocat', commune: 'Le François', rental: '', active: true, created_at: now },
     { id: 'pl4', name: 'Parcelle Côte-Vent', farm: 'SCEA Galbas', surface: 0.8, soil: 'Sablo-argileux', water: true, status: 'fallow', crop: '', commune: 'Sainte-Luce', rental: '', active: true, created_at: now },
-    { id: 'pl5', name: 'Plateau Bellevue', farm: 'Coopérative Nord', surface: 5.0, soil: 'Volcanique', water: true, status: 'available', crop: '', commune: 'Ajoupa-Bouillon', rental: 'Location annuelle 1500€/ha', active: true, created_at: now },
+    { id: 'pl5', name: 'Plateau Bellevue', farm: 'GIE Nord', surface: 5.0, soil: 'Volcanique', water: true, status: 'available', crop: '', commune: 'Ajoupa-Bouillon', rental: 'Location annuelle 1500€/ha', active: true, created_at: now },
     { id: 'pl6', name: 'Habitation Rivière', farm: 'Domaine de la Montagne Pelée', surface: 1.8, soil: 'Argilo-calcaire', water: true, status: 'rented', crop: 'Ananas Victoria', commune: 'Le Robert', rental: '800€/mois', active: true, created_at: now },
   ]
   localStorage.setItem('kopeagri_plots', JSON.stringify(plots))
@@ -301,12 +301,12 @@ function seedResourcesIfEmpty(): void {
   if (localStorage.getItem('kopeagri_resources_seeded')) return
   const now = new Date().toISOString()
   const resources: Resource[] = [
-    { id: 'r1', name: 'Tracteur Massey Ferguson 285', type: 'materiel', owner: 'Coopérative Nord', commune: 'Sainte-Marie', rate: 120, unit: 'jour', quantity: 1, desc: 'Tracteur 80CV avec relevage, prise de force, parfait pour labour et transport de charges.', available: true, active: true, created_at: now },
+    { id: 'r1', name: 'Tracteur Massey Ferguson 285', type: 'materiel', owner: 'GIE Nord', commune: 'Sainte-Marie', rate: 120, unit: 'jour', quantity: 1, desc: 'Tracteur 80CV avec relevage, prise de force, parfait pour labour et transport de charges.', available: true, active: true, created_at: now },
     { id: 'r2', name: 'Chambre froide 20m³', type: 'chambre_froide', owner: 'SCEA Galbas', commune: 'Le Lamentin', rate: 80, unit: 'jour', quantity: 1, desc: 'Chambre froide positive 4°C, idéale pour fruits et légumes. Capacité 5 palettes.', available: true, active: true, created_at: now },
     { id: 'r3', name: 'Camion frigorifique 3.5T', type: 'camion', owner: 'Transports Férand', commune: 'Ducos', rate: 200, unit: 'jour', quantity: 1, desc: 'Camion frigorifique avec hayon, collecte multi-points, tournée Nord/Sud possible.', available: true, active: true, created_at: now },
     { id: 'r4', name: 'Équipe récolte (3 pers.)', type: 'main_oeuvre', owner: 'Jean-Marie Larcher', commune: 'Le Morne-Rouge', rate: 250, unit: 'équipe/jour', quantity: 2, desc: 'Équipe expérimentée pour récolte bananes, mangues, fruits tropicaux. 3 personnes.', available: true, active: true, created_at: now },
-    { id: 'r5', name: 'Engrais bio certifié', type: 'intrant', owner: 'Coopérative Nord', commune: 'Saint-Pierre', rate: 35, unit: 'kg', quantity: 250, desc: 'Engrais organique NPK 4-6-8, certifié bio, idéal pour maraîchage et vergers.', available: true, active: true, created_at: now },
-    { id: 'r6', name: 'Caisse plastique réutilisable', type: 'emballage', owner: 'Coopérative Nord', commune: 'Fort-de-France', rate: 2, unit: 'pièce', quantity: 500, desc: 'Caisses plastiques empilables 40x30x25cm, lavées et désinfectées. Lot de 50 minimum.', available: true, active: true, created_at: now },
+    { id: 'r5', name: 'Engrais bio certifié', type: 'intrant', owner: 'GIE Nord', commune: 'Saint-Pierre', rate: 35, unit: 'kg', quantity: 250, desc: 'Engrais organique NPK 4-6-8, certifié bio, idéal pour maraîchage et vergers.', available: true, active: true, created_at: now },
+    { id: 'r6', name: 'Caisse plastique réutilisable', type: 'emballage', owner: 'GIE Nord', commune: 'Fort-de-France', rate: 2, unit: 'pièce', quantity: 500, desc: 'Caisses plastiques empilables 40x30x25cm, lavées et désinfectées. Lot de 50 minimum.', available: true, active: true, created_at: now },
     { id: 'r7', name: 'Broyeur végétaux', type: 'materiel', owner: 'EARL Larcher', commune: 'Le Morne-Rouge', rate: 60, unit: 'jour', quantity: 1, desc: 'Broyeur thermique 15CV, idéal pour paillage et compost.', available: false, active: true, created_at: now },
   ]
   localStorage.setItem('kopeagri_resources', JSON.stringify(resources))
@@ -546,9 +546,9 @@ export function seedLotsIfEmpty(): void {
   const lots: Lot[] = [
     { id: 'lot1', product: 'Banane Cavendish', producer: 'Jean-Marie Larcher', commune: 'Le Morne-Rouge', qty: 500, unit: 'kg', price: 2.5, quality: 'Extra', available: '2026-07-15', status: 'approved', certs: ['Bio', 'Commerce équitable'], image: '🍌', active: true, created_at: now },
     { id: 'lot2', product: 'Mangue José', producer: 'EARL Larcher', commune: 'Saint-Pierre', qty: 200, unit: 'kg', price: 4.0, quality: 'Premium', available: '2026-07-10', status: 'approved', certs: ['Bio'], image: '🥭', active: true, created_at: now },
-    { id: 'lot3', product: 'Avocat Haas', producer: 'Coopérative Nord', commune: 'Le François', qty: 300, unit: 'kg', price: 3.8, quality: 'Extra', available: '2026-07-20', status: 'pending', certs: ['Bio', 'HVE'], image: '🥑', active: true, created_at: now },
+    { id: 'lot3', product: 'Avocat Haas', producer: 'GIE Nord', commune: 'Le François', qty: 300, unit: 'kg', price: 3.8, quality: 'Extra', available: '2026-07-20', status: 'pending', certs: ['Bio', 'HVE'], image: '🥑', active: true, created_at: now },
     { id: 'lot4', product: 'Ananas Victoria', producer: 'SCEA Galbas', commune: 'Sainte-Luce', qty: 150, unit: 'pièce', price: 3.0, quality: 'Premium', available: '2026-07-25', status: 'approved', certs: ['Bio'], image: '🍍', active: true, created_at: now },
-    { id: 'lot5', product: 'Patate douce', producer: 'Coopérative Nord', commune: 'Ajoupa-Bouillon', qty: 800, unit: 'kg', price: 1.8, quality: 'Standard', available: '2026-07-18', status: 'approved', certs: [], image: '🍠', active: true, created_at: now },
+    { id: 'lot5', product: 'Patate douce', producer: 'GIE Nord', commune: 'Ajoupa-Bouillon', qty: 800, unit: 'kg', price: 1.8, quality: 'Standard', available: '2026-07-18', status: 'approved', certs: [], image: '🍠', active: true, created_at: now },
     { id: 'lot6', product: 'Citron vert', producer: 'Jean-Marie Larcher', commune: 'Le Morne-Rouge', qty: 100, unit: 'kg', price: 3.5, quality: 'Extra', available: '2026-07-12', status: 'sold', certs: [], image: '🍋', active: true, created_at: now },
     { id: 'lot7', product: 'Giraumon', producer: 'EARL Larcher', commune: 'Le Robert', qty: 400, unit: 'kg', price: 2.0, quality: 'Standard', available: '2026-07-22', status: 'draft', certs: [], image: '🎃', active: true, created_at: now },
   ]

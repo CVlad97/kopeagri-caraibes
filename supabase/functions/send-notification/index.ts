@@ -100,7 +100,7 @@ serve(async (req) => {
             <p style="font-size: 16px; line-height: 1.6;">${body}</p>
             ${action_url ? `<a href="${action_url}" style="display: inline-block; background: #2E7D32; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 16px;">Voir sur KopéAgri</a>` : ''}
             <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 24px 0;" />
-            <p style="color: #888; font-size: 12px;">KopéAgri Caraïbes — Coopérative agricole digitale de Martinique<br />📍 Fort-de-France, Martinique</p>
+            <p style="color: #888; font-size: 12px;">KopéAgri Caraïbes — GIE agricole digitale de Martinique<br />📍 Fort-de-France, Martinique</p>
           </div>
         </div>
       `

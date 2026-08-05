@@ -21,7 +21,7 @@ const PRODUCTIONS = [
 const ROLES = [
   { value: 'producteur', label: '👨‍🌾 Producteur / Agriculteur', icon: <Sprout size={24} /> },
   { value: 'proprietaire', label: '🏠 Propriétaire de terrain', icon: <Leaf size={24} /> },
-  { value: 'cooperative', label: '🤝 Coopérative', icon: <User size={24} /> },
+  { value: 'gie', label: '🤝 GIE', icon: <User size={24} /> },
   { value: 'acheteur_b2b', label: '🏪 Acheteur B2B', icon: <ShoppingBag size={24} /> },
   { value: 'transporteur', label: '🚛 Transporteur', icon: <Truck size={24} /> },
   { value: 'institution', label: '🏛️ Institution', icon: <Building size={24} /> },
@@ -103,7 +103,7 @@ const Register: React.FC = () => {
       <div className="auth-card auth-card-wide">
         <div className="auth-header">
           <Link to="/" className="auth-logo"><Leaf size={28} /> KopéAgri</Link>
-          <h1>Rejoignez la coopérative</h1>
+          <h1>Rejoignez le GIE</h1>
           <p>3 étapes, 2 minit — osinponpé !</p>
         </div>
 
@@ -146,7 +146,7 @@ const Register: React.FC = () => {
             </div>
 
             <div className="form-group">
-              <label>👤 Votre rôle dans la coopérative</label>
+              <label>👤 Votre rôle dans le GIE</label>
               <div className="role-selector">
                 {ROLES.map(r => (
                   <button

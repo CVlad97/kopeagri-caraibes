@@ -315,7 +315,7 @@ const QRCodesPage: React.FC = () => {
               </div>
             </div>
             <div className="trace-note">
-              <CheckCircle size={16} /> Données certifiées par la coopérative
+              <CheckCircle size={16} /> Données certifiées par le GIE
             </div>
             <div style={{ marginTop: 12, padding: 12, background: 'var(--gray-50)', borderRadius: 8, fontSize: '0.8rem', fontFamily: 'monospace', wordBreak: 'break-all', color: 'var(--gray-500)' }}>
               <strong style={{ fontSize: '0.75rem' }}>Données encodées QR :</strong><br />

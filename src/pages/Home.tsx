@@ -8,7 +8,7 @@ import type { Producer, LogisticsProvider, Distributor } from '../services/dataS
 const FAQ_ITEMS = [
   {
     q: 'KopéAgri, c\'est quoi exact ?',
-    a: 'Sé on coopérative agricole digitale pour tout péyi Karayib la. Nou mété aksé producté, transpòrtè é achté pou fasilite komèrs la. Nou ka apòté débouté, zouti partager é valòrizasyon prodiksyon lokal.',
+    a: 'Sé on GIE agricole digitale pour tout péyi Karayib la. Nou mété aksé producté, transpòrtè é achté pou fasilite komèrs la. Nou ka apòté débouté, zouti partager é valòrizasyon prodiksyon lokal.',
   },
   {
     q: 'Ki moun ki ka adhère ?',
@@ -89,7 +89,7 @@ const Home: React.FC = () => {
       <section className="hero">
         <div className="hero-overlay" />
         <div className="hero-content">
-          <span className="hero-badge">🌴 Coopérative agricole digitale — Caraïbes</span>
+          <span className="hero-badge">🌴 GIE agricole digitale — Caraïbes</span>
           <h1>KopéAgri Caraïbes</h1>
           <p className="hero-subtitle">
             Ansanm nou ka fè péyi a viv — Connectez producteurs, transporteurs et acheteurs de Martinique et des Caraïbes
@@ -217,7 +217,7 @@ const Home: React.FC = () => {
       </section>
 
       <footer className="home-footer">
-        <p>© 2026 KopéAgri Caraïbes — Coopérative agricole digitale</p>
+        <p>© 2026 KopéAgri Caraïbes — GIE agricole digitale</p>
         <p className="footer-small">Fait avec 🌴 en Martinique</p>
         <p className="footer-small" style={{ marginTop: 8 }}>
           <a href="/legal" style={{ color: 'var(--green-500)', textDecoration: 'underline' }}>Mentions légales · CGV · RGPD</a>

@@ -53,7 +53,7 @@
 -- ===== ENUMS =====
 
 CREATE TYPE user_role AS ENUM (
-  'producteur', 'proprietaire', 'cooperative', 'acheteur_b2b',
+  'producteur', 'proprietaire', 'gie', 'acheteur_b2b',
   'transporteur', 'institution', 'admin'
 );
 
@@ -793,7 +793,7 @@ CREATE POLICY "Users update own profile" ON public.profiles
   FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Admins read all profiles" ON public.profiles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Public read active profiles" ON public.profiles
   FOR SELECT USING (active = true);
@@ -803,7 +803,7 @@ CREATE POLICY "Owners CRUD own producteurs" ON public.producteurs
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all producteurs" ON public.producteurs
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active producteurs visible" ON public.producteurs
   FOR SELECT USING (active = true);
@@ -813,7 +813,7 @@ CREATE POLICY "Owners CRUD own logistics" ON public.logistics_providers
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all logistics" ON public.logistics_providers
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active logistics visible" ON public.logistics_providers
   FOR SELECT USING (active = true);
@@ -823,7 +823,7 @@ CREATE POLICY "Owners CRUD own distributors" ON public.distributors
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all distributors" ON public.distributors
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active distributors visible" ON public.distributors
   FOR SELECT USING (active = true);
@@ -833,7 +833,7 @@ CREATE POLICY "Owners CRUD own parcelles" ON public.parcelles
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all parcelles" ON public.parcelles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== RESOURCES =====
@@ -841,7 +841,7 @@ CREATE POLICY "Owners CRUD own resources" ON public.resources
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all resources" ON public.resources
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active resources visible" ON public.resources
   FOR SELECT USING (active = true);
@@ -857,7 +857,7 @@ CREATE POLICY "Owners CRUD own lots" ON public.lots
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all lots" ON public.lots
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active lots visible" ON public.lots
   FOR SELECT USING (active = true);
@@ -867,7 +867,7 @@ CREATE POLICY "Owners CRUD own orders" ON public.orders
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all orders" ON public.orders
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 CREATE POLICY "Active orders visible" ON public.orders
   FOR SELECT USING (active = true);
@@ -895,7 +895,7 @@ CREATE POLICY "Owners CRUD own docs" ON public.billing_documents
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all docs" ON public.billing_documents
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== BILLING_LINES =====
@@ -913,7 +913,7 @@ CREATE POLICY "Owners CRUD own qonto" ON public.qonto_transactions
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all qonto" ON public.qonto_transactions
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== SUBSCRIPTIONS =====
@@ -921,7 +921,7 @@ CREATE POLICY "Users read own subs" ON public.subscriptions
   FOR SELECT USING (user_id = auth.uid());
 CREATE POLICY "Admins CRUD all subs" ON public.subscriptions
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== COMMISSIONS =====
@@ -931,7 +931,7 @@ CREATE POLICY "Users read own commissions" ON public.commissions
   );
 CREATE POLICY "Admins CRUD all commissions" ON public.commissions
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== NOTIFICATIONS =====
@@ -945,13 +945,13 @@ CREATE POLICY "Price refs public read" ON public.price_references
   FOR SELECT USING (true);
 CREATE POLICY "Admins manage price refs" ON public.price_references
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== AUDIT_LOG =====
 CREATE POLICY "Admins read audit" ON public.audit_log
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','cooperative','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
   );
 
 -- ===== DOCUMENT_COUNTERS =====
@@ -1139,12 +1139,12 @@ ON CONFLICT (product) DO NOTHING;
 INSERT INTO public.resources (id, name, type, owner_name, commune, rate, unit, quantity, description, available, active)
 SELECT *
 FROM (VALUES
-  ('a7e1b2c3-0001-4000-8000-000000000001'::uuid, 'Tracteur Massey Ferguson 285'::text, 'materiel'::resource_type, 'Coopérative Nord'::text, 'Sainte-Marie'::text, 120.00, 'jour'::text, 1, 'Tracteur 80CV avec relevage, prise de force, parfait pour labour et transport de charges.'::text, true, true),
+  ('a7e1b2c3-0001-4000-8000-000000000001'::uuid, 'Tracteur Massey Ferguson 285'::text, 'materiel'::resource_type, 'GIE Nord'::text, 'Sainte-Marie'::text, 120.00, 'jour'::text, 1, 'Tracteur 80CV avec relevage, prise de force, parfait pour labour et transport de charges.'::text, true, true),
   ('a7e1b2c3-0001-4000-8000-000000000002'::uuid, 'Chambre froide 20m³', 'chambre_froide', 'SCEA Galbas', 'Le Lamentin', 80.00, 'jour', 1, 'Chambre froide positive 4°C, idéale pour fruits et légumes. Capacité 5 palettes.', true, true),
   ('a7e1b2c3-0001-4000-8000-000000000003'::uuid, 'Camion frigorifique 3.5T', 'camion', 'Transports Férand', 'Ducos', 200.00, 'jour', 1, 'Camion frigorifique avec hayon, collecte multi-points, tournée Nord/Sud possible.', true, true),
   ('a7e1b2c3-0001-4000-8000-000000000004'::uuid, 'Équipe récolte (3 pers.)', 'main_oeuvre', 'Jean-Marie Larcher', 'Le Morne-Rouge', 250.00, 'équipe/jour', 2, 'Équipe expérimentée pour récolte bananes, mangues, fruits tropicaux. 3 personnes.', true, true),
-  ('a7e1b2c3-0001-4000-8000-000000000005'::uuid, 'Engrais bio certifié', 'intrant', 'Coopérative Nord', 'Saint-Pierre', 35.00, 'kg', 250, 'Engrais organique NPK 4-6-8, certifié bio, idéal pour maraîchage et vergers.', true, true),
-  ('a7e1b2c3-0001-4000-8000-000000000006'::uuid, 'Caisse plastique réutilisable', 'emballage', 'Coopérative Nord', 'Fort-de-France', 2.00, 'pièce', 500, 'Caisses plastiques empilables 40x30x25cm, lavées et désinfectées. Lot de 50 minimum.', true, true),
+  ('a7e1b2c3-0001-4000-8000-000000000005'::uuid, 'Engrais bio certifié', 'intrant', 'GIE Nord', 'Saint-Pierre', 35.00, 'kg', 250, 'Engrais organique NPK 4-6-8, certifié bio, idéal pour maraîchage et vergers.', true, true),
+  ('a7e1b2c3-0001-4000-8000-000000000006'::uuid, 'Caisse plastique réutilisable', 'emballage', 'GIE Nord', 'Fort-de-France', 2.00, 'pièce', 500, 'Caisses plastiques empilables 40x30x25cm, lavées et désinfectées. Lot de 50 minimum.', true, true),
   ('a7e1b2c3-0001-4000-8000-000000000007'::uuid, 'Broyeur végétaux', 'materiel', 'EARL Larcher', 'Le Morne-Rouge', 60.00, 'jour', 1, 'Broyeur thermique 15CV, idéal pour paillage et compost.', false, true)
 ) AS v(id, name, type, owner_name, commune, rate, unit, quantity, description, available, active)
 WHERE NOT EXISTS (SELECT 1 FROM public.resources LIMIT 1);

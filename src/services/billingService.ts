@@ -352,8 +352,8 @@ function seedBillingIfEmpty() {
       reference: 'BC-2026-0001',
       status: 'accepte',
       payment_status: 'non_paye',
-      client_name: 'Coopérative Agricole du Nord',
-      client_email: 'coop.nord@kopeagri.mq',
+      client_name: 'GIE Agricole du Nord',
+      client_email: 'gie.nord@kopeagri.mq',
       client_phone: '0696 55 44 33',
       client_address: 'Morne-des-Esses',
       lines: [

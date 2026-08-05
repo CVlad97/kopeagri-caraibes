@@ -5,7 +5,7 @@ export interface Profile {
   id: string
   email: string
   full_name: string
-  role: 'producteur' | 'proprietaire' | 'cooperative' | 'acheteur_b2b' | 'transporteur' | 'institution' | 'admin'
+  role: 'producteur' | 'proprietaire' | 'gie' | 'acheteur_b2b' | 'transporteur' | 'institution' | 'admin'
   commune: string | null
   phone: string | null
   avatar_url: string | null

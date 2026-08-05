@@ -488,7 +488,7 @@ export function ResourceForm({ initial, onSubmit, onCancel }: {
       <div className="form-row">
         <div className="form-group">
           <label>Propriétaire *</label>
-          <input value={owner} onChange={e => setOwner(e.target.value)} required className="form-input" placeholder="Coopérative Nord" />
+          <input value={owner} onChange={e => setOwner(e.target.value)} required className="form-input" placeholder="GIE Nord" />
         </div>
         <div className="form-group">
           <label>Commune *</label>
