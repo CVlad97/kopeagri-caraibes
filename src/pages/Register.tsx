@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Leaf, User, Mail, Lock, Phone, MapPin, AlertCircle, ArrowRight, ArrowLeft, Sprout, Truck, ShoppingBag, Building, CheckCircle } from 'lucide-react'
+import { Leaf, User, Mail, Lock, Phone, MapPin, AlertCircle, ArrowRight, ArrowLeft, Sprout, Truck, ShoppingBag, Building, CheckCircle, Waves } from 'lucide-react'
 
 const COMMUNES = [
   'Fort-de-France', 'Le Lamentin', 'Saint-Pierre', 'Le Morne-Rouge', 'Sainte-Marie',
@@ -20,6 +20,7 @@ const PRODUCTIONS = [
 
 const ROLES = [
   { value: 'producteur', label: '👨‍🌾 Producteur / Agriculteur', icon: <Sprout size={24} /> },
+  { value: 'pecheur', label: '🎣 Pêcheur / Seafood', icon: <Waves size={24} /> },
   { value: 'proprietaire', label: '🏠 Propriétaire de terrain', icon: <Leaf size={24} /> },
   { value: 'gie', label: '🤝 GIE', icon: <User size={24} /> },
   { value: 'acheteur_b2b', label: '🏪 Acheteur B2B', icon: <ShoppingBag size={24} /> },

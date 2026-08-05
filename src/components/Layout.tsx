@@ -4,36 +4,37 @@ import { useAuth } from '../contexts/AuthContext'
 import {
   Leaf, Home, LogOut, Menu, X, Bell, Users, Truck, ShoppingCart,
   BarChart3, MessageCircle, Send, Star, FileText, MapPin, Wrench, Package, QrCode, Globe, CalendarDays, Layers, Download, Moon, Sun,
-  Handshake, CreditCard, Store, Settings, FileCheck, Bot, Scale
+  Handshake, CreditCard, Store, Settings, FileCheck, Bot, Scale, Waves
 } from 'lucide-react'
 import { getUnreadCount } from '../pages/NotificationsPage'
 
 const NAV_ITEMS = [
-  { path: '/dashboard', label: 'Tableau de bord', icon: Home, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/producers', label: 'Producteurs', icon: Users, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/plots', label: 'Parcelles', icon: MapPin, roles: ['producteur', 'proprietaire', 'gie', 'institution'] },
-  { path: '/resources', label: 'Ressources', icon: Wrench, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution'] },
-  { path: '/lots', label: 'Lots & Marché', icon: Package, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/orders', label: 'Commandes', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/logistics', label: 'Transporteurs', icon: Truck, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution'] },
-  { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/qr-codes', label: 'Traçabilité QR', icon: QrCode, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/consolidation', label: 'Consolidation', icon: Layers, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/export', label: 'Export', icon: Globe, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/calendar', label: 'Calendrier saisonnier', icon: CalendarDays, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['gie', 'institution'] },
-  { path: '/notifications', label: 'Notifications', icon: Bell, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/export-data', label: 'Export données', icon: Download, roles: ['gie', 'institution'] },
-  { path: '/partners', label: 'Partenaires', icon: Handshake, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/pricing', label: 'Tarification', icon: CreditCard, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/marketplace', label: 'Marketplace', icon: Store, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
-  { path: '/erp', label: 'ERP / CRM', icon: Settings, roles: ['gie', 'institution'] },
-  { path: '/e-invoicing', label: 'Fact. électronique', icon: FileCheck, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/ai-arbitrage', label: 'IA Arbitrage', icon: Bot, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution'] },
-  { path: '/gie', label: 'GIE Juridique', icon: Scale, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution'] },
+  { path: '/dashboard', label: 'Tableau de bord', icon: Home, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/producers', label: 'Producteurs', icon: Users, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/seafood', label: 'Marché de la Pêche', icon: Waves, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/plots', label: 'Parcelles', icon: MapPin, roles: ['producteur', 'proprietaire', 'gie', 'institution', 'pecheur'] },
+  { path: '/resources', label: 'Ressources', icon: Wrench, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/lots', label: 'Lots & Marché', icon: Package, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/orders', label: 'Commandes', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/logistics', label: 'Transporteurs', icon: Truck, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/appels-offre', label: 'Appels d\'Offre', icon: Send, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/qr-codes', label: 'Traçabilité QR', icon: QrCode, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/consolidation', label: 'Consolidation', icon: Layers, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/export', label: 'Export', icon: Globe, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/calendar', label: 'Calendrier saisonnier', icon: CalendarDays, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/adhesion', label: 'Adhésion', icon: Star, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/facturation', label: 'Facturation', icon: FileText, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/admin', label: 'Admin', icon: BarChart3, roles: ['gie', 'institution', 'pecheur'] },
+  { path: '/notifications', label: 'Notifications', icon: Bell, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/export-data', label: 'Export données', icon: Download, roles: ['gie', 'institution', 'pecheur'] },
+  { path: '/partners', label: 'Partenaires', icon: Handshake, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/pricing', label: 'Tarification', icon: CreditCard, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/marketplace', label: 'Marketplace', icon: Store, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
+  { path: '/erp', label: 'ERP / CRM', icon: Settings, roles: ['gie', 'institution', 'pecheur'] },
+  { path: '/e-invoicing', label: 'Fact. électronique', icon: FileCheck, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/ai-arbitrage', label: 'IA Arbitrage', icon: Bot, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/gie', label: 'GIE Juridique', icon: Scale, roles: ['producteur', 'proprietaire', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
 ]
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -81,6 +82,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     acheteur_b2b: 'Acheteur B2B',
     transporteur: 'Transporteur',
     institution: 'Institution',
+    pecheur: 'Pêcheur / Seafood',
   }
   const roleColor: Record<string, string> = {
     producteur: 'badge-green',
@@ -89,6 +91,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     acheteur_b2b: 'badge-purple',
     transporteur: 'badge-orange',
     institution: 'badge-teal',
+    pecheur: 'badge-blue',
   }
 
   const visibleItems = NAV_ITEMS.filter(item => item.roles.includes(profile?.role || ''))

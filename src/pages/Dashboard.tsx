@@ -154,7 +154,7 @@ const Dashboard: React.FC = () => {
   const role = profile?.role || 'producteur'
   const roleEmoji: Record<string, string> = {
     producteur: '👨‍🌾', transporteur: '🚛', acheteur_b2b: '🏪',
-    gie: '🤝', proprietaire: '🏡', institution: '🏛️',
+    gie: '🤝', proprietaire: '🏡', institution: '🏛️', pecheur: '🎣',
   }
 
   // Quick actions by role
@@ -187,6 +187,14 @@ const Dashboard: React.FC = () => {
     { icon: '👨‍🌾', label: 'Producteurs', desc: 'Trouver des fermiers', link: '/producers', color: 'var(--green-100)' },
     { icon: '🔧', label: 'Ressources', desc: 'Matériel partagé', link: '/resources', color: '#E0F7FA' },
     { icon: '⭐', label: 'Adhésion', desc: 'Mon plan', link: '/adhesion', color: 'var(--gold-100)' },
+  ] : role === 'pecheur' ? [
+    { icon: '🐟', label: 'Marché Pêche', desc: 'Prix & saisons', link: '/seafood', color: '#E0F7FA' },
+    { icon: '🚛', label: 'Transport frigo', desc: 'Chaîne du froid', link: '/logistics', color: 'var(--blue-100)' },
+    { icon: '🏪', label: 'Acheteurs', desc: 'Mareyeurs & restaurants', link: '/distributors', color: 'var(--purple)' },
+    { icon: '📦', label: 'Mes lots', desc: 'Créer un lot poisson', link: '/lots', color: 'var(--gold-100)' },
+    { icon: '🌍', label: 'Export', desc: 'Export Caraïbes', link: '/export', color: '#FFF3E0' },
+    { icon: '🔍', label: 'QR Traçabilité', desc: 'Traçabilité poisson', link: '/qr-codes', color: '#E0F7FA' },
+    { icon: '📄', label: 'Facturation', desc: 'Créer une facture', link: '/facturation', color: 'var(--gray-100)' },
   ] : [
     { icon: '👨‍🌾', label: 'Producteurs', desc: 'Gérer les adhérents', link: '/producers', color: 'var(--green-100)' },
     { icon: '🚛', label: 'Transporteurs', desc: 'Gérer le transport', link: '/logistics', color: 'var(--blue-100)' },

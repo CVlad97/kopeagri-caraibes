@@ -70,6 +70,18 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     created_at: new Date().toISOString(),
     password: 'demo1234',
   },
+  'pecheur@demo.fr': {
+    id: 'demo-pech-1',
+    email: 'pecheur@demo.fr',
+    full_name: 'Patrick Létang',
+    role: 'pecheur',
+    commune: 'Le Marin',
+    phone: '0696 77 88 99',
+    avatar_url: null,
+    bio: 'Pêcheur artisanal, thazard et dorade, port du Marin, 25 ans d\'expérience Caraïbes',
+    created_at: new Date().toISOString(),
+    password: 'demo1234',
+  },
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

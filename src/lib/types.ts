@@ -5,7 +5,7 @@ export interface Profile {
   id: string
   email: string
   full_name: string
-  role: 'producteur' | 'proprietaire' | 'gie' | 'acheteur_b2b' | 'transporteur' | 'institution' | 'admin'
+  role: 'producteur' | 'proprietaire' | 'gie' | 'acheteur_b2b' | 'transporteur' | 'institution' | 'pecheur' | 'admin'
   commune: string | null
   phone: string | null
   avatar_url: string | null
@@ -249,6 +249,45 @@ export const AGRICULTURE_CULTURES = [
   'Citron vert', 'Orange', 'Pamplemousse', 'Fruit à pain',
   'Coco', 'Cacao', 'Vanille', 'Canne à sucre', 'Café',
 ] as const
+
+export const SEAFOOD_SPECIES = [
+  'Thazard', 'Dorade coryphène', 'Bonite', 'Espadon', 'Voilier',
+  'Sériole', 'Carangue', 'Barracuda', 'Thon albacore', 'Thon obèse',
+  'Lambi', 'Oursin blanc', 'Oursin noir', 'Bélimbe', 'Crasse-gueule',
+  'Vivaneau', 'Pagre', 'Mérou', 'Murène', 'Requin',
+  'Crevette pénéide', 'Langouste', 'Crabe cirique', 'Crabe z\u2019habitant',
+  'Poulpe', 'Calamar', 'Ormeau', 'Burgeon', 'Turbot',
+] as const
+
+export const FISHING_PORTS = [
+  { id: 'fp1', name: 'Port de pêche du Robert', commune: 'Le Robert', lat: 14.6710, lng: -60.9420, type: 'principal' as const, boats: 85 },
+  { id: 'fp2', name: 'Quai des pêcheurs - Le François', commune: 'Le François', lat: 14.6170, lng: -60.9070, type: 'secondaire' as const, boats: 45 },
+  { id: 'fp3', name: 'Port de pêche du Marin', commune: 'Le Marin', lat: 14.4737, lng: -60.8708, type: 'principal' as const, boats: 120 },
+  { id: 'fp4', name: 'Anse Moustique - Saint-Pierre', commune: 'Saint-Pierre', lat: 14.7433, lng: -61.1713, type: 'secondaire' as const, boats: 40 },
+  { id: 'fp5', name: 'Pointe des Nègres - FdF', commune: 'Fort-de-France', lat: 14.6161, lng: -61.0636, type: 'principal' as const, boats: 65 },
+  { id: 'fp6', name: 'Anse Caffard - Le Diamant', commune: 'Le Diamant', lat: 14.4388, lng: -61.0284, type: 'secondaire' as const, boats: 30 },
+  { id: 'fp7', name: 'Port de Sainte-Anne', commune: 'Sainte-Anne', lat: 14.4355, lng: -60.8468, type: 'secondaire' as const, boats: 35 },
+  { id: 'fp8', name: 'Anse l\'Étang - Trois-Îlets', commune: 'Les Trois-Îlets', lat: 14.5407, lng: -61.0004, type: 'secondaire' as const, boats: 25 },
+  { id: 'fp9', name: 'Grand-Rivière', commune: 'Grand-Rivière', lat: 14.8663, lng: -61.2135, type: 'artisanal' as const, boats: 20 },
+  { id: 'fp10', name: 'Le Prêcheur', commune: 'Le Prêcheur', lat: 14.7854, lng: -61.2078, type: 'artisanal' as const, boats: 15 },
+] as const
+
+export const SEAFOOD_SEASONS: Record<string, { months: number[]; peak: boolean }> = {
+  'Thazard': { months: [1,2,3,4,5,6,10,11,12], peak: true },
+  'Dorade coryphène': { months: [5,6,7,8,9,10], peak: true },
+  'Bonite': { months: [1,2,3,11,12], peak: false },
+  'Espadon': { months: [3,4,5,6,7,8], peak: true },
+  'Voilier': { months: [3,4,5,6,7,8,9], peak: true },
+  'Sériole': { months: [1,2,3,4,5,6], peak: false },
+  'Carangue': { months: [1,2,3,4,5,6,7,8,9,10,11,12], peak: false },
+  'Barracuda': { months: [1,2,3,4,5,6,7,8,9,10,11,12], peak: false },
+  'Lambi': { months: [10,11,12,1,2,3], peak: true },
+  'Oursin blanc': { months: [11,12,1,2,3], peak: true },
+  'Oursin noir': { months: [10,11,12,1,2], peak: true },
+  'Vivaneau': { months: [1,2,3,4,5,6,7,8,9,10,11,12], peak: false },
+  'Langouste': { months: [1,2,9,10,11,12], peak: true },
+  'Crevette pénéide': { months: [1,2,3,4,5,6,7,8,9,10,11,12], peak: false },
+} as const
 
 export const DISTRIBUTOR_TYPES = [
   { value: 'grossiste', label: 'Grossiste' },
