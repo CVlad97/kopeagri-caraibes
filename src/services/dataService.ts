@@ -244,6 +244,9 @@ function seedIfEmpty(): void {
     { id: 'p6', name: 'Koulibri du Vauclin', contact: 'Chantal Mungal', phone: '0696 16 17 18', commune: 'Le Vauclin', cultures: ['Patate douce', 'Manioc', 'Giraumon', 'Christophine'], certifications: [], active: true, created_at: now },
     { id: 'p7', name: 'Habitation Bébé', contact: 'Georges Bébé', phone: '0696 19 20 21', commune: 'Sainte-Anne', cultures: ['Coco', 'Mangue Amélie', 'Pamplemousse'], certifications: ['IGP'], active: true, created_at: now },
     { id: 'p8', name: 'EARL Rivière-Salée', contact: 'Michel Sinémal', phone: '0696 22 23 24', commune: 'Rivière-Salée', cultures: ['Canne à sucre', 'Banane Cavendish'], certifications: ['Label Rouge'], active: false, created_at: now },
+    { id: 'p9', name: 'Pêche Almar', contact: 'Patrick Almar', phone: '0696 50 51 52', commune: 'Le Marin', cultures: ['Thazard', 'Dorade coryphène', 'Bonite', 'Oursin blanc'], certifications: ['Pêche durable'], active: true, created_at: now },
+    { id: 'p10', name: 'Coopérative Pêcheurs Marin', contact: 'Jean-Pierre Clogan', phone: '0696 53 54 55', commune: 'Le Marin', cultures: ['Lambi', 'Langouste', 'Crevette', 'Vivaneau'], certifications: ['Pêche durable'], active: true, created_at: now },
+    { id: 'p11', name: 'Pêche Nord Caraïbes', contact: 'Lucas Monplaisir', phone: '0696 56 57 58', commune: 'Saint-Pierre', cultures: ['Espadon', 'Voilier', 'Sériole', 'Barracuda'], certifications: [], active: true, created_at: now },
   ]
 
   // Transporteurs & logistique
@@ -551,6 +554,11 @@ export function seedLotsIfEmpty(): void {
     { id: 'lot5', product: 'Patate douce', producer: 'GIE Nord', commune: 'Ajoupa-Bouillon', qty: 800, unit: 'kg', price: 1.8, quality: 'Standard', available: '2026-07-18', status: 'approved', certs: [], image: '🍠', active: true, created_at: now },
     { id: 'lot6', product: 'Citron vert', producer: 'Jean-Marie Larcher', commune: 'Le Morne-Rouge', qty: 100, unit: 'kg', price: 3.5, quality: 'Extra', available: '2026-07-12', status: 'sold', certs: [], image: '🍋', active: true, created_at: now },
     { id: 'lot7', product: 'Giraumon', producer: 'EARL Larcher', commune: 'Le Robert', qty: 400, unit: 'kg', price: 2.0, quality: 'Standard', available: '2026-07-22', status: 'draft', certs: [], image: '🎃', active: true, created_at: now },
+    { id: 'lot8', product: 'Thazard', producer: 'Patrick Almar', commune: 'Le Marin', qty: 80, unit: 'kg', price: 12.0, quality: 'Extra', available: '2026-08-01', status: 'approved', certs: ['Pêche durable'], image: '🐟', active: true, created_at: now },
+    { id: 'lot9', product: 'Dorade coryphène', producer: 'Patrick Almar', commune: 'Le Marin', qty: 50, unit: 'kg', price: 14.0, quality: 'Premium', available: '2026-08-02', status: 'approved', certs: ['Pêche durable'], image: '🐠', active: true, created_at: now },
+    { id: 'lot10', product: 'Lambi', producer: 'Coop Pêcheurs Marin', commune: 'Le Marin', qty: 30, unit: 'kg', price: 25.0, quality: 'Extra', available: '2026-08-05', status: 'pending', certs: [], image: '🐚', active: true, created_at: now },
+    { id: 'lot11', product: 'Oursin blanc', producer: 'Patrick Almar', commune: 'Saint-Pierre', qty: 20, unit: 'kg', price: 18.0, quality: 'Premium', available: '2026-08-03', status: 'approved', certs: [], image: '🦔', active: true, created_at: now },
+    { id: 'lot12', product: 'Langouste', producer: 'Coop Pêcheurs Marin', commune: 'Le Robert', qty: 15, unit: 'kg', price: 35.0, quality: 'Extra', available: '2026-08-04', status: 'approved', certs: ['Pêche durable'], image: '🦞', active: true, created_at: now },
   ]
   localStorage.setItem('kopeagri_lots', JSON.stringify(lots))
   localStorage.setItem('kopeagri_lots_seeded', '1')
