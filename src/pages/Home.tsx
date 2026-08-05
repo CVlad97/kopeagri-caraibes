@@ -34,6 +34,10 @@ const FAQ_ITEMS = [
     q: 'Eske sé sèlman Matinik ?',
     a: 'KopéAgri ka koumansé Matinik, mé nou vlé louvri tou Karayib : Gwadloup, Guyann, Sent-Lisi, Dominik. Si ou ka chaché partné dan réjyon la, nou ké mété ou an kontak.',
   },
+  {
+    q: 'Péchè osinon, nou pé adhère ?',
+    a: 'Wi ! KopéAgri sé osi pou péché : thazard, dorade, lambi, oursin, langoust. Nou pé mété péché é achté (maréyè, restoran, lotèl) an kontak. Kalandryé sezon péché, kadi frigorifik, é expòt Karayib — tout sa an 2 klic.',
+  },
 ]
 
 const BENEFITS = [
@@ -65,6 +69,13 @@ const BENEFITS = [
     title: 'Outils partagés entre paysans',
     desc: 'Facturation, estimation rapide, géolocalisation des parcelles, calendrier saisonnier — des outils pensés pour le terrain, pas le bureau.',
   },
+  {
+    icon: <Leaf size={28} />,
+    iconBg: '#E0F7FA',
+    iconColor: '#006D77',
+    title: 'Marché de la pêche intégré',
+    desc: 'Thazard, dorade, lambi, oursin — du bateau à l\'assiette en 24h. Calendrier saisonnier, criée digitale, export Caraïbes.',
+  },
 ]
 
 const Home: React.FC = () => {
@@ -89,10 +100,10 @@ const Home: React.FC = () => {
       <section className="hero">
         <div className="hero-overlay" />
         <div className="hero-content">
-          <span className="hero-badge">🌴 GIE agricole digitale — Caraïbes</span>
+          <span className="hero-badge">🌴 GIE agricole & pêche digitale — Caraïbes</span>
           <h1>KopéAgri Caraïbes</h1>
           <p className="hero-subtitle">
-            Ansanm nou ka fè péyi a viv — Connectez producteurs, transporteurs et acheteurs de Martinique et des Caraïbes
+            Ansanm nou ka fè péyi a viv — Connectez producteurs, pêcheurs, transporteurs et acheteurs de Martinique et des Caraïbes
           </p>
           <div className="hero-stats">
             <span><strong>{counts.producers}</strong> producteurs</span>
@@ -217,7 +228,7 @@ const Home: React.FC = () => {
       </section>
 
       <footer className="home-footer">
-        <p>© 2026 KopéAgri Caraïbes — GIE agricole digitale</p>
+        <p>© 2026 KopéAgri Caraïbes — GIE agricole & pêche digitale</p>
         <p className="footer-small">Fait avec 🌴 en Martinique</p>
         <p className="footer-small" style={{ marginTop: 8 }}>
           <a href="/legal" style={{ color: 'var(--green-500)', textDecoration: 'underline' }}>Mentions légales · CGV · RGPD</a>

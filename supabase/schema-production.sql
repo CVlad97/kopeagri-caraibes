@@ -54,7 +54,7 @@
 
 CREATE TYPE user_role AS ENUM (
   'producteur', 'proprietaire', 'gie', 'acheteur_b2b',
-  'transporteur', 'institution', 'admin'
+  'transporteur', 'institution', 'pecheur', 'admin'
 );
 
 CREATE TYPE doc_type AS ENUM ('devis', 'facture', 'bon_commande');
@@ -793,7 +793,7 @@ CREATE POLICY "Users update own profile" ON public.profiles
   FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Admins read all profiles" ON public.profiles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Public read active profiles" ON public.profiles
   FOR SELECT USING (active = true);
@@ -803,7 +803,7 @@ CREATE POLICY "Owners CRUD own producteurs" ON public.producteurs
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all producteurs" ON public.producteurs
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active producteurs visible" ON public.producteurs
   FOR SELECT USING (active = true);
@@ -813,7 +813,7 @@ CREATE POLICY "Owners CRUD own logistics" ON public.logistics_providers
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all logistics" ON public.logistics_providers
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active logistics visible" ON public.logistics_providers
   FOR SELECT USING (active = true);
@@ -823,7 +823,7 @@ CREATE POLICY "Owners CRUD own distributors" ON public.distributors
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all distributors" ON public.distributors
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active distributors visible" ON public.distributors
   FOR SELECT USING (active = true);
@@ -833,7 +833,7 @@ CREATE POLICY "Owners CRUD own parcelles" ON public.parcelles
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all parcelles" ON public.parcelles
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== RESOURCES =====
@@ -841,7 +841,7 @@ CREATE POLICY "Owners CRUD own resources" ON public.resources
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all resources" ON public.resources
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active resources visible" ON public.resources
   FOR SELECT USING (active = true);
@@ -857,7 +857,7 @@ CREATE POLICY "Owners CRUD own lots" ON public.lots
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all lots" ON public.lots
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active lots visible" ON public.lots
   FOR SELECT USING (active = true);
@@ -867,7 +867,7 @@ CREATE POLICY "Owners CRUD own orders" ON public.orders
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins CRUD all orders" ON public.orders
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 CREATE POLICY "Active orders visible" ON public.orders
   FOR SELECT USING (active = true);
@@ -895,7 +895,7 @@ CREATE POLICY "Owners CRUD own docs" ON public.billing_documents
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all docs" ON public.billing_documents
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== BILLING_LINES =====
@@ -913,7 +913,7 @@ CREATE POLICY "Owners CRUD own qonto" ON public.qonto_transactions
   FOR ALL USING (auth.uid() = owner_id);
 CREATE POLICY "Admins read all qonto" ON public.qonto_transactions
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== SUBSCRIPTIONS =====
@@ -921,7 +921,7 @@ CREATE POLICY "Users read own subs" ON public.subscriptions
   FOR SELECT USING (user_id = auth.uid());
 CREATE POLICY "Admins CRUD all subs" ON public.subscriptions
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== COMMISSIONS =====
@@ -931,7 +931,7 @@ CREATE POLICY "Users read own commissions" ON public.commissions
   );
 CREATE POLICY "Admins CRUD all commissions" ON public.commissions
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== NOTIFICATIONS =====
@@ -945,13 +945,13 @@ CREATE POLICY "Price refs public read" ON public.price_references
   FOR SELECT USING (true);
 CREATE POLICY "Admins manage price refs" ON public.price_references
   FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== AUDIT_LOG =====
 CREATE POLICY "Admins read audit" ON public.audit_log
   FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution'))
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','gie','institution','pecheur'))
   );
 
 -- ===== DOCUMENT_COUNTERS =====

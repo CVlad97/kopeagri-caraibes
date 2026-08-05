@@ -6,6 +6,7 @@ import { MARTINIQUE_COMMUNES } from '../components/EntityForms'
 
 const ROLE_OPTIONS = [
   { value: 'producteur', label: 'Producteur', emoji: '👨‍🌾', desc: 'Je produis et vends' },
+  { value: 'pecheur', label: 'Pêcheur', emoji: '🎣', desc: 'Je pêche et vends du poisson' },
   { value: 'transporteur', label: 'Transporteur', emoji: '🚛', desc: 'Je transporte' },
   { value: 'acheteur_b2b', label: 'Acheteur', emoji: '🏪', desc: "J'achète en gros" },
   { value: 'gie', label: 'GIE', emoji: '🤝', desc: 'Je gère un groupement' },

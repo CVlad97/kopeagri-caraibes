@@ -24,6 +24,7 @@ const Login: React.FC = () => {
 
   const demoAccounts = [
     { email: 'producteur@demo.fr', label: 'Producteur', color: 'badge-green' },
+    { email: 'pecheur@demo.fr', label: 'Pêcheur', color: 'badge-blue' },
     { email: 'gie@demo.fr', label: 'GIE', color: 'badge-gold' },
     { email: 'acheteur@demo.fr', label: 'Acheteur B2B', color: 'badge-purple' },
     { email: 'transporteur@demo.fr', label: 'Transporteur', color: 'badge-orange' },
