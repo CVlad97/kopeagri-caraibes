@@ -4,39 +4,40 @@ import { useAuth } from '../contexts/AuthContext'
 import { ArrowRight, MessageCircle, ChevronDown, Shield, Truck, TrendingUp, Users, Leaf } from 'lucide-react'
 import { getAll } from '../services/dataService'
 import type { Producer, LogisticsProvider, Distributor } from '../services/dataService'
+import '../styles/home-enhancements.css'
 
 const FAQ_ITEMS = [
   {
-    q: 'KopéAgri, c\'est quoi exact ?',
-    a: 'Sé on GIE agricole digitale pour tout péyi Karayib la. Nou mété aksé producté, transpòrtè é achté pou fasilite komèrs la. Nou ka apòté débouté, zouti partager é valòrizasyon prodiksyon lokal.',
+    q: 'KopéAgri, c’est quoi exactement ?',
+    a: 'KopéAgri est un projet de plateforme coopérative agricole et pêche pour la Martinique et la Caraïbe : mise en relation entre producteurs, pêcheurs, transporteurs, acheteurs B2B, institutions et partenaires export. Le projet doit encore sécuriser sa forme juridique définitive et ses agréments avant toute promesse officielle.',
   },
   {
-    q: 'Ki moun ki ka adhère ?',
-    a: 'Tout moun ka travay dan péyi a : producté banann, manmgo, canne, légim, transpòrtè frigorifik, achté B2B, lotèl, restoran, enstitisyon. Pa pé — si ou ka prodwi osinon ka achité dan Karayib, ou lafè aks.',
+    q: 'Qui peut rejoindre la plateforme ?',
+    a: 'Producteurs de banane, maraîchers, planteurs, pêcheurs, transporteurs frigorifiques, acheteurs B2B, hôtels, restaurants, distributeurs, transformateurs, institutions et porteurs de projets agricoles de la Caraïbe.',
   },
   {
-    q: 'Komisyon, sé kiès ki péyé ?',
-    a: 'Komisyon sé an poutras koté sou tranzaksyon : 6% plan Grati, 4% Standard, 3% Premium, 2% Plantasyon. Sé achté ki péyé, osinon copé ant producté é platfòm. Producté toujou ka gadé majorité pri a.',
+    q: 'Commission : qui paie et comment ?',
+    a: 'La commission doit rester transparente : affichage du prix producteur, du coût logistique, de la commission plateforme et du prix final acheteur. Les taux Grati, Standard, Premium et Plantasyon sont des hypothèses commerciales à valider avant lancement.',
   },
   {
-    q: 'Kouman governans la maché ?',
-    a: 'Gouvernans démokratik : 1 adhérent = 1 vwa. Assemblée jénéral tou lané, konpté rend finansyé transparent, bisò administrasyon élI. Tout définon lé pran a tout moun.',
+    q: 'Comment fonctionne la gouvernance ?',
+    a: 'Objectif : gouvernance démocratique et traçable. Si la structure devient une société coopérative agricole, les règles d’adhésion, de vote, de contrôle et d’agrément devront respecter le cadre du Haut Conseil de la Coopération Agricole. Si le choix reste un GIE, les membres conservent leur indépendance et mutualisent des moyens selon les statuts.',
   },
   {
-    q: 'Eske mwen péyé an liy ?',
-    a: 'Wi ! Nou ka aksepté Vibman, chèk, èspes é pèman an liy via Stripe (CB, Mobil). Tout an ka fè fasè. Ou pé osinon alé WhatsApp pou réglé.',
+    q: 'Le paiement en ligne est-il prévu ?',
+    a: 'Oui. L’objectif est d’intégrer Stripe, virement, paiement local et facturation. En phase démo, aucun paiement réel ne doit être présenté comme activé tant que les contrats, KYC, assurances et CGV définitives ne sont pas validés.',
   },
   {
-    q: 'Mwen pé itilizé WhatsApp osinon mwen bizwen an ordi ?',
-    a: 'WhatsApp sé prensipal ! Nou konfé tout Karayib-la ka sèvi WhatsApp chak jou. Pa bizwen an PC — tout ka fè osinonpé dé tout sou télefon. Fòmèl enskripsyon sé 2 minit osinonpé.',
+    q: 'Faut-il un ordinateur ?',
+    a: 'Non. L’application est pensée mobile-first : inscription rapide, contact WhatsApp, catalogue de lots, demandes de transport, QR code de traçabilité et tableau de bord simple pour le terrain.',
   },
   {
-    q: 'Eske sé sèlman Matinik ?',
-    a: 'KopéAgri ka koumansé Matinik, mé nou vlé louvri tou Karayib : Gwadloup, Guyann, Sent-Lisi, Dominik. Si ou ka chaché partné dan réjyon la, nou ké mété ou an kontak.',
+    q: 'Est-ce seulement pour la Martinique ?',
+    a: 'Le démarrage est martiniquais, avec extension progressive vers Guadeloupe, Guyane, Sainte-Lucie, Dominique, Saint-Martin et autres marchés caribéens selon les partenaires disponibles.',
   },
   {
-    q: 'Péchè osinon, nou pé adhère ?',
-    a: 'Wi ! KopéAgri sé osi pou péché : thazard, dorade, lambi, oursin, langoust. Nou pé mété péché é achté (maréyè, restoran, lotèl) an kontak. Kalandryé sezon péché, kadi frigorifik, é expòt Karayib — tout sa an 2 klic.',
+    q: 'La pêche est-elle intégrée ?',
+    a: 'Oui, un module pêche peut connecter pêcheurs, mareyeurs, restaurants et hôtels : produits frais, calendrier saisonnier, froid, criée digitale, disponibilité et livraison locale ou régionale.',
   },
 ]
 
@@ -45,36 +46,81 @@ const BENEFITS = [
     icon: <Shield size={28} />,
     iconBg: 'var(--green-100)',
     iconColor: 'var(--green-700)',
-    title: 'Sécurisation des débouchés',
-    desc: 'Trouvez des acheteurs fiables pour votre production. Fini les invendus et les pertes de récolte — KopéAgri connecte votre champ aux marchés.',
+    title: 'Débouchés plus sécurisés',
+    desc: 'Regrouper les volumes, qualifier les lots et trouver des acheteurs fiables pour limiter les invendus et mieux planifier les récoltes.',
   },
   {
     icon: <Truck size={28} />,
     iconBg: 'var(--blue-100)',
     iconColor: 'var(--blue-600)',
-    title: 'Accès au transport frigorifique',
-    desc: 'Transport tropical express, froid, groupage — trouvez le bon logisticien en 2 clics. Vos bananes, mangues et avocats arrivent frais.',
+    title: 'Transport & froid mutualisés',
+    desc: 'Comparer les disponibilités de transport, organiser le groupage, préparer l’export et réduire les trajets à vide.',
   },
   {
     icon: <TrendingUp size={28} />,
     iconBg: 'var(--gold-100)',
     iconColor: '#c66200',
-    title: 'Valorisation de la production locale',
-    desc: 'Fruits tropicaux, légumes pays, canne, cacao, vanille — la Caraïbe a du goût. KopéAgri le fait savoir et vous en tirez le meilleur prix.',
+    title: 'Meilleur prix producteur',
+    desc: 'Rendre visible le prix producteur, la qualité, la traçabilité, le coût logistique et la marge de service pour vendre plus clairement.',
   },
   {
     icon: <Users size={28} />,
     iconBg: '#F3E5F5',
     iconColor: 'var(--purple)',
-    title: 'Outils partagés entre paysans',
-    desc: 'Facturation, estimation rapide, géolocalisation des parcelles, calendrier saisonnier — des outils pensés pour le terrain, pas le bureau.',
+    title: 'Ressources partagées',
+    desc: 'Terrains, matériel, main-d’œuvre, stockage, emballages, facturation, calendrier cultural et appels d’offres accessibles au même endroit.',
   },
   {
     icon: <Leaf size={28} />,
     iconBg: '#E0F7FA',
     iconColor: '#006D77',
-    title: 'Marché de la pêche intégré',
-    desc: 'Thazard, dorade, lambi, oursin — du bateau à l\'assiette en 24h. Calendrier saisonnier, criée digitale, export Caraïbes.',
+    title: 'Agriculture + pêche locale',
+    desc: 'Une plateforme unique pour fruits, légumes pays, cacao, vanille, tubercules, poisson frais, restaurants, hôtels et acheteurs publics.',
+  },
+]
+
+const PHOTO_CARDS = [
+  {
+    title: 'Production locale',
+    caption: 'Banane, canne et cultures tropicales : base visuelle pour parler au marché martiniquais.',
+    src: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sugar%20cane%20banana%20martinique.JPG?width=1200',
+    credit: 'Wikimedia Commons',
+    source: 'https://commons.wikimedia.org/wiki/File:Sugar_cane_banana_martinique.JPG',
+  },
+  {
+    title: 'Marchés & acheteurs',
+    caption: 'Valoriser le lien direct producteurs, restaurateurs, distributeurs, marchés et familles.',
+    src: 'https://commons.wikimedia.org/wiki/Special:FilePath/Grand%20March%C3%A9%20de%20Fort-de-France%20%28Martinique%29%20-%2001.jpg?width=1200',
+    credit: 'Wikimedia Commons CC0',
+    source: 'https://commons.wikimedia.org/wiki/File:Grand_March%C3%A9_de_Fort-de-France_(Martinique)_-_01.jpg',
+  },
+  {
+    title: 'Volumes mutualisés',
+    caption: 'Regrouper fruits et légumes pour atteindre les volumes attendus par le local, le régional et l’export.',
+    src: 'https://commons.wikimedia.org/wiki/Special:FilePath/Le-vauclin-fruits-and-vegetables-market.jpg?width=1200',
+    credit: 'Wikimedia Commons',
+    source: 'https://commons.wikimedia.org/wiki/File:Le-vauclin-fruits-and-vegetables-market.jpg',
+  },
+]
+
+const COMPLIANCE_ITEMS = [
+  {
+    title: 'Statut GIE à cadrer',
+    body: 'Le GIE sert à mutualiser des moyens entre acteurs économiques qui conservent leur indépendance. Il doit être immatriculé et ses membres peuvent être responsables des dettes selon les statuts.',
+    link: 'https://entreprendre.service-public.fr/vosdroits/F37404',
+    linkLabel: 'Source Service-Public',
+  },
+  {
+    title: 'Agrément coopératif',
+    body: 'Si KopéAgri devient une société coopérative agricole, l’agrément, le contrôle et les règles de gouvernance relèvent du cadre HCCA.',
+    link: 'https://www.hcca.coop/',
+    linkLabel: 'Source HCCA',
+  },
+  {
+    title: 'Export végétal Martinique',
+    body: 'Les expéditions de végétaux frais depuis la Martinique vers l’UE sont strictement réglementées : certificats, exemptions ou interdictions selon les produits.',
+    link: 'https://daaf.martinique.agriculture.gouv.fr/envoi-de-vegetaux-vers-la-france-et-l-ue-strictement-reglementee-a650.html',
+    linkLabel: 'Source DAAF Martinique',
   },
 ]
 
@@ -83,6 +129,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [counts, setCounts] = useState({ producers: 0, logistics: 0, distributors: 0, communes: 0 })
+  const legalHref = `${import.meta.env.BASE_URL}legal`
 
   useEffect(() => {
     const p = (getAll('producers') as Producer[]).filter(x => x.active).length
@@ -97,13 +144,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="home-page">
-      <section className="hero">
+      <section className="hero hero-with-photo">
         <div className="hero-overlay" />
         <div className="hero-content">
-          <span className="hero-badge">🌴 GIE agricole & pêche digitale — Caraïbes</span>
+          <span className="hero-badge">🌴 Projet de GIE / coopérative agricole & pêche — Caraïbes</span>
           <h1>KopéAgri Caraïbes</h1>
           <p className="hero-subtitle">
-            Ansanm nou ka fè péyi a viv — Connectez producteurs, pêcheurs, transporteurs et acheteurs de Martinique et des Caraïbes
+            Mutualiser terrains, matériel, transport, froid, production et acheteurs pour renforcer les volumes locaux, caribéens et export.
           </p>
           <div className="hero-stats">
             <span><strong>{counts.producers}</strong> producteurs</span>
@@ -138,11 +185,29 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* BENEFITS — Prompt 2 */}
+      <section className="section section-photo-story">
+        <div className="section-header">
+          <h2>Photos terrain pour parler vrai 🌿</h2>
+          <p className="section-sub">Une identité plus crédible : production locale, marchés, volumes mutualisés et export.</p>
+        </div>
+        <div className="photo-grid">
+          {PHOTO_CARDS.map((photo) => (
+            <article key={photo.title} className="photo-card">
+              <img src={photo.src} alt={photo.title} loading="lazy" />
+              <div className="photo-card-body">
+                <span className="badge badge-green">{photo.title}</span>
+                <p>{photo.caption}</p>
+                <a href={photo.source} target="_blank" rel="noopener noreferrer">Crédit : {photo.credit}</a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section">
         <div className="section-header">
-          <h2>Poukiwi adhère ? 🌱</h2>
-          <p className="section-sub">Des bénéfices concrets pour l'exploitant antillais</p>
+          <h2>Pourquoi adhérer ? 🌱</h2>
+          <p className="section-sub">Des bénéfices concrets pour l’exploitant, le pêcheur, le logisticien et l’acheteur antillais.</p>
         </div>
         <div className="benefits-grid">
           {BENEFITS.map((b, i) => (
@@ -155,39 +220,53 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section className="section section-alt">
         <div className="section-header">
           <h2>Comment ça marche ?</h2>
-          <p className="section-sub">3 étapes simples, même en bare-foot dan jaden a</p>
+          <p className="section-sub">3 étapes simples, adaptées au terrain et au téléphone.</p>
         </div>
         <div className="steps-grid">
           <div className="step-card">
             <span className="step-emoji">👨‍🌾</span>
             <span className="step-num">1</span>
             <h3>Inscrivez-vous</h3>
-            <p>Nom, prénom, téléphone, commune — 2 minit osinonpé. Photo si ou vlé.</p>
+            <p>Identité, téléphone, commune, activité, production, matériel, parcelles ou besoins logistiques.</p>
           </div>
           <div className="step-card">
             <span className="step-emoji">🔍</span>
             <span className="step-num">2</span>
             <h3>Trouvez des partenaires</h3>
-            <p>Producteurs de banane, transporteurs frigorifiques, acheteurs — tout dan zon a ou</p>
+            <p>Lots disponibles, terrains à mutualiser, matériel à louer, transport, froid, acheteurs et appels d’offres.</p>
           </div>
           <div className="step-card">
             <span className="step-emoji">💬</span>
             <span className="step-num">3</span>
-            <h3>Contactez par WhatsApp</h3>
-            <p>Échangez directement, commandez mangues, avocats, légumes pays, organisez transport</p>
+            <h3>Organisez l’opération</h3>
+            <p>Contact WhatsApp, devis, commande, traçabilité QR code, facture et suivi de livraison.</p>
           </div>
         </div>
       </section>
 
-      {/* FAQ — Prompt 2 */}
+      <section className="section compliance-section">
+        <div className="section-header">
+          <h2>Agrément & conformité à sécuriser 🛡️</h2>
+          <p className="section-sub">Le site ne doit pas promettre un agrément déjà obtenu : il présente une plateforme en phase projet / démo.</p>
+        </div>
+        <div className="compliance-grid">
+          {COMPLIANCE_ITEMS.map((item) => (
+            <article key={item.title} className="compliance-card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <a href={item.link} target="_blank" rel="noopener noreferrer">{item.linkLabel}</a>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section">
         <div className="section-header">
-          <h2>Question yo posé souvan 💬</h2>
-          <p className="section-sub">Tout sa ou bizwen savé avan ou adhère</p>
+          <h2>Questions fréquentes 💬</h2>
+          <p className="section-sub">Les points à clarifier avant l’adhésion et le lancement commercial.</p>
         </div>
         <div className="faq-section">
           {FAQ_ITEMS.map((item, i) => (
@@ -204,11 +283,10 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta-section">
         <div className="cta-content">
-          <h2>Prêt à kopérer ? 🌴</h2>
-          <p>Ansanm nou ka fè péyi a viv — Rejoignez la communauté agricole de Martinique</p>
+          <h2>Prêt à coopérer ? 🌴</h2>
+          <p>Rejoignez une plateforme pensée pour mieux vendre, mieux livrer et mieux organiser la production locale.</p>
           <div className="whatsapp-cta">
             <span className="whatsapp-icon">💬</span>
             <div>
@@ -228,10 +306,10 @@ const Home: React.FC = () => {
       </section>
 
       <footer className="home-footer">
-        <p>© 2026 KopéAgri Caraïbes — GIE agricole & pêche digitale</p>
+        <p>© 2026 KopéAgri Caraïbes — plateforme agricole & pêche en phase projet</p>
         <p className="footer-small">Fait avec 🌴 en Martinique</p>
         <p className="footer-small" style={{ marginTop: 8 }}>
-          <a href="/legal" style={{ color: 'var(--green-500)', textDecoration: 'underline' }}>Mentions légales · CGV · RGPD</a>
+          <a href={legalHref} style={{ color: 'var(--green-500)', textDecoration: 'underline' }}>Mentions légales · CGV · RGPD</a>
         </p>
       </footer>
     </div>
