@@ -110,7 +110,19 @@ export interface Order {
   created_at: string
 }
 
-type EntityType = 'producers' | 'logistics' | 'distributors' | 'plots' | 'resources' | 'bookings' | 'lots' | 'orders'
+export interface Notification {
+  id: string
+  type: 'order' | 'lot' | 'booking' | 'rfq' | 'payment'
+  title: string
+  message: string
+  read: boolean
+  priority: 'low' | 'medium' | 'high'
+  link?: string
+  active: boolean
+  created_at: string
+}
+
+type EntityType = 'producers' | 'logistics' | 'distributors' | 'plots' | 'resources' | 'bookings' | 'lots' | 'orders' | 'notifications'
 type EntityMap = {
   producers: Producer
   logistics: LogisticsProvider
@@ -120,6 +132,7 @@ type EntityMap = {
   bookings: Booking
   lots: Lot
   orders: Order
+  notifications: Notification
 }
 
 function generateId(): string {

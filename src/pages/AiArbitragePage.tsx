@@ -4,7 +4,7 @@ import {
   Bot, TrendingUp, TrendingDown, Minus, Truck, AlertTriangle,
   Globe, Package, Users, Lightbulb, Share2, ArrowRight,
   Calendar, MapPin, ChevronDown, ChevronUp, Zap, Leaf,
-  MessageCircle, Ship, ShoppingCart, BarChart3, Sparkles
+  MessageCircle, Ship, ShoppingCart, BarChart3, Sparkles, Layers
 } from 'lucide-react'
 import { PRICE_REFERENCES, COMMUNE_COORDS, getAllGeoMembers } from '../services/billingService'
 import { getAll as getData } from '../services/dataService'
@@ -184,8 +184,8 @@ const AiArbitragePage: React.FC = () => {
   const today = new Date()
 
   // Load data from localStorage
-  const lots = useMemo(() => getData<Lot>('lots').filter(l => l.active), [])
-  const orders = useMemo(() => getData<Order>('orders').filter(o => o.active), [])
+  const lots = useMemo(() => (getData('lots') as Lot[]).filter(l => l.active), [])
+  const orders = useMemo(() => (getData('orders') as Order[]).filter(o => o.active), [])
   const geoMembers = useMemo(() => getAllGeoMembers(), [])
 
   /* ===== 1. PRODUCTION FORECAST ===== */
