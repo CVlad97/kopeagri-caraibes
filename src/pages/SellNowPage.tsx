@@ -1,21 +1,30 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import { add, MARTINIQUE_COMMUNES, type Lot } from '../services/dataService'
 import { useAuth } from '../contexts/AuthContext'
-import { MessageCircle, QrCode, CheckCircle2, Coins } from 'lucide-react'
+import { MessageCircle, QrCode, CheckCircle2, Coins, WifiOff, Save } from 'lucide-react'
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6
-
 type LotType = 'agriculture' | 'pêche'
 
-const AGRI_PRODUCTS = [
-  'Banane', 'Mangue', 'Avocat', 'Ananas', 'Patate douce', 'Giraumon', 'Tomate', 'Concombre', 'Coco', 'Cacao'
-]
+type SellNowDraft = {
+  step: Step
+  lotType: LotType
+  product: string
+  qty: number
+  unit: string
+  price: number
+  available: string
+  commune: string
+  photoNote: string
+}
 
-const FISH_PRODUCTS = [
-  'Thazard', 'Dorade coryphène', 'Bonite', 'Lambi', 'Oursin', 'Langouste', 'Vivaneau', 'Crevette'
-]
+const DRAFT_KEY = 'kopeagri_sell_now_draft_v1'
+const WA_QUEUE_KEY = 'kopeagri_sell_now_wa_queue_v1'
+
+const AGRI_PRODUCTS = ['Banane', 'Mangue', 'Avocat', 'Ananas', 'Patate douce', 'Giraumon', 'Tomate', 'Concombre', 'Coco', 'Cacao']
+const FISH_PRODUCTS = ['Thazard', 'Dorade coryphène', 'Bonite', 'Lambi', 'Oursin', 'Langouste', 'Vivaneau', 'Crevette']
 
 const PRICE_HINTS: Record<string, { min: number; max: number; unit: string }> = {
   Banane: { min: 1.8, max: 3.0, unit: 'kg' },
@@ -30,6 +39,7 @@ const PRICE_HINTS: Record<string, { min: number; max: number; unit: string }> = 
 
 const SellNowPage: React.FC = () => {
   const { profile } = useAuth()
+
   const [step, setStep] = useState<Step>(1)
   const [lotType, setLotType] = useState<LotType>('agriculture')
   const [product, setProduct] = useState('')
@@ -41,7 +51,63 @@ const SellNowPage: React.FC = () => {
   const [photoNote, setPhotoNote] = useState('')
   const [publishedLot, setPublishedLot] = useState<Lot | null>(null)
 
+  const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true)
+  const [draftRecovered, setDraftRecovered] = useState(false)
+  const [lastSavedAt, setLastSavedAt] = useState<string>('')
+
   const products = lotType === 'agriculture' ? AGRI_PRODUCTS : FISH_PRODUCTS
+
+  useEffect(() => {
+    const onOnline = () => setIsOnline(true)
+    const onOffline = () => setIsOnline(false)
+    window.addEventListener('online', onOnline)
+    window.addEventListener('offline', onOffline)
+    return () => {
+      window.removeEventListener('online', onOnline)
+      window.removeEventListener('offline', onOffline)
+    }
+  }, [])
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY)
+      if (!raw) return
+      const d = JSON.parse(raw) as SellNowDraft
+      setStep(d.step)
+      setLotType(d.lotType)
+      setProduct(d.product)
+      setQty(d.qty)
+      setUnit(d.unit)
+      setPrice(d.price)
+      setAvailable(d.available)
+      setCommune(d.commune)
+      setPhotoNote(d.photoNote)
+      setDraftRecovered(true)
+    } catch {
+      // ignore corrupted draft
+    }
+  }, [])
+
+  useEffect(() => {
+    if (publishedLot) return
+    const draft: SellNowDraft = {
+      step,
+      lotType,
+      product,
+      qty,
+      unit,
+      price,
+      available,
+      commune,
+      photoNote,
+    }
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft))
+      setLastSavedAt(new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }))
+    } catch {
+      // localStorage may fail in private mode
+    }
+  }, [step, lotType, product, qty, unit, price, available, commune, photoNote, publishedLot])
 
   const priceHint = useMemo(() => {
     if (!product || !PRICE_HINTS[product]) return null
@@ -73,6 +139,31 @@ const SellNowPage: React.FC = () => {
     setUnit(priceHint.unit)
   }
 
+  const queueWhatsAppShare = (url: string) => {
+    try {
+      const raw = localStorage.getItem(WA_QUEUE_KEY)
+      const queue = raw ? (JSON.parse(raw) as string[]) : []
+      queue.push(url)
+      localStorage.setItem(WA_QUEUE_KEY, JSON.stringify(queue))
+    } catch {
+      // queue best effort
+    }
+  }
+
+  const flushQueuedShare = () => {
+    if (!isOnline) return
+    try {
+      const raw = localStorage.getItem(WA_QUEUE_KEY)
+      const queue = raw ? (JSON.parse(raw) as string[]) : []
+      if (queue.length === 0) return
+      const [first, ...rest] = queue
+      localStorage.setItem(WA_QUEUE_KEY, JSON.stringify(rest))
+      window.open(first, '_blank', 'noopener,noreferrer')
+    } catch {
+      // ignore queue flush errors
+    }
+  }
+
   const publishLot = () => {
     if (!profile) return
     const emoji = lotType === 'pêche' ? '🐟' : '🌱'
@@ -90,8 +181,10 @@ const SellNowPage: React.FC = () => {
       image: photoNote ? photoNote.slice(0, 25) : emoji,
       active: true,
     }) as Lot
+
     setPublishedLot(lot)
     setStep(6)
+    localStorage.removeItem(DRAFT_KEY)
   }
 
   if (step === 6 && publishedLot) {
@@ -99,6 +192,12 @@ const SellNowPage: React.FC = () => {
       <div className="page" style={{ maxWidth: 860, margin: '0 auto' }}>
         <h1><CheckCircle2 size={22} /> Lot publié</h1>
         <p>Votre lot est en ligne. Vous pouvez partager immédiatement par WhatsApp et QR.</p>
+
+        {!isOnline && (
+          <div className="card" style={{ padding: 12, marginBottom: 12, border: '1px solid #f59e0b' }}>
+            <p style={{ margin: 0 }}><WifiOff size={16} /> Hors ligne: le lot est enregistré, partage WhatsApp en attente de réseau.</p>
+          </div>
+        )}
 
         <div className="card" style={{ padding: 16, marginBottom: 16 }}>
           <p><strong>Produit:</strong> {publishedLot.product}</p>
@@ -114,9 +213,21 @@ const SellNowPage: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+            onClick={(e) => {
+              if (!isOnline) {
+                e.preventDefault()
+                queueWhatsAppShare(whatsappUrl)
+              }
+            }}
+          >
             <MessageCircle size={18} /> Partager sur WhatsApp
           </a>
+          <button className="btn btn-outline" onClick={flushQueuedShare} disabled={!isOnline}>Envoyer partages en attente</button>
           <a href={publicLotUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Voir page lot</a>
           <Link to="/orders" className="btn btn-outline">Mes commandes</Link>
           <button className="btn btn-outline" onClick={() => { setPublishedLot(null); setStep(1) }}>Publier un autre lot</button>
@@ -130,8 +241,15 @@ const SellNowPage: React.FC = () => {
       <h1>Je vends aujourd’hui</h1>
       <p>Parcours assisté terrain — objectif: lot publié en moins de 5 minutes.</p>
 
+      {!isOnline && (
+        <div className="card" style={{ padding: 12, marginBottom: 12, border: '1px solid #f59e0b' }}>
+          <p style={{ margin: 0 }}><WifiOff size={16} /> Connexion faible/hors ligne: le brouillon est sauvegardé automatiquement.</p>
+        </div>
+      )}
+
       <div className="card" style={{ padding: 16, marginBottom: 16 }}>
         <p><strong>Étape {step}/6</strong></p>
+        <p style={{ fontSize: 13, opacity: 0.8 }}><Save size={14} /> Brouillon auto {lastSavedAt ? `(${lastSavedAt})` : ''} {draftRecovered ? '• reprise automatique activée' : ''}</p>
 
         {step === 1 && (
           <>
@@ -176,11 +294,7 @@ const SellNowPage: React.FC = () => {
             </div>
             <div style={{ marginTop: 8 }}>
               <button className="btn btn-outline" onClick={suggestPrice}><Coins size={16} /> Aide-moi à fixer le prix</button>
-              {priceHint && (
-                <p style={{ marginTop: 8, opacity: 0.8 }}>
-                  Indication terrain: {priceHint.min}€ – {priceHint.max}€ / {priceHint.unit}
-                </p>
-              )}
+              {priceHint && <p style={{ marginTop: 8, opacity: 0.8 }}>Indication terrain: {priceHint.min}€ – {priceHint.max}€ / {priceHint.unit}</p>}
             </div>
           </>
         )}
@@ -192,24 +306,14 @@ const SellNowPage: React.FC = () => {
             <select className="form-input" value={commune} onChange={e => setCommune(e.target.value)} style={{ marginTop: 8 }}>
               {MARTINIQUE_COMMUNES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
-            <input
-              className="form-input"
-              placeholder="Photo (optionnel): note rapide ou nom fichier"
-              value={photoNote}
-              onChange={e => setPhotoNote(e.target.value)}
-              style={{ marginTop: 8 }}
-            />
+            <input className="form-input" placeholder="Photo (optionnel): note rapide ou nom fichier" value={photoNote} onChange={e => setPhotoNote(e.target.value)} style={{ marginTop: 8 }} />
           </>
         )}
 
         <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
           <button className="btn btn-outline" disabled={step === 1} onClick={() => setStep(step === 1 ? 1 : (step - 1) as Step)}>Retour</button>
           {step < 5 && (
-            <button
-              className="btn btn-primary"
-              onClick={() => setStep(step === 5 ? 5 : (step + 1) as Step)}
-              disabled={(step === 2 && !product)}
-            >
+            <button className="btn btn-primary" onClick={() => setStep(step === 5 ? 5 : (step + 1) as Step)} disabled={(step === 2 && !product)}>
               Suivant
             </button>
           )}
