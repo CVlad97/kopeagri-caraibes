@@ -38,6 +38,7 @@ const PricingPage = lazy(() => import('./pages/PricingPage'))
 const MarketplacePage = lazy(() => import('./pages/MarketplacePage'))
 const ErpPage = lazy(() => import('./pages/ErpPage'))
 const EInvoicingPage = lazy(() => import('./pages/EInvoicingPage'))
+const LotPublicPage = lazy(() => import('./pages/LotPublicPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -82,6 +83,7 @@ function App() {
             <Route path="/qr-codes" element={<ProtectedRoute><Layout><QRCodesPage /></Layout></ProtectedRoute>} />
             <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/lot/:lotId" element={<LotPublicPage />} />
             <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
             <Route path="/export-data" element={<ProtectedRoute><Layout><ExportDataPage /></Layout></ProtectedRoute>} />
             <Route path="/ai-arbitrage" element={<ProtectedRoute><Layout><AiArbitragePage /></Layout></ProtectedRoute>} />

@@ -1,25 +1,42 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Leaf, Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight } from 'lucide-react'
+import { Leaf, Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight, Send } from 'lucide-react'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
   const [error, setError] = useState('')
+  const [info, setInfo] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signIn } = useAuth()
+  const [sendingLink, setSendingLink] = useState(false)
+  const { signIn, requestMagicLink, demoEnabled } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setInfo('')
     setLoading(true)
     const err = await signIn(email, password)
     if (err) setError(err)
     else navigate('/dashboard')
     setLoading(false)
+  }
+
+  const sendMagicLink = async () => {
+    setError('')
+    setInfo('')
+    if (!email.trim()) {
+      setError('Saisissez votre email pour recevoir un lien de connexion.')
+      return
+    }
+    setSendingLink(true)
+    const err = await requestMagicLink(email)
+    if (err) setError(err)
+    else setInfo('Lien magique envoyé. Vérifiez votre email pour vous connecter.')
+    setSendingLink(false)
   }
 
   const demoAccounts = [
@@ -31,6 +48,7 @@ const Login: React.FC = () => {
   ]
 
   const fillDemo = (e: string) => {
+    if (!demoEnabled) return
     setEmail(e)
     setPassword('demo1234')
   }
@@ -41,11 +59,12 @@ const Login: React.FC = () => {
         <div className="auth-header">
           <Link to="/" className="auth-logo"><Leaf size={28} /> KopéAgri</Link>
           <h1>Connexion</h1>
-          <p>Accédez à votre espace GIE</p>
+          <p>Accédez à votre espace professionnel</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="form-error"><AlertCircle size={16} /> {error}</div>}
+          {info && <div className="form-success">{info}</div>}
           <div className="form-group">
             <label><Mail size={16} /> Email</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="votre@email.fr" required className="form-input" />
@@ -53,27 +72,31 @@ const Login: React.FC = () => {
           <div className="form-group">
             <label><Lock size={16} /> Mot de passe</label>
             <div className="input-group">
-              <input type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required className="form-input" />
+              <input type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="form-input" />
               <button type="button" className="input-append" onClick={() => setShowPw(!showPw)}>{showPw ? <EyeOff size={18} /> : <Eye size={18} />}</button>
             </div>
           </div>
           <button type="submit" className="btn btn-primary btn-full" disabled={loading}>
             {loading ? 'Connexion...' : 'Se connecter'} <ArrowRight size={18} />
           </button>
+          <button type="button" className="btn btn-outline btn-full" onClick={sendMagicLink} disabled={sendingLink}>
+            <Send size={18} /> {sendingLink ? 'Envoi du lien...' : 'Recevoir un lien magique'}
+          </button>
         </form>
 
-        <div className="demo-section">
-          <p className="demo-label">🧪 Comptes de démonstration</p>
-          <div className="demo-list">
-            {demoAccounts.map((acc, i) => (
-              <button key={i} className="demo-btn" onClick={() => fillDemo(acc.email)}>
-                <span className={`badge ${acc.color}`}>{acc.label}</span>
-                <span className="demo-email">{acc.email}</span>
-              </button>
-            ))}
+        {demoEnabled && (
+          <div className="demo-section">
+            <p className="demo-label">🧪 Comptes de démonstration (désactivés en production)</p>
+            <div className="demo-list">
+              {demoAccounts.map((acc, i) => (
+                <button key={i} className="demo-btn" onClick={() => fillDemo(acc.email)}>
+                  <span className={`badge ${acc.color}`}>{acc.label}</span>
+                  <span className="demo-email">{acc.email}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="demo-hint">Mot de passe pour tous : <strong>demo1234</strong></p>
-        </div>
+        )}
 
         <p className="auth-footer-text">
           Pas encore inscrit ? <Link to="/register">Créer un compte</Link>

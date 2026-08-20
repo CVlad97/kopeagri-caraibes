@@ -162,6 +162,13 @@ const LotsPage: React.FC = () => {
     setFormCerts(prev => prev.includes(cert) ? prev.filter(c => c !== cert) : [...prev, cert])
   }
 
+  const buildLotCode = (lot: Lot) => `KPA-${lot.id.toUpperCase()}`
+  const buildLotShareLink = (lot: Lot) => `${window.location.origin}${import.meta.env.BASE_URL}lot/${lot.id}`
+  const buildLotWhatsAppLink = (lot: Lot) => {
+    const txt = encodeURIComponent(`Lot ${buildLotCode(lot)} - ${lot.product} (${lot.qty} ${lot.unit}) à ${lot.price}€/${lot.unit}. Détails: ${buildLotShareLink(lot)}`)
+    return `https://wa.me/596696000000?text=${txt}`
+  }
+
   const filtered = lots.filter(l => {
     if (filter !== 'all' && l.status !== filter) return false
     if (search && !l.product.toLowerCase().includes(search.toLowerCase()) && !l.producer.toLowerCase().includes(search.toLowerCase())) return false
@@ -223,6 +230,8 @@ const LotsPage: React.FC = () => {
                   {lot.status !== 'approved' && lot.status !== 'sold' && (
                     <span className="btn btn-sm" style={{ opacity: 0.5, cursor: 'default' }}>Indisponible</span>
                   )}
+                  <a className="btn btn-sm btn-outline" href={buildLotShareLink(lot)} target="_blank" rel="noopener noreferrer">QR public</a>
+                  <a className="btn btn-sm btn-outline" href={buildLotWhatsAppLink(lot)} target="_blank" rel="noopener noreferrer">Partager WhatsApp</a>
                   <button className="btn-icon-sm" onClick={() => openEdit(lot)} title="Modifier"><Pencil size={16} /></button>
                   <button className="btn-icon-sm" onClick={() => handleToggle(lot.id)} title={lot.active ? 'Désactiver' : 'Activer'}>
                     {lot.active ? <Eye size={16} /> : <EyeOff size={16} />}

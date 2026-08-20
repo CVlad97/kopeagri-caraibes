@@ -135,6 +135,10 @@ export const supabase = {
       if (!HAS_CREDENTIALS) return { data: { user: null, session: null }, error: { message: 'Mode démo — connectez-vous avec un compte démo' } }
       try { return (await getRealClient()).auth.signInWithPassword(creds) } catch (e: any) { return { data: { user: null, session: null }, error: e } }
     },
+    signInWithOtp: async (payload: any) => {
+      if (!HAS_CREDENTIALS) return { data: {}, error: { message: 'Supabase non configuré pour lien magique' } }
+      try { return (await getRealClient()).auth.signInWithOtp(payload) } catch (e: any) { return { data: null, error: e } }
+    },
     signUp: async (creds: any) => {
       if (!HAS_CREDENTIALS) return { data: { user: null, session: null }, error: { message: 'Mode démo' } }
       try { return (await getRealClient()).auth.signUp(creds) } catch (e: any) { return { data: { user: null, session: null }, error: e } }

@@ -16,7 +16,7 @@ const ROLE_OPTIONS = [
 
 const OnboardingPage: React.FC = () => {
   const navigate = useNavigate()
-  const { signUp, useDemoMode } = useAuth()
+  const { requestMagicLink } = useAuth()
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -25,6 +25,7 @@ const OnboardingPage: React.FC = () => {
     photo: '',
     fullName: '',
     phone: '',
+    email: '',
     commune: 'Fort-de-France',
     role: 'producteur',
   })
@@ -45,14 +46,18 @@ const OnboardingPage: React.FC = () => {
     setLoading(true)
     setError('')
     try {
-      const email = form.phone.replace(/\s/g, '') + '@kopeagri.mq'
-      const err = await signUp(email, 'kopeagri2024', form.fullName, form.role, form.commune, form.phone)
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+        setError('Email invalide')
+        setLoading(false)
+        return
+      }
+      const err = await requestMagicLink(form.email, form.fullName, form.role, form.commune, form.phone)
       if (err) { setError(err); setLoading(false); return }
-      navigate('/dashboard')
+      navigate('/login')
     } catch {
-      useDemoMode()
-      navigate('/dashboard')
+      setError('Impossible d\'envoyer le lien magique pour le moment.')
     }
+    setLoading(false)
   }
 
   return (
@@ -93,8 +98,12 @@ const OnboardingPage: React.FC = () => {
               <label className="form-label"><Phone size={14} /> Téléphone</label>
               <input className="form-input" placeholder="0696 12 34 56" value={form.phone} onChange={e => setForm(p => ({...p, phone: e.target.value}))} />
             </div>
+            <div className="form-group">
+              <label className="form-label">Email (lien magique)</label>
+              <input className="form-input" type="email" placeholder="vous@email.fr" value={form.email} onChange={e => setForm(p => ({...p, email: e.target.value}))} />
+            </div>
             <div className="step-nav">
-              <button className="btn btn-primary" disabled={!form.fullName || !form.phone} onClick={() => setStep(2)}>
+              <button className="btn btn-primary" disabled={!form.fullName || !form.phone || !form.email} onClick={() => setStep(2)}>
                 Suivant <ChevronRight size={16} />
               </button>
             </div>
@@ -150,7 +159,7 @@ const OnboardingPage: React.FC = () => {
             <div className="step-nav">
               <button className="btn btn-secondary" onClick={() => setStep(2)}><ChevronLeft size={16} /> Retour</button>
               <button className="btn btn-primary" disabled={loading || !form.fullName} onClick={handleFinish}>
-                {loading ? 'Création...' : "🚀 C'est parti !"}
+                {loading ? 'Envoi du lien...' : "🚀 Recevoir mon lien magique"}
               </button>
             </div>
           </div>

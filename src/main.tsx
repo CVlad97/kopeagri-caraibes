@@ -5,7 +5,7 @@ import './styles/index.css'
 
 // Register service worker for PWA offline support
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(() => {
+  navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {
     // SW registration failed — non-critical, app still works
   })
 }

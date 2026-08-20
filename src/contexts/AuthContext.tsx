@@ -13,16 +13,32 @@ interface AuthContextType {
   profile: Profile | null
   loading: boolean
   isDemo: boolean
+  demoEnabled: boolean
   signIn: (email: string, password: string) => Promise<string | null>
   signUp: (email: string, password: string, fullName: string, role: string, commune: string, phone: string) => Promise<string | null>
+  requestMagicLink: (email: string, fullName?: string, role?: string, commune?: string, phone?: string) => Promise<string | null>
   signOut: () => Promise<void>
   useDemoMode: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const DEMO_ENABLED = import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true'
+
+const makeDemoProfile = (profile: Omit<Profile, 'siret' | 'rib' | 'company_name' | 'address' | 'latitude' | 'longitude' | 'active' | 'onboarding_complete' | 'updated_at'> & { password: string }): Profile & { password: string } => ({
+  ...profile,
+  siret: null,
+  rib: null,
+  company_name: null,
+  address: null,
+  latitude: null,
+  longitude: null,
+  active: true,
+  onboarding_complete: true,
+  updated_at: profile.created_at,
+})
 
 const DEMO_USERS: Record<string, Profile & { password: string }> = {
-  'producteur@demo.fr': {
+  'producteur@demo.fr': makeDemoProfile({
     id: 'demo-prod-1',
     email: 'producteur@demo.fr',
     full_name: 'Jean-Marie Larcher',
@@ -33,8 +49,8 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     bio: 'Producteur de bananes et fruits tropicaux depuis 15 ans',
     created_at: new Date().toISOString(),
     password: 'demo1234',
-  },
-  'gie@demo.fr': {
+  }),
+  'gie@demo.fr': makeDemoProfile({
     id: 'demo-gie-1',
     email: 'gie@demo.fr',
     full_name: 'GIE Nord Atlantique',
@@ -45,8 +61,8 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     bio: 'GIE regroupant 45 producteurs du nord Martinique',
     created_at: new Date().toISOString(),
     password: 'demo1234',
-  },
-  'acheteur@demo.fr': {
+  }),
+  'acheteur@demo.fr': makeDemoProfile({
     id: 'demo-buy-1',
     email: 'acheteur@demo.fr',
     full_name: 'Sophie Galbas',
@@ -57,8 +73,8 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     bio: "Chef d'achat pour un groupe hôtelier",
     created_at: new Date().toISOString(),
     password: 'demo1234',
-  },
-  'transporteur@demo.fr': {
+  }),
+  'transporteur@demo.fr': makeDemoProfile({
     id: 'demo-trans-1',
     email: 'transporteur@demo.fr',
     full_name: 'Marc Férand',
@@ -69,8 +85,8 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     bio: 'Transporteur frigorifique, tournées Nord et Sud',
     created_at: new Date().toISOString(),
     password: 'demo1234',
-  },
-  'pecheur@demo.fr': {
+  }),
+  'pecheur@demo.fr': makeDemoProfile({
     id: 'demo-pech-1',
     email: 'pecheur@demo.fr',
     full_name: 'Patrick Létang',
@@ -78,10 +94,10 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     commune: 'Le Marin',
     phone: '0696 77 88 99',
     avatar_url: null,
-    bio: 'Pêcheur artisanal, thazard et dorade, port du Marin, 25 ans d\'expérience Caraïbes',
+    bio: "Pêcheur artisanal, thazard et dorade, port du Marin, 25 ans d’expérience Caraïbes",
     created_at: new Date().toISOString(),
     password: 'demo1234',
-  },
+  }),
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -92,69 +108,73 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchProfile = async (userId: string) => {
     try {
-      const { data } = await (supabase.from('profiles') as any).select('*').eq('id', userId).single()
-      if (data) setProfile(data as Profile)
+      const result = await supabase.from('profiles').select('*').eq('id', userId).single()
+      if (result.data) setProfile(result.data as Profile)
     } catch {
-      // No Supabase — ignore
+      // No Supabase configured or no profile row yet
     }
     setLoading(false)
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then((result: any) => {
-      const session = result?.data?.session
+    supabase.auth.getSession().then(({ data }) => {
+      const session = data?.session
       if (session?.user) {
-        setUser({ id: session.user.id, email: session.user.email })
+        setUser({ id: session.user.id, email: session.user.email || '' })
         fetchProfile(session.user.id)
       } else {
         setLoading(false)
       }
-    }).catch(() => {
-      setLoading(false)
-    })
+    }).catch(() => setLoading(false))
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { data: { subscription } } = supabase.auth.onAuthStateChange()
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: unknown, session: unknown) => {
+      const authSession = session as { user?: { id: string; email?: string | null } } | null
+      if (authSession?.user) {
+        setUser({ id: authSession.user.id, email: authSession.user.email || '' })
+        fetchProfile(authSession.user.id)
+      }
+    })
     return () => subscription.unsubscribe()
   }, [])
 
   const signIn = async (email: string, password: string): Promise<string | null> => {
-    // Check demo accounts first
-    if (DEMO_USERS[email] && password === DEMO_USERS[email].password) {
+    if (DEMO_ENABLED && DEMO_USERS[email] && password === DEMO_USERS[email].password) {
       setUser({ id: DEMO_USERS[email].id, email: DEMO_USERS[email].email })
-      setProfile({
-        id: DEMO_USERS[email].id,
-        email: DEMO_USERS[email].email,
-        full_name: DEMO_USERS[email].full_name,
-        role: DEMO_USERS[email].role as Profile['role'],
-        commune: DEMO_USERS[email].commune,
-        phone: DEMO_USERS[email].phone,
-        avatar_url: null,
-        bio: DEMO_USERS[email].bio,
-        created_at: DEMO_USERS[email].created_at,
-      })
+      setProfile(DEMO_USERS[email])
       setIsDemo(true)
-      // Auto-sync on login if Supabase is configured
       if (hasCredentials()) autoSyncOnLogin()
       return null
     }
 
-    // Try real Supabase
-    const result: any = await (supabase.auth as any).signInWithPassword({ email, password })
-    if (!result?.error && result?.data?.user) {
-      // Auto-sync on login after real Supabase auth
-      if (hasCredentials()) autoSyncOnLogin()
+    const result = await supabase.auth.signInWithPassword({ email, password })
+    if (!result.error && result.data.user && hasCredentials()) autoSyncOnLogin()
+    return result.error?.message || null
+  }
+
+  const requestMagicLink = async (email: string, fullName?: string, role?: string, commune?: string, phone?: string): Promise<string | null> => {
+    const metadata = {
+      full_name: fullName || null,
+      role: role || null,
+      commune: commune || null,
+      phone: phone || null,
     }
-    return result?.error?.message || null
+    const result = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        data: metadata,
+      },
+    })
+    return result.error?.message || null
   }
 
   const signUp = async (email: string, password: string, fullName: string, role: string, commune: string, phone: string): Promise<string | null> => {
-    const result: any = await (supabase.auth as any).signUp({
-      email, password,
+    const result = await supabase.auth.signUp({
+      email,
+      password,
       options: { data: { full_name: fullName, role, commune, phone } },
     })
-    if (result?.error) return result.error.message || 'Erreur'
-    // Push new profile data to Supabase after successful signup
+    if (result.error) return result.error.message || 'Erreur'
     if (hasCredentials()) syncToSupabase()
     return null
   }
@@ -167,6 +187,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const useDemoMode = () => {
+    if (!DEMO_ENABLED) return
     setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' })
     setProfile(DEMO_USERS['producteur@demo.fr'])
     setIsDemo(true)
@@ -174,7 +195,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isDemo, signIn, signUp, signOut, useDemoMode }}>
+    <AuthContext.Provider value={{ user, profile, loading, isDemo, demoEnabled: DEMO_ENABLED, signIn, signUp, requestMagicLink, signOut, useDemoMode }}>
       {children}
     </AuthContext.Provider>
   )

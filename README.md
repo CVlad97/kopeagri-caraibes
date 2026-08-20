@@ -5,14 +5,14 @@ Plateforme GIE agricole digitale pour la Martinique, les Caraïbes et l'export i
 ## 🚀 Démo rapide
 
 ```bash
-# Comptes de démonstration (mode démo intégré)
+# Comptes de démonstration (DEV ou VITE_ENABLE_DEMO=true uniquement)
 producteur@demo.fr     # 👨‍🌾 Producteur
-gie@demo.fr    # 🤝 GIE / Admin
+gie@demo.fr            # 🤝 GIE / Admin
 acheteur@demo.fr       # 🏪 Acheteur B2B
 transporteur@demo.fr   # 🚛 Transporteur
-# Mot de passe pour tous : demo1234
 
-# Ou cliquez sur "🧪 Essai démo" sur la page d'accueil
+# En production: privilégier le lien magique (email)
+# Démo désactivée par défaut
 ```
 
 ## 🎯 Objectif
