@@ -132,6 +132,38 @@ const SellNowPage: React.FC = () => {
     return `https://wa.me/596696000000?text=${txt}`
   }, [publishedLot, publicLotUrl])
 
+  const inviteNeighborsUrl = useMemo(() => {
+    if (!publishedLot) return ''
+    const txt = encodeURIComponent(
+      `Bonjour, je viens de publier un lot ${publishedLot.product} (${publishedLot.qty} ${publishedLot.unit}).\n` +
+      `On peut grouper nos volumes pour mieux vendre ensemble.\n` +
+      `Voir le lot: ${publicLotUrl}`
+    )
+    return `https://wa.me/?text=${txt}`
+  }, [publishedLot, publicLotUrl])
+
+  const inviteBuyerUrl = useMemo(() => {
+    if (!publishedLot) return ''
+    const txt = encodeURIComponent(
+      `Bonjour, lot disponible pour achat B2B:\n` +
+      `${publishedLot.product} - ${publishedLot.qty} ${publishedLot.unit} à ${publishedLot.price}€/${publishedLot.unit}.\n` +
+      `Origine déclarée: ${publishedLot.commune}.\n` +
+      `Traçabilité: ${publicLotUrl}`
+    )
+    return `https://wa.me/?text=${txt}`
+  }, [publishedLot, publicLotUrl])
+
+  const inviteTransporterUrl = useMemo(() => {
+    if (!publishedLot) return ''
+    const txt = encodeURIComponent(
+      `Bonjour, besoin de collecte/livraison pour un lot:\n` +
+      `${publishedLot.product} - ${publishedLot.qty} ${publishedLot.unit}, dispo ${publishedLot.available}.\n` +
+      `Point départ: ${publishedLot.commune}.\n` +
+      `Détails lot: ${publicLotUrl}`
+    )
+    return `https://wa.me/?text=${txt}`
+  }, [publishedLot, publicLotUrl])
+
   const suggestPrice = () => {
     if (!priceHint) return
     const mid = Number(((priceHint.min + priceHint.max) / 2).toFixed(2))
@@ -231,6 +263,55 @@ const SellNowPage: React.FC = () => {
           <a href={publicLotUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Voir page lot</a>
           <Link to="/orders" className="btn btn-outline">Mes commandes</Link>
           <button className="btn btn-outline" onClick={() => { setPublishedLot(null); setStep(1) }}>Publier un autre lot</button>
+        </div>
+
+        <div className="card" style={{ padding: 16, marginTop: 14 }}>
+          <h3>🚀 Boucle virale (1 clic)</h3>
+          <p style={{ marginTop: 6, opacity: 0.85 }}>Invitez vos voisins, un acheteur et un transporteur à partir du lot publié.</p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+            <a
+              href={inviteNeighborsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+              onClick={(e) => {
+                if (!isOnline) {
+                  e.preventDefault()
+                  queueWhatsAppShare(inviteNeighborsUrl)
+                }
+              }}
+            >
+              Inviter 2 producteurs voisins
+            </a>
+            <a
+              href={inviteBuyerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+              onClick={(e) => {
+                if (!isOnline) {
+                  e.preventDefault()
+                  queueWhatsAppShare(inviteBuyerUrl)
+                }
+              }}
+            >
+              Inviter un acheteur B2B
+            </a>
+            <a
+              href={inviteTransporterUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline"
+              onClick={(e) => {
+                if (!isOnline) {
+                  e.preventDefault()
+                  queueWhatsAppShare(inviteTransporterUrl)
+                }
+              }}
+            >
+              Inviter un transporteur
+            </a>
+          </div>
         </div>
       </div>
     )
