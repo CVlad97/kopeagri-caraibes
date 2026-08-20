@@ -6,7 +6,7 @@ import Layout from './components/Layout'
 import NotificationsPage from './pages/NotificationsPage'
 
 /* Lazy load all non-critical pages — reduces initial bundle for slow rural connections */
-const Home = lazy(() => import('./pages/Home'))
+const LandingOfficiellePage = lazy(() => import('./pages/LandingOfficiellePage'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage'))
@@ -38,6 +38,7 @@ const PricingPage = lazy(() => import('./pages/PricingPage'))
 const MarketplacePage = lazy(() => import('./pages/MarketplacePage'))
 const ErpPage = lazy(() => import('./pages/ErpPage'))
 const EInvoicingPage = lazy(() => import('./pages/EInvoicingPage'))
+const SellNowPage = lazy(() => import('./pages/SellNowPage'))
 const LotPublicPage = lazy(() => import('./pages/LotPublicPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
@@ -62,7 +63,7 @@ function App() {
       <AuthProvider>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingOfficiellePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
@@ -73,6 +74,7 @@ function App() {
             <Route path="/plots" element={<ProtectedRoute><Layout><PlotsPage /></Layout></ProtectedRoute>} />
             <Route path="/resources" element={<ProtectedRoute><Layout><ResourcesPage /></Layout></ProtectedRoute>} />
             <Route path="/lots" element={<ProtectedRoute><Layout><LotsPage /></Layout></ProtectedRoute>} />
+            <Route path="/sell-now" element={<ProtectedRoute><Layout><SellNowPage /></Layout></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute><Layout><OrdersPage /></Layout></ProtectedRoute>} />
             <Route path="/appels-offre" element={<ProtectedRoute><Layout><AppelOffrePage /></Layout></ProtectedRoute>} />
             <Route path="/adhesion" element={<ProtectedRoute><Layout><AdhesionPage /></Layout></ProtectedRoute>} />

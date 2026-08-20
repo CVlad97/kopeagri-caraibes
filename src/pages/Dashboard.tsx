@@ -159,15 +159,11 @@ const Dashboard: React.FC = () => {
 
   // Quick actions by role
   const quickActions: Array<{ icon: string; label: string; desc: string; link: string; color: string }> = role === 'producteur' ? [
-    { icon: '📦', label: 'Transport', desc: 'Trouver un transporteur frigorifique', link: '/logistics', color: 'var(--blue-100)' },
-    { icon: '🏪', label: 'Acheteurs', desc: 'Vendre votre production', link: '/distributors', color: 'var(--purple)' },
-    { icon: '🗺️', label: 'Parcelles', desc: 'Voir les terres disponibles', link: '/plots', color: 'var(--green-100)' },
-    { icon: '📦', label: 'Mes lots', desc: 'Créer un lot de production', link: '/lots', color: 'var(--gold-100)' },
-    { icon: '🔗', label: 'Consolider', desc: 'Grouper pour l\'export', link: '/consolidation', color: '#FFF3E0' },
-    { icon: '🔍', label: 'QR Traçabilité', desc: 'Générer un QR code', link: '/qr-codes', color: '#E0F7FA' },
-    { icon: '🌍', label: 'Export', desc: 'Préparer un lot export', link: '/export', color: '#FFF3E0' },
-    { icon: '📋', label: 'Appels d\'offre', desc: 'Répondre aux demandes', link: '/appels-offre', color: 'var(--green-100)' },
-    { icon: '📄', label: 'Facturation', desc: 'Créer une facture', link: '/facturation', color: 'var(--gray-100)' },
+    { icon: '🟢', label: 'Vendre aujourd’hui', desc: 'Publier un lot en 5 min', link: '/sell-now', color: 'var(--green-100)' },
+    { icon: '🛒', label: 'Mes commandes', desc: 'Suivi des ventes', link: '/orders', color: 'var(--gold-100)' },
+    { icon: '🚛', label: 'Collecte / Livraison', desc: 'Trouver un transport', link: '/logistics', color: 'var(--blue-100)' },
+    { icon: '🔍', label: 'Mes lots & QR', desc: 'Traçabilité publique', link: '/qr-codes', color: '#E0F7FA' },
+    { icon: '💶', label: 'Mon argent', desc: 'Facturation & paiement', link: '/facturation', color: 'var(--gray-100)' },
   ] : role === 'transporteur' ? [
     { icon: '👨‍🌾', label: 'Producteurs', desc: 'Clients potentiels', link: '/producers', color: 'var(--green-100)' },
     { icon: '🏪', label: 'Distributeurs', desc: 'Livraisons à organiser', link: '/distributors', color: 'var(--purple)' },
@@ -188,13 +184,11 @@ const Dashboard: React.FC = () => {
     { icon: '🔧', label: 'Ressources', desc: 'Matériel partagé', link: '/resources', color: '#E0F7FA' },
     { icon: '⭐', label: 'Adhésion', desc: 'Mon plan', link: '/adhesion', color: 'var(--gold-100)' },
   ] : role === 'pecheur' ? [
-    { icon: '🐟', label: 'Marché Pêche', desc: 'Prix & saisons', link: '/seafood', color: '#E0F7FA' },
-    { icon: '🚛', label: 'Transport frigo', desc: 'Chaîne du froid', link: '/logistics', color: 'var(--blue-100)' },
-    { icon: '🏪', label: 'Acheteurs', desc: 'Mareyeurs & restaurants', link: '/distributors', color: 'var(--purple)' },
-    { icon: '📦', label: 'Mes lots', desc: 'Créer un lot poisson', link: '/lots', color: 'var(--gold-100)' },
-    { icon: '🌍', label: 'Export', desc: 'Export Caraïbes', link: '/export', color: '#FFF3E0' },
-    { icon: '🔍', label: 'QR Traçabilité', desc: 'Traçabilité poisson', link: '/qr-codes', color: '#E0F7FA' },
-    { icon: '📄', label: 'Facturation', desc: 'Créer une facture', link: '/facturation', color: 'var(--gray-100)' },
+    { icon: '🟢', label: 'Vendre aujourd’hui', desc: 'Publier un lot pêche en 5 min', link: '/sell-now', color: '#E0F7FA' },
+    { icon: '🛒', label: 'Mes commandes', desc: 'Suivi des ventes', link: '/orders', color: 'var(--gold-100)' },
+    { icon: '🚛', label: 'Collecte / Livraison', desc: 'Chaîne du froid', link: '/logistics', color: 'var(--blue-100)' },
+    { icon: '🔍', label: 'Mes lots & QR', desc: 'Traçabilité poisson', link: '/qr-codes', color: '#E0F7FA' },
+    { icon: '💶', label: 'Mon argent', desc: 'Facturation', link: '/facturation', color: 'var(--gray-100)' },
   ] : [
     { icon: '👨‍🌾', label: 'Producteurs', desc: 'Gérer les adhérents', link: '/producers', color: 'var(--green-100)' },
     { icon: '🚛', label: 'Transporteurs', desc: 'Gérer le transport', link: '/logistics', color: 'var(--blue-100)' },

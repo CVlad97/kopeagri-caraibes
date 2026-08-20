@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { path: '/plots', label: 'Parcelles', icon: MapPin, roles: ['producteur', 'proprietaire', 'gie', 'institution', 'pecheur'] },
   { path: '/resources', label: 'Ressources', icon: Wrench, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution', 'pecheur'] },
   { path: '/lots', label: 'Lots & Marché', icon: Package, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
+  { path: '/sell-now', label: 'Je vends', icon: Package, roles: ['producteur', 'pecheur', 'gie'] },
   { path: '/orders', label: 'Commandes', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'transporteur', 'institution', 'pecheur'] },
   { path: '/logistics', label: 'Transporteurs', icon: Truck, roles: ['producteur', 'proprietaire', 'gie', 'transporteur', 'institution', 'pecheur'] },
   { path: '/distributors', label: 'Distributeurs', icon: ShoppingCart, roles: ['producteur', 'gie', 'acheteur_b2b', 'institution', 'pecheur'] },
