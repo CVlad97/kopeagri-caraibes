@@ -4,6 +4,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { add, MARTINIQUE_COMMUNES, type Lot } from '../services/dataService'
 import { useAuth } from '../contexts/AuthContext'
 import { MessageCircle, QrCode, CheckCircle2, Coins, WifiOff, Save } from 'lucide-react'
+import { trackInvite, type InviteType } from '../services/growthMetrics'
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6
 type LotType = 'agriculture' | 'pêche'
@@ -171,12 +172,13 @@ const SellNowPage: React.FC = () => {
     setUnit(priceHint.unit)
   }
 
-  const queueWhatsAppShare = (url: string) => {
+  const queueWhatsAppShare = (url: string, type: InviteType = 'lot_share') => {
     try {
       const raw = localStorage.getItem(WA_QUEUE_KEY)
       const queue = raw ? (JSON.parse(raw) as string[]) : []
       queue.push(url)
       localStorage.setItem(WA_QUEUE_KEY, JSON.stringify(queue))
+      trackInvite(type, true)
     } catch {
       // queue best effort
     }
@@ -194,6 +196,19 @@ const SellNowPage: React.FC = () => {
     } catch {
       // ignore queue flush errors
     }
+  }
+
+  const handleInviteClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    url: string,
+    type: InviteType,
+  ) => {
+    if (!isOnline) {
+      e.preventDefault()
+      queueWhatsAppShare(url, type)
+      return
+    }
+    trackInvite(type, false)
   }
 
   const publishLot = () => {
@@ -250,12 +265,7 @@ const SellNowPage: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
-            onClick={(e) => {
-              if (!isOnline) {
-                e.preventDefault()
-                queueWhatsAppShare(whatsappUrl)
-              }
-            }}
+            onClick={(e) => handleInviteClick(e, whatsappUrl, 'lot_share')}
           >
             <MessageCircle size={18} /> Partager sur WhatsApp
           </a>
@@ -274,12 +284,7 @@ const SellNowPage: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline"
-              onClick={(e) => {
-                if (!isOnline) {
-                  e.preventDefault()
-                  queueWhatsAppShare(inviteNeighborsUrl)
-                }
-              }}
+              onClick={(e) => handleInviteClick(e, inviteNeighborsUrl, 'neighbor')}
             >
               Inviter 2 producteurs voisins
             </a>
@@ -288,12 +293,7 @@ const SellNowPage: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline"
-              onClick={(e) => {
-                if (!isOnline) {
-                  e.preventDefault()
-                  queueWhatsAppShare(inviteBuyerUrl)
-                }
-              }}
+              onClick={(e) => handleInviteClick(e, inviteBuyerUrl, 'buyer')}
             >
               Inviter un acheteur B2B
             </a>
@@ -302,12 +302,7 @@ const SellNowPage: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline"
-              onClick={(e) => {
-                if (!isOnline) {
-                  e.preventDefault()
-                  queueWhatsAppShare(inviteTransporterUrl)
-                }
-              }}
+              onClick={(e) => handleInviteClick(e, inviteTransporterUrl, 'transporter')}
             >
               Inviter un transporteur
             </a>

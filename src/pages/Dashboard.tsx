@@ -10,6 +10,7 @@ import { getAllDocuments } from '../services/billingService'
 import type { BillingDocument } from '../services/billingService'
 import { hasCredentials, bidirectionalSync, getSyncStatus, onSyncEvent } from '../services/syncService'
 import type { SyncStatus } from '../services/syncService'
+import { getInviteMetrics, type InviteMetrics } from '../services/growthMetrics'
 
 interface DashStats {
   producersActive: number; producersTotal: number;
@@ -42,6 +43,7 @@ const Dashboard: React.FC = () => {
   const [activities, setActivities] = useState<ActivityItem[]>([])
   const [invoicedOrders, setInvoicedOrders] = useState<Set<string>>(new Set())
   const [syncStatus, setSyncStatus] = useState<SyncStatus>(getSyncStatus())
+  const [inviteMetrics, setInviteMetrics] = useState<InviteMetrics>(getInviteMetrics())
   const [syncing, setSyncing] = useState(false)
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null)
 
@@ -75,6 +77,17 @@ const Dashboard: React.FC = () => {
       setSyncing(false)
     }
   }
+
+  useEffect(() => {
+    const refresh = () => setInviteMetrics(getInviteMetrics())
+    refresh()
+    window.addEventListener('focus', refresh)
+    window.addEventListener('storage', refresh)
+    return () => {
+      window.removeEventListener('focus', refresh)
+      window.removeEventListener('storage', refresh)
+    }
+  }, [])
 
   useEffect(() => {
     const producers = getAll('producers') as Producer[]
@@ -329,6 +342,28 @@ const Dashboard: React.FC = () => {
             ⚠️ Erreur : {syncStatus.lastError}
           </p>
         )}
+      </div>
+
+      {/* KPI viralité (invitation WhatsApp) */}
+      <div className="section-block" style={{ marginBottom: '1rem' }}>
+        <h2>📈 KPI Viralité WhatsApp</h2>
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.total}</span><span className="stat-label">Invitations envoyées</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.neighbor}</span><span className="stat-label">Voisins invités</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.buyer}</span><span className="stat-label">Acheteurs invités</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.transporter}</span><span className="stat-label">Transporteurs invités</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.queued_offline}</span><span className="stat-label">Partages hors ligne en attente</span></div>
+          </div>
+        </div>
       </div>
 
       {/* 8 stat cards */}
