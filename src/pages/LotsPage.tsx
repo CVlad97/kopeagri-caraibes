@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Search, MapPin, Calendar, DollarSign, Pencil, Trash2, Eye, EyeOff, ShoppingCart, Plus, X, Check } from 'lucide-react'
 import { getAll, add, update, remove, toggleActive, MARTINIQUE_COMMUNES } from '../services/dataService'
 import type { Lot, Order } from '../services/dataService'
+import { normalizeTrafficSource, trackOrderCreated, type TrafficSource } from '../services/growthMetrics'
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   draft: { label: 'Brouillon', color: '#757575' },
@@ -19,6 +21,7 @@ const CERT_OPTIONS = ['Bio', 'HVE', 'Commerce équitable', 'AOP']
 const COMMISSION_RATE = 0.05
 
 const LotsPage: React.FC = () => {
+  const [searchParams] = useSearchParams()
   const [lots, setLots] = useState<Lot[]>([])
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
@@ -26,6 +29,7 @@ const LotsPage: React.FC = () => {
   const [editItem, setEditItem] = useState<Lot | null>(null)
   const [showOrderModal, setShowOrderModal] = useState(false)
   const [orderLot, setOrderLot] = useState<Lot | null>(null)
+  const [orderSource, setOrderSource] = useState<TrafficSource>('direct')
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
 
   // Form state
@@ -123,8 +127,9 @@ const LotsPage: React.FC = () => {
     load()
   }
 
-  const openOrderModal = (lot: Lot) => {
+  const openOrderModal = (lot: Lot, source: TrafficSource = 'direct') => {
     setOrderLot(lot)
+    setOrderSource(source)
     setOrderBuyer('')
     setOrderQty(lot.qty.toString())
     setOrderPhone('')
@@ -152,11 +157,22 @@ const LotsPage: React.FC = () => {
       active: true,
     }
     add('orders', orderData as any)
+    trackOrderCreated(orderSource)
     update('lots', orderLot.id, { status: 'sold' } as any)
     setShowOrderModal(false)
     setOrderLot(null)
+    setOrderSource('direct')
     load()
   }
+
+  useEffect(() => {
+    const lotId = searchParams.get('lotId')
+    if (!lotId || lots.length === 0 || showOrderModal) return
+    const source = normalizeTrafficSource(searchParams.get('src'))
+    const lot = lots.find(l => l.id === lotId)
+    if (!lot) return
+    openOrderModal(lot, source)
+  }, [searchParams, lots, showOrderModal])
 
   const toggleCert = (cert: string) => {
     setFormCerts(prev => prev.includes(cert) ? prev.filter(c => c !== cert) : [...prev, cert])
@@ -220,7 +236,7 @@ const LotsPage: React.FC = () => {
                 </div>
                 <div className="lot-actions">
                   {lot.status === 'approved' && (
-                    <button className="btn btn-sm btn-primary" onClick={() => openOrderModal(lot)}>
+                    <button className="btn btn-sm btn-primary" onClick={() => openOrderModal(lot, 'direct')}>
                       <ShoppingCart size={14} /> Commander
                     </button>
                   )}
@@ -346,11 +362,11 @@ const LotsPage: React.FC = () => {
 
       {/* Order Modal */}
       {showOrderModal && orderLot && (
-        <div className="modal-overlay" onClick={() => { setShowOrderModal(false); setOrderLot(null) }}>
+        <div className="modal-overlay" onClick={() => { setShowOrderModal(false); setOrderLot(null); setOrderSource('direct') }}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h3>🛒 Commander — {orderLot.product}</h3>
-              <button className="modal-close" onClick={() => { setShowOrderModal(false); setOrderLot(null) }}><X size={20} /></button>
+              <button className="modal-close" onClick={() => { setShowOrderModal(false); setOrderLot(null); setOrderSource('direct') }}><X size={20} /></button>
             </div>
             <form onSubmit={handleOrder} className="entity-form">
               <p style={{ color: '#666', fontSize: '0.9em' }}>
@@ -378,7 +394,7 @@ const LotsPage: React.FC = () => {
                 </div>
               </div>
               <div className="form-actions">
-                <button type="button" className="btn btn-outline" onClick={() => { setShowOrderModal(false); setOrderLot(null) }}>Annuler</button>
+                <button type="button" className="btn btn-outline" onClick={() => { setShowOrderModal(false); setOrderLot(null); setOrderSource('direct') }}>Annuler</button>
                 <button type="submit" className="btn btn-primary"><ShoppingCart size={16} /> Commander</button>
               </div>
             </form>

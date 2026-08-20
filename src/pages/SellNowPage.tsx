@@ -120,6 +120,11 @@ const SellNowPage: React.FC = () => {
     return `${window.location.origin}${import.meta.env.BASE_URL}lot/${publishedLot.id}`
   }, [publishedLot])
 
+  const trackedLotUrl = useMemo(() => {
+    if (!publishedLot) return ''
+    return `${publicLotUrl}?src=lot_share`
+  }, [publishedLot, publicLotUrl])
+
   const whatsappUrl = useMemo(() => {
     if (!publishedLot) return ''
     const lotCode = `KPA-${publishedLot.id.toUpperCase()}`
@@ -128,39 +133,42 @@ const SellNowPage: React.FC = () => {
       `${publishedLot.product} - ${publishedLot.qty} ${publishedLot.unit}\n` +
       `${publishedLot.price}€/ ${publishedLot.unit}\n` +
       `Disponible: ${publishedLot.available}\n` +
-      `Traçabilité: ${publicLotUrl}`
+      `Traçabilité: ${trackedLotUrl}`
     )
     return `https://wa.me/596696000000?text=${txt}`
-  }, [publishedLot, publicLotUrl])
+  }, [publishedLot, trackedLotUrl])
 
   const inviteNeighborsUrl = useMemo(() => {
     if (!publishedLot) return ''
+    const neighborLotUrl = `${publicLotUrl}?src=neighbor`
     const txt = encodeURIComponent(
       `Bonjour, je viens de publier un lot ${publishedLot.product} (${publishedLot.qty} ${publishedLot.unit}).\n` +
       `On peut grouper nos volumes pour mieux vendre ensemble.\n` +
-      `Voir le lot: ${publicLotUrl}`
+      `Voir le lot: ${neighborLotUrl}`
     )
     return `https://wa.me/?text=${txt}`
   }, [publishedLot, publicLotUrl])
 
   const inviteBuyerUrl = useMemo(() => {
     if (!publishedLot) return ''
+    const buyerLotUrl = `${publicLotUrl}?src=buyer`
     const txt = encodeURIComponent(
       `Bonjour, lot disponible pour achat B2B:\n` +
       `${publishedLot.product} - ${publishedLot.qty} ${publishedLot.unit} à ${publishedLot.price}€/${publishedLot.unit}.\n` +
       `Origine déclarée: ${publishedLot.commune}.\n` +
-      `Traçabilité: ${publicLotUrl}`
+      `Traçabilité: ${buyerLotUrl}`
     )
     return `https://wa.me/?text=${txt}`
   }, [publishedLot, publicLotUrl])
 
   const inviteTransporterUrl = useMemo(() => {
     if (!publishedLot) return ''
+    const transporterLotUrl = `${publicLotUrl}?src=transporter`
     const txt = encodeURIComponent(
       `Bonjour, besoin de collecte/livraison pour un lot:\n` +
       `${publishedLot.product} - ${publishedLot.qty} ${publishedLot.unit}, dispo ${publishedLot.available}.\n` +
       `Point départ: ${publishedLot.commune}.\n` +
-      `Détails lot: ${publicLotUrl}`
+      `Détails lot: ${transporterLotUrl}`
     )
     return `https://wa.me/?text=${txt}`
   }, [publishedLot, publicLotUrl])

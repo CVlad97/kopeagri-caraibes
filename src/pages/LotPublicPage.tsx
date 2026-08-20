@@ -1,13 +1,24 @@
-import React, { useMemo } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useEffect, useMemo } from 'react'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { getAll } from '../services/dataService'
 import type { Lot } from '../services/dataService'
+import { normalizeTrafficSource, trackLotPageView } from '../services/growthMetrics'
 
 const LotPublicPage: React.FC = () => {
   const { lotId } = useParams()
+  const location = useLocation()
   const lots = getAll('lots') as Lot[]
 
   const lot = useMemo(() => lots.find(l => l.id === lotId), [lots, lotId])
+  const trafficSource = useMemo(() => {
+    const qs = new URLSearchParams(location.search)
+    return normalizeTrafficSource(qs.get('src'))
+  }, [location.search])
+
+  useEffect(() => {
+    if (!lot) return
+    trackLotPageView(trafficSource)
+  }, [lot, trafficSource])
 
   if (!lot) {
     return (
@@ -22,6 +33,7 @@ const LotPublicPage: React.FC = () => {
   const lotCode = `KPA-${lot.id.toUpperCase()}`
   const traceLevel = 'D0 — Déclaré par opérateur'
   const whatsappText = encodeURIComponent(`Bonjour, je souhaite commander le lot ${lotCode} (${lot.product})`)
+  const appOrderUrl = `/lots?lotId=${lot.id}&src=${trafficSource}`
 
   return (
     <div className="page" style={{ maxWidth: 860, margin: '0 auto', padding: '24px 16px' }}>
@@ -39,6 +51,7 @@ const LotPublicPage: React.FC = () => {
 
       <div style={{ display: 'flex', gap: 12, marginTop: 16, flexWrap: 'wrap' }}>
         <a className="btn btn-primary" href={`https://wa.me/596696000000?text=${whatsappText}`} target="_blank" rel="noopener noreferrer">Contacter / commander</a>
+        <a className="btn btn-outline" href={appOrderUrl}>Créer une commande dans l'app</a>
         <a className="btn btn-outline" href="/marketplace">Voir prochaines disponibilités</a>
       </div>
     </div>

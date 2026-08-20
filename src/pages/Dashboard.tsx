@@ -170,6 +170,14 @@ const Dashboard: React.FC = () => {
     gie: '🤝', proprietaire: '🏡', institution: '🏛️', pecheur: '🎣',
   }
 
+  const lotViewRate = inviteMetrics.total > 0
+    ? (inviteMetrics.lot_page_views_from_invite / inviteMetrics.total) * 100
+    : 0
+
+  const orderRateFromInviteViews = inviteMetrics.lot_page_views_from_invite > 0
+    ? (inviteMetrics.orders_from_invite / inviteMetrics.lot_page_views_from_invite) * 100
+    : 0
+
   // Quick actions by role
   const quickActions: Array<{ icon: string; label: string; desc: string; link: string; color: string }> = role === 'producteur' ? [
     { icon: '🟢', label: 'Vendre aujourd’hui', desc: 'Publier un lot en 5 min', link: '/sell-now', color: 'var(--green-100)' },
@@ -350,6 +358,18 @@ const Dashboard: React.FC = () => {
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-info"><span className="stat-number">{inviteMetrics.total}</span><span className="stat-label">Invitations envoyées</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.lot_page_views_from_invite}</span><span className="stat-label">Vues lot depuis invite</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{inviteMetrics.orders_from_invite}</span><span className="stat-label">Commandes depuis invite</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{lotViewRate.toFixed(1)}%</span><span className="stat-label">Tx invite → vue lot</span></div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-info"><span className="stat-number">{orderRateFromInviteViews.toFixed(1)}%</span><span className="stat-label">Tx vue lot → commande</span></div>
           </div>
           <div className="stat-card">
             <div className="stat-info"><span className="stat-number">{inviteMetrics.neighbor}</span><span className="stat-label">Voisins invités</span></div>
