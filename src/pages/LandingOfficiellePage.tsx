@@ -9,9 +9,7 @@ import {
   Building2,
   ShieldCheck,
   FileText,
-  Wifi,
-  Database,
-  Gauge,
+  CheckCircle2,
 } from 'lucide-react'
 import { checkBackendHealth, type BackendHealth } from '../services/backendHealth'
 import '../styles/landing-premium.css'
@@ -33,16 +31,16 @@ const LandingOfficiellePage: React.FC = () => {
     }
   }, [])
 
-  const healthClass = useMemo(() => {
-    if (!health) return 'local'
-    return health.mode
+  const trustLabel = useMemo(() => {
+    if (!health) return 'Vérification en cours'
+    if (health.mode === 'connected') return 'Fiabilité: élevée'
+    if (health.mode === 'degraded') return 'Fiabilité: à surveiller'
+    return 'Mode local: actif'
   }, [health])
 
-  const healthLabel = useMemo(() => {
-    if (!health) return 'Vérification backend...'
-    if (health.mode === 'connected') return 'Backend connecté'
-    if (health.mode === 'degraded') return 'Backend dégradé'
-    return 'Mode local actif'
+  const trustClass = useMemo(() => {
+    if (!health) return 'local'
+    return health.mode
   }, [health])
 
   return (
@@ -50,69 +48,61 @@ const LandingOfficiellePage: React.FC = () => {
       <section className="premium-hero">
         <div className="premium-grid">
           <div>
-            <span className="premium-badge">Pilote Martinique — Version fusionnée v1.1</span>
-            <h1 className="premium-title">Kopé Agri & Pêche</h1>
+            <span className="premium-badge">Pilote Martinique — version terrain</span>
+            <h1 className="premium-title">Vends ton lot aujourd’hui. Encaisse plus vite.</h1>
             <p className="premium-sub">
-              Vendez plus vite, trouvez des acheteurs, organisez la collecte,
-              partagez un QR lot traçable. Simple sur téléphone.
+              Une app simple pour agriculteurs et pêcheurs: publier, partager sur WhatsApp,
+              trouver acheteur, organiser collecte, prouver l’origine avec QR.
             </p>
 
             <div className="premium-cta">
-              <Link to="/onboarding" className="btn btn-primary">Rejoindre le pilote</Link>
-              <Link to="/sell-now" className="btn btn-outline">Je vends maintenant</Link>
+              <Link to="/sell-now" className="btn btn-primary">Publier mon lot</Link>
+              <Link to="/onboarding" className="btn btn-outline">Créer mon compte</Link>
               <a
-                href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9%20Agri%20%26%20P%C3%AAche%2C%20je%20souhaite%20une%20d%C3%A9mo"
+                href="https://wa.me/596696000000?text=Bonjour%2C%20je%20veux%20vendre%20mon%20lot%20avec%20Kop%C3%A9"
                 className="btn btn-outline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <MessageCircle size={16} /> WhatsApp démo
+                <MessageCircle size={16} /> WhatsApp direct
               </a>
+            </div>
+
+            <div style={{ marginTop: 14 }}>
+              <span className={`health-pill ${trustClass}`}>{trustLabel}</span>
             </div>
           </div>
 
           <div className="premium-glass">
-            <h3>⚙️ État plateforme</h3>
-            <p>Vue live frontend + backend pour éviter les mauvaises surprises.</p>
-
-            <div className="premium-health">
-              <span className={`health-pill ${healthClass}`}>{healthLabel}</span>
-              <div style={{ display: 'grid', gap: 6, fontSize: 13 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Database size={14} /> Supabase creds: {health?.hasSupabaseCreds ? 'oui' : 'non'}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Gauge size={14} /> Latence: {health?.latencyMs != null ? `${health.latencyMs} ms` : 'n/a'}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Wifi size={14} /> Partages offline en attente: {health?.pendingOfflineShares ?? 0}
-                </div>
-              </div>
-            </div>
+            <h3>Ce que tu gagnes</h3>
+            <p><CheckCircle2 size={14} style={{ marginRight: 6 }} /> Publication guidée en moins de 5 min</p>
+            <p><CheckCircle2 size={14} style={{ marginRight: 6 }} /> Lien WhatsApp prêt à envoyer</p>
+            <p><CheckCircle2 size={14} style={{ marginRight: 6 }} /> QR de traçabilité partageable</p>
+            <p><CheckCircle2 size={14} style={{ marginRight: 6 }} /> Commandes et suivi au même endroit</p>
           </div>
         </div>
       </section>
 
+      <section className="premium-cards">
+        <div className="premium-card"><h4><Tractor size={16} /> Je suis producteur</h4><p>Je publie mes récoltes, je fixe mon prix, je vends plus vite.</p><Link to="/sell-now" className="btn btn-sm btn-primary" style={{ marginTop: 10 }}>Vendre maintenant</Link></div>
+        <div className="premium-card"><h4><Fish size={16} /> Je suis pêcheur</h4><p>Je publie mes espèces du jour et je partage en un clic.</p><Link to="/sell-now" className="btn btn-sm btn-primary" style={{ marginTop: 10 }}>Publier ma pêche</Link></div>
+        <div className="premium-card"><h4><ShoppingCart size={16} /> Je suis acheteur</h4><p>Je vois les lots dispo et je commande rapidement.</p><Link to="/marketplace" className="btn btn-sm btn-outline" style={{ marginTop: 10 }}>Voir les lots</Link></div>
+        <div className="premium-card"><h4><Truck size={16} /> Je suis transporteur</h4><p>Je récupère des missions de collecte/livraison.</p><Link to="/logistics" className="btn btn-sm btn-outline" style={{ marginTop: 10 }}>Voir les demandes</Link></div>
+        <div className="premium-card"><h4><Building2 size={16} /> Je suis institution</h4><p>Je suis les flux filière avec des indicateurs clairs.</p><Link to="/dashboard" className="btn btn-sm btn-outline" style={{ marginTop: 10 }}>Voir le dashboard</Link></div>
+      </section>
+
       <section className="trust-strip">
         <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <ShieldCheck size={20} /> Cadre de confiance (pilote)
+          <ShieldCheck size={20} /> Confiance & cadre
         </h2>
         <ul>
-          <li>Traçabilité D0 à D3 (déclaré, recoupé, documenté, validation tierce).</li>
+          <li>Traçabilité D0 à D3: déclaré, recoupé, documenté, validé tiers.</li>
           <li>Aucune promesse de certification automatique.</li>
-          <li>Données sensibles non exposées publiquement.</li>
+          <li>Données sensibles non affichées publiquement.</li>
         </ul>
         <div style={{ marginTop: 10 }}>
           <Link to="/legal" className="btn btn-outline"><FileText size={16} /> Mentions légales & RGPD</Link>
         </div>
-      </section>
-
-      <section className="premium-cards">
-        <div className="premium-card"><h4><Tractor size={16} /> Producteurs</h4><p>Publiez un lot en moins de 5 min.</p></div>
-        <div className="premium-card"><h4><Fish size={16} /> Pêcheurs</h4><p>Lots + QR origine + partage direct.</p></div>
-        <div className="premium-card"><h4><ShoppingCart size={16} /> Acheteurs</h4><p>Accès rapide aux volumes disponibles.</p></div>
-        <div className="premium-card"><h4><Truck size={16} /> Transporteurs</h4><p>Missions de collecte en un clic.</p></div>
-        <div className="premium-card"><h4><Building2 size={16} /> Institutions</h4><p>Suivi filière avec indicateurs terrain.</p></div>
       </section>
 
       <section className="section-block" style={{ marginBottom: 16 }}>
@@ -125,16 +115,6 @@ const LandingOfficiellePage: React.FC = () => {
           <li>Je prouve l’origine (QR)</li>
           <li>Je suis payé</li>
         </ol>
-      </section>
-
-      <section className="section-block" style={{ marginBottom: 16 }}>
-        <h2>Accès rapide</h2>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <Link to="/lot/lot1" className="btn btn-outline">Page lot</Link>
-          <Link to="/marketplace" className="btn btn-outline">Catalogue</Link>
-          <Link to="/sell-now" className="btn btn-primary">Publier maintenant</Link>
-          <Link to="/dashboard" className="btn btn-outline">Dashboard</Link>
-        </div>
       </section>
     </div>
   )
