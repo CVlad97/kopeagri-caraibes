@@ -1,190 +1,131 @@
 import React from 'react'
-import { Leaf, Shield, FileText, Lock, Mail, Phone, MapPin } from 'lucide-react'
+import { Shield, FileText, Lock, Mail, Phone, MapPin, AlertTriangle } from 'lucide-react'
+
+const pStyle: React.CSSProperties = { fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }
+const h3Style: React.CSSProperties = { fontSize: 17, fontWeight: 700, marginTop: 18, marginBottom: 8 }
 
 const LegalPage: React.FC = () => {
   return (
-    <div className="page" style={{ maxWidth: 800, margin: '0 auto' }}>
+    <div className="page" style={{ maxWidth: 860, margin: '0 auto' }}>
       <div className="page-header">
-        <h1><FileText size={24} /> Mentions légales & CGV</h1>
-        <p className="page-subtitle">Informations légales, conditions générales et politique RGPD</p>
+        <h1><FileText size={24} /> Mentions légales, conditions d’usage et RGPD</h1>
+        <p className="page-subtitle">Version pilote Martinique — informations non trompeuses et cadre de confiance</p>
       </div>
 
-      {/* MENTIONS LÉGALES */}
-      <div className="section-block">
-        <h2><Shield size={18} /> Mentions légales</h2>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>1. Éditeur de la plateforme</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          <strong>KopéAgri Caraïbes</strong> — GIE agricole digitale<br />
-          Forme juridique : Groupement d'Intérêt Économique (GIE) en cours d'immatriculation<br />
-          Siège social : Martinique, 97200 Fort-de-France<br />
-          Email : <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a><br />
-          Téléphone : 0696 00 00 00<br />
-          SIRET : En cours d'attribution<br />
-          N° TVA intracommunautaire : En cours d'attribution<br />
-          Directeur de la publication : Vladimir Claveau
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>2. Hébergement</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          La plateforme est hébergée par GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA).<br />
-          Les données applicatives sont stockées via Supabase Inc. (2701 N 1st St, San Jose, CA 95134, USA) ou en localStorage côté client en mode démo.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>3. Propriété intellectuelle</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          L'ensemble des contenus de la plateforme (textes, images, logos, design) est la propriété de KopéAgri Caraïbes ou de ses contributeurs. Toute reproduction sans autorisation est interdite.
+      <div className="section-block" style={{ border: '1px solid #fde68a' }}>
+        <h2><AlertTriangle size={18} /> Avertissement important (version 1 pilote)</h2>
+        <p style={pStyle}>
+          Cette plateforme est une version pilote. Les éléments affichés constituent une aide opérationnelle
+          pour la vente, la logistique et la traçabilité. Ils ne remplacent pas les obligations réglementaires,
+          déclaratives ou fiscales de chaque opérateur.
         </p>
       </div>
 
-      {/* CGV */}
       <div className="section-block">
-        <h2><FileText size={18} /> Conditions Générales de Vente</h2>
+        <h2><Shield size={18} /> 1) Mentions légales</h2>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>Article 1 — Objet</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les présentes CGV régissent les relations entre KopéAgri Caraïbes (le GIE) et ses adhérents (producteurs, transporteurs, acheteurs B2B, institutions) pour l'utilisation de la plateforme de mise en relation et de services agricoles.
+        <h3 style={h3Style}>Éditeur</h3>
+        <p style={pStyle}>
+          <strong>Kopé Agri & Pêche</strong><br />
+          Projet en structuration (GIE / coopérative à valider juridiquement)<br />
+          Territoire pilote : Martinique (Fort-de-France)<br />
+          Contact : <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a><br />
+          Référent publication : Vladimir Claveau
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 2 — Adhésion</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          L'adhésion au GIE est ouverte à toute personne physique ou morale exerçant une activité agricole, logistique ou commerciale dans la zone Caraïbe. L'adhésion implique l'acceptation des présentes CGV et du règlement intérieur. Quatre plans sont proposés : Grati (gratuit), Standard, Premium, Plantasyon — chacun avec un taux de commission distinct.
+        <h3 style={h3Style}>Hébergement et services techniques</h3>
+        <p style={pStyle}>
+          Frontend : GitHub Pages (GitHub Inc.)<br />
+          Backend / base : Supabase (Supabase Inc.)<br />
+          Certaines fonctions peuvent utiliser un stockage local navigateur (mode local/démo).
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 3 — Commissions</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          KopéAgri perçoit une commission sur chaque transaction réalisée via la plateforme :<br />
-          • Plan Grati : 6% du montant HT<br />
-          • Plan Standard : 4% du montant HT<br />
-          • Plan Premium : 3% du montant HT<br />
-          • Plan Plantasyon : 2% du montant HT<br /><br />
-          La commission est prélevée sur le règlement de l'acheteur avant reversement au producteur. Les factures sont émises mensuellement et disponibles dans l'espace adhérent.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 4 — Paiement</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les paiements sont sécurisés via Stripe (carte bancaire, virement) ou par voie conventionnelle (chèque, espèces). Le reversement au producteur est effectué sous 5 jours ouvrés après encaissement de la commande, déduction faite de la commission.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 5 — Livraison & Logistique</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          La livraison est assurée par les transporteurs partenaires du GIE. Les délais varient selon la destination (Martinique : J+1, Caraïbe : J+3 à J+7, International : J+10 à J+21). Le transport frigorifique est obligatoire pour les produits périssables. KopéAgri ne saurait être tenue responsable des retards imputables aux transporteurs.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 6 — Qualité & Conformité</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les producteurs s'engagent à fournir des produits conformes aux normes sanitaires en vigueur (DGAL, ARS Martinique) et aux critères de qualité déclarés. La traçabilité est assurée via QR code pour chaque lot. En cas de non-conformité avérée, l'acheteur peut demander le remboursement dans les 48h suivant la livraison.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 7 — Responsabilité</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          KopéAgri est une plateforme de mise en relation. Le GIE ne garantit ni la disponibilité permanente des produits, ni l'exactitude des informations fournies par les adhérents. KopéAgri ne saurait être tenue responsable des litiges entre adhérents, qui relèvent du droit commercial ordinaire.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 8 — Résiliation</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Tout adhérent peut résilier son adhésion à tout moment par notification écrite. Les commissions en cours restent dues. Les données personnelles sont traitées conformément à notre politique RGPD (voir ci-dessous).
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>Article 9 — Droit applicable</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les présentes CGV sont soumises au droit français. Tout litige relève de la compétence des juridictions de Fort-de-France, Martinique.
+        <h3 style={h3Style}>Propriété intellectuelle</h3>
+        <p style={pStyle}>
+          Les contenus originaux de la plateforme (textes, structure, composants, visuels propriétaires)
+          sont protégés. Toute réutilisation substantielle nécessite autorisation.
         </p>
       </div>
 
-      {/* RGPD */}
       <div className="section-block">
-        <h2><Lock size={18} /> Politique de Protection des Données (RGPD)</h2>
+        <h2><FileText size={18} /> 2) Conditions d’usage (version pilote)</h2>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 16, marginBottom: 8 }}>1. Responsable du traitement</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          KopéAgri Caraïbes, en sa qualité de responsable de traitement, traite les données personnelles des adhérents et utilisateurs conformément au Règlement Général sur la Protection des Données (RGPD – UE 2016/679) et à la loi Informatique et Libertés.
+        <h3 style={h3Style}>Objet</h3>
+        <p style={pStyle}>
+          Kopé Agri & Pêche fournit un outil numérique de mise en relation, publication de lots,
+          coordination logistique et traçabilité déclarative.
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>2. Données collectées</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Nous collectons les données strictement nécessaires :<br />
-          • <strong>Identité</strong> : nom, prénom, numéro de téléphone, email<br />
-          • <strong>Localisation</strong> : commune, coordonnées GPS (si consentement)<br />
-          • <strong>Activité</strong> : type de production, cultures, certifications, volumes<br />
-          • <strong>Financier</strong> : données de facturation, historique des transactions<br />
-          • <strong>Technique</strong> : logs de connexion, navigateur, appareil
+        <h3 style={h3Style}>Rôle de la plateforme</h3>
+        <p style={pStyle}>
+          La plateforme facilite les échanges entre producteurs, pêcheurs, acheteurs, transporteurs et structures d’appui.
+          Elle ne se substitue ni aux contrôles publics, ni aux obligations contractuelles entre parties.
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>3. Finalités du traitement</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les données sont utilisées pour :<br />
-          • Gérer les adhésions et comptes adhérents<br />
-          • Faciliter la mise en relation entre producteurs et acheteurs<br />
-          • Traiter les commandes et les paiements<br />
-          • Émettre les factures et gérer les commissions<br />
-          • Améliorer la plateforme et les services<br />
-          • Répondre aux obligations légales et fiscales
+        <h3 style={h3Style}>Traçabilité et niveaux de preuve</h3>
+        <p style={pStyle}>
+          Les informations de lot peuvent être classées par niveau D0 à D3 :<br />
+          D0 : déclaré par l’opérateur<br />
+          D1 : recoupé avec une source publique<br />
+          D2 : document justificatif attaché<br />
+          D3 : validation tierce identifiée
         </p>
 
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>4. Durée de conservation</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les données sont conservées pendant la durée de l'adhésion puis 5 ans après la fin de la relation contractuelle (obligation comptable et fiscale). Les données de prospection sont conservées 3 ans après le dernier contact.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>5. Vos droits</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Conformément au RGPD, vous disposez des droits suivants :<br />
-          • <strong>Droit d'accès</strong> : obtenir une copie de vos données<br />
-          • <strong>Droit de rectification</strong> : corriger des données inexactes<br />
-          • <strong>Droit à l'effacement</strong> : demander la suppression de vos données<br />
-          • <strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré<br />
-          • <strong>Droit d'opposition</strong> : vous opposer au traitement pour des raisons légitimes<br />
-          • <strong>Droit à la limitation</strong> : limiter le traitement en cas de contestation<br /><br />
-          Pour exercer vos droits : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>6. Sous-traitants</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Les données peuvent être transférées aux sous-traitants suivants :<br />
-          • <strong>Supabase</strong> (hébergement base de données, USA) — conformité EU-US Data Privacy Framework<br />
-          • <strong>Stripe</strong> (paiement, USA/Irlande) — conforme PCI-DSS<br />
-          • <strong>GitHub Pages</strong> (hébergement site, USA)<br />
-          • <strong>Twillio</strong> (notifications WhatsApp/SMS, USA/Irlande)<br />
-          • <strong>Resend</strong> (notifications email, USA)<br /><br />
-          Chaque sous-traitant est lié par un accord de traitement des données conforme à l'art. 28 RGPD.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>7. Sécurité</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          KopéAgri met en œuvre des mesures techniques et organisationnelles appropriées : chiffrement TLS, Row Level Security (RLS), authentification sécurisée, accès restreint par rôle, audit logs. En cas de violation de données, les autorités (CNIL) et les personnes concernées seront notifiées dans les 72h conformément à l'art. 33 RGPD.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>8. Cookies</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          La plateforme utilise le localStorage du navigateur pour les données de démo et les préférences de session. Aucun cookie de pistage publicitaire n'est utilisé. Les données de localStorage sont accessibles uniquement sur votre appareil et ne sont pas transmises à des tiers.
-        </p>
-
-        <h3 style={{ fontSize: 17, fontWeight: 700, marginTop: 20, marginBottom: 8 }}>9. Réclamations</h3>
-        <p style={{ fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }}>
-          Vous pouvez introduire une réclamation auprès de la Commission Nationale de l'Informatique et des Libertés (CNIL) : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>www.cnil.fr</a>
+        <h3 style={h3Style}>Limites et responsabilités</h3>
+        <p style={pStyle}>
+          Chaque opérateur reste responsable de l’exactitude de ses déclarations, de ses prix,
+          de la conformité de ses produits et de ses obligations légales. En cas de litige commercial,
+          les parties concernées restent responsables de leur relation contractuelle.
         </p>
       </div>
 
-      {/* Contact */}
       <div className="section-block">
-        <h2><Mail size={18} /> Contact</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 12 }}>
+        <h2><Lock size={18} /> 3) Données personnelles (RGPD)</h2>
+
+        <h3 style={h3Style}>Principes</h3>
+        <p style={pStyle}>
+          Les données sont traitées selon les principes de minimisation, finalité et sécurité.
+          Les données sensibles ne sont pas rendues publiques par défaut.
+        </p>
+
+        <h3 style={h3Style}>Données potentiellement traitées</h3>
+        <p style={pStyle}>
+          Identité professionnelle, coordonnées de contact, informations de lot,
+          données de transaction et journaux techniques nécessaires au fonctionnement.
+        </p>
+
+        <h3 style={h3Style}>Droits des personnes</h3>
+        <p style={pStyle}>
+          Droit d’accès, rectification, effacement, limitation, opposition, portabilité.
+          Contact RGPD : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>.
+          Vous pouvez également saisir la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>www.cnil.fr</a>.
+        </p>
+
+        <h3 style={h3Style}>Cookies / stockage local</h3>
+        <p style={pStyle}>
+          La plateforme utilise principalement le stockage local navigateur pour certaines fonctionnalités
+          (ex: brouillons, préférences, mode local). Pas de dispositif publicitaire tiers intégré par défaut.
+        </p>
+      </div>
+
+      <div className="section-block">
+        <h2><Mail size={18} /> 4) Contact</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
             <Mail size={16} /> <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a>
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <Phone size={16} /> 0696 00 00 00
+            <Phone size={16} /> Contact opérationnel : 0696 00 00 00
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <MapPin size={16} /> Fort-de-France, Martinique 97200
+            <MapPin size={16} /> Fort-de-France, Martinique
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
             <Lock size={16} /> DPO : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>
           </p>
         </div>
         <p style={{ marginTop: 20, fontSize: 12, color: 'var(--gray-400)' }}>
-          Dernière mise à jour : Juillet 2026 — Version 1.0
+          Dernière mise à jour : août 2026 — Version pilote 1.
         </p>
       </div>
     </div>
