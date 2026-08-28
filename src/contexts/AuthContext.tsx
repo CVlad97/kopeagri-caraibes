@@ -22,7 +22,22 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
-const DEMO_ENABLED = import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true'
+
+const isDemoExplicitlyEnabled = () => {
+  if (typeof window === 'undefined') return false
+  try {
+    const qp = new URLSearchParams(window.location.search)
+    if (qp.get('demo') === '1') {
+      localStorage.setItem('kopeagri_demo_enabled', '1')
+      return true
+    }
+    return localStorage.getItem('kopeagri_demo_enabled') === '1'
+  } catch {
+    return false
+  }
+}
+
+const DEMO_ENABLED = import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true' || isDemoExplicitlyEnabled()
 
 const makeDemoProfile = (profile: Omit<Profile, 'siret' | 'rib' | 'company_name' | 'address' | 'latitude' | 'longitude' | 'active' | 'onboarding_complete' | 'updated_at'> & { password: string }): Profile & { password: string } => ({
   ...profile,
