@@ -6,7 +6,7 @@ const LandingOfficiellePage: React.FC = () => {
   return (
     <div className="page" style={{ maxWidth: 1100, margin: '0 auto' }}>
       <section className="card" style={{ padding: 20, marginBottom: 16 }}>
-        <span className="badge badge-green">Pilote Martinique — Version 1</span>
+        <span className="badge badge-green">Pilote Martinique — Version fusionnée v1</span>
         <h1 style={{ marginTop: 10 }}>Vendez vos produits locaux plus simplement</h1>
         <p>
           Agriculteurs, pêcheurs, acheteurs et transporteurs réunis sur une plateforme simple,
@@ -74,6 +74,16 @@ const LandingOfficiellePage: React.FC = () => {
           <Link to="/partners" className="btn btn-outline">Acheteurs partenaires</Link>
           <Link to="/producers" className="btn btn-outline">Page producteurs</Link>
           <Link to="/seafood" className="btn btn-outline">Page pêcheurs</Link>
+        </div>
+      </section>
+
+      <section className="card" style={{ padding: 16, marginBottom: 16 }}>
+        <h2>Appels pilote</h2>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <Link to="/onboarding" className="btn btn-primary">Inscrire un producteur</Link>
+          <Link to="/onboarding" className="btn btn-primary">Inscrire un pêcheur</Link>
+          <Link to="/onboarding" className="btn btn-outline">Devenir acheteur partenaire</Link>
+          <a href="https://wa.me/596696000000?text=Bonjour%2C%20je%20veux%20rejoindre%20le%20pilote%20Martinique" target="_blank" rel="noopener noreferrer" className="btn btn-outline">Contacter l’équipe</a>
         </div>
       </section>
 

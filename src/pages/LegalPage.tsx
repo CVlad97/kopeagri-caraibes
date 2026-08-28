@@ -9,15 +9,15 @@ const LegalPage: React.FC = () => {
     <div className="page" style={{ maxWidth: 860, margin: '0 auto' }}>
       <div className="page-header">
         <h1><FileText size={24} /> Mentions légales, conditions d’usage et RGPD</h1>
-        <p className="page-subtitle">Version pilote Martinique — informations non trompeuses et cadre de confiance</p>
+        <p className="page-subtitle">Version pilote Martinique — fusion V1</p>
       </div>
 
       <div className="section-block" style={{ border: '1px solid #fde68a' }}>
-        <h2><AlertTriangle size={18} /> Avertissement important (version 1 pilote)</h2>
+        <h2><AlertTriangle size={18} /> Avertissement important (version pilote)</h2>
         <p style={pStyle}>
-          Cette plateforme est une version pilote. Les éléments affichés constituent une aide opérationnelle
-          pour la vente, la logistique et la traçabilité. Ils ne remplacent pas les obligations réglementaires,
-          déclaratives ou fiscales de chaque opérateur.
+          Cette plateforme est une version pilote. Les informations affichées sont opérationnelles,
+          mais ne remplacent pas les obligations réglementaires, déclaratives, fiscales et contractuelles
+          de chaque opérateur.
         </p>
       </div>
 
@@ -37,45 +37,38 @@ const LegalPage: React.FC = () => {
         <p style={pStyle}>
           Frontend : GitHub Pages (GitHub Inc.)<br />
           Backend / base : Supabase (Supabase Inc.)<br />
-          Certaines fonctions peuvent utiliser un stockage local navigateur (mode local/démo).
-        </p>
-
-        <h3 style={h3Style}>Propriété intellectuelle</h3>
-        <p style={pStyle}>
-          Les contenus originaux de la plateforme (textes, structure, composants, visuels propriétaires)
-          sont protégés. Toute réutilisation substantielle nécessite autorisation.
+          Certaines fonctions utilisent le stockage local navigateur (mode local/démo).
         </p>
       </div>
 
       <div className="section-block">
-        <h2><FileText size={18} /> 2) Conditions d’usage (version pilote)</h2>
+        <h2><FileText size={18} /> 2) Conditions d’usage (pilote)</h2>
 
         <h3 style={h3Style}>Objet</h3>
         <p style={pStyle}>
-          Kopé Agri & Pêche fournit un outil numérique de mise en relation, publication de lots,
-          coordination logistique et traçabilité déclarative.
+          Kopé Agri & Pêche fournit un outil de publication de lots, mise en relation,
+          coordination logistique et partage d’éléments de traçabilité.
         </p>
 
-        <h3 style={h3Style}>Rôle de la plateforme</h3>
+        <h3 style={h3Style}>Commissions et paiements (paramétrage pilote)</h3>
         <p style={pStyle}>
-          La plateforme facilite les échanges entre producteurs, pêcheurs, acheteurs, transporteurs et structures d’appui.
-          Elle ne se substitue ni aux contrôles publics, ni aux obligations contractuelles entre parties.
+          Les commissions et modes de règlement affichés dans l’application sont des paramètres de fonctionnement
+          du pilote. Ils doivent être validés juridiquement et contractuellement avant un lancement public large.
         </p>
 
         <h3 style={h3Style}>Traçabilité et niveaux de preuve</h3>
         <p style={pStyle}>
-          Les informations de lot peuvent être classées par niveau D0 à D3 :<br />
           D0 : déclaré par l’opérateur<br />
-          D1 : recoupé avec une source publique<br />
-          D2 : document justificatif attaché<br />
+          D1 : recoupé avec source publique<br />
+          D2 : document justificatif ajouté<br />
           D3 : validation tierce identifiée
         </p>
 
-        <h3 style={h3Style}>Limites et responsabilités</h3>
+        <h3 style={h3Style}>Responsabilité</h3>
         <p style={pStyle}>
-          Chaque opérateur reste responsable de l’exactitude de ses déclarations, de ses prix,
-          de la conformité de ses produits et de ses obligations légales. En cas de litige commercial,
-          les parties concernées restent responsables de leur relation contractuelle.
+          Chaque opérateur reste responsable de ses déclarations, prix, disponibilités, conformités
+          et obligations légales. La plateforme facilite les échanges sans se substituer aux autorités
+          de contrôle ni aux engagements contractuels entre parties.
         </p>
       </div>
 
@@ -84,27 +77,21 @@ const LegalPage: React.FC = () => {
 
         <h3 style={h3Style}>Principes</h3>
         <p style={pStyle}>
-          Les données sont traitées selon les principes de minimisation, finalité et sécurité.
-          Les données sensibles ne sont pas rendues publiques par défaut.
+          Minimisation des données, finalités explicites, sécurité par rôle et protection des données sensibles.
+          Les informations privées (RIB, téléphone privé, email privé, adresse exacte) ne sont pas affichées publiquement.
         </p>
 
-        <h3 style={h3Style}>Données potentiellement traitées</h3>
-        <p style={pStyle}>
-          Identité professionnelle, coordonnées de contact, informations de lot,
-          données de transaction et journaux techniques nécessaires au fonctionnement.
-        </p>
-
-        <h3 style={h3Style}>Droits des personnes</h3>
+        <h3 style={h3Style}>Droits</h3>
         <p style={pStyle}>
           Droit d’accès, rectification, effacement, limitation, opposition, portabilité.
           Contact RGPD : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>.
-          Vous pouvez également saisir la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>www.cnil.fr</a>.
+          Réclamation possible auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>www.cnil.fr</a>.
         </p>
 
-        <h3 style={h3Style}>Cookies / stockage local</h3>
+        <h3 style={h3Style}>Stockage local / cookies</h3>
         <p style={pStyle}>
-          La plateforme utilise principalement le stockage local navigateur pour certaines fonctionnalités
-          (ex: brouillons, préférences, mode local). Pas de dispositif publicitaire tiers intégré par défaut.
+          Le navigateur peut stocker certaines données techniques et brouillons en local pour améliorer l’usage terrain.
+          Aucun mécanisme publicitaire tiers n’est activé par défaut.
         </p>
       </div>
 
@@ -125,7 +112,7 @@ const LegalPage: React.FC = () => {
           </p>
         </div>
         <p style={{ marginTop: 20, fontSize: 12, color: 'var(--gray-400)' }}>
-          Dernière mise à jour : août 2026 — Version pilote 1.
+          Dernière mise à jour : août 2026 — Version fusionnée V1.
         </p>
       </div>
     </div>
