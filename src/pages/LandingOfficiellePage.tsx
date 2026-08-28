@@ -1,61 +1,122 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { MessageCircle, Fish, Tractor, ShoppingCart, Truck, Building2, ShieldCheck, FileText } from 'lucide-react'
+import {
+  MessageCircle,
+  Fish,
+  Tractor,
+  ShoppingCart,
+  Truck,
+  Building2,
+  ShieldCheck,
+  FileText,
+  Wifi,
+  Database,
+  Gauge,
+} from 'lucide-react'
+import { checkBackendHealth, type BackendHealth } from '../services/backendHealth'
+import '../styles/landing-premium.css'
 
 const LandingOfficiellePage: React.FC = () => {
-  return (
-    <div className="page" style={{ maxWidth: 1100, margin: '0 auto' }}>
-      <section className="card" style={{ padding: 20, marginBottom: 16 }}>
-        <span className="badge badge-green">Pilote Martinique — Version fusionnée v1</span>
-        <h1 style={{ marginTop: 10 }}>Vendez vos produits locaux plus simplement</h1>
-        <p>
-          Agriculteurs, pêcheurs, acheteurs et transporteurs réunis sur une plateforme simple,
-          mobile et traçable.
-        </p>
-        <p style={{ opacity: 0.85 }}>
-          Kopé Agri & Pêche aide les petits producteurs et pêcheurs à publier leurs lots,
-          trouver des acheteurs, organiser la collecte et partager une preuve d’origine via QR.
-        </p>
+  const [health, setHealth] = useState<BackendHealth | null>(null)
 
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 10 }}>
-          <Link to="/onboarding" className="btn btn-primary">Rejoindre le pilote Martinique</Link>
-          <Link to="/sell-now" className="btn btn-outline">Je vends maintenant</Link>
-          <a
-            href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9%20Agri%20%26%20P%C3%AAche%2C%20je%20souhaite%20une%20d%C3%A9mo"
-            className="btn btn-outline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <MessageCircle size={16} /> Demander une démo
-          </a>
+  useEffect(() => {
+    let mounted = true
+    const run = async () => {
+      const h = await checkBackendHealth()
+      if (mounted) setHealth(h)
+    }
+    run()
+    const id = setInterval(run, 30000)
+    return () => {
+      mounted = false
+      clearInterval(id)
+    }
+  }, [])
+
+  const healthClass = useMemo(() => {
+    if (!health) return 'local'
+    return health.mode
+  }, [health])
+
+  const healthLabel = useMemo(() => {
+    if (!health) return 'Vérification backend...'
+    if (health.mode === 'connected') return 'Backend connecté'
+    if (health.mode === 'degraded') return 'Backend dégradé'
+    return 'Mode local actif'
+  }, [health])
+
+  return (
+    <div className="page landing-premium">
+      <section className="premium-hero">
+        <div className="premium-grid">
+          <div>
+            <span className="premium-badge">Pilote Martinique — Version fusionnée v1.1</span>
+            <h1 className="premium-title">Kopé Agri & Pêche</h1>
+            <p className="premium-sub">
+              Vendez plus vite, trouvez des acheteurs, organisez la collecte,
+              partagez un QR lot traçable. Simple sur téléphone.
+            </p>
+
+            <div className="premium-cta">
+              <Link to="/onboarding" className="btn btn-primary">Rejoindre le pilote</Link>
+              <Link to="/sell-now" className="btn btn-outline">Je vends maintenant</Link>
+              <a
+                href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9%20Agri%20%26%20P%C3%AAche%2C%20je%20souhaite%20une%20d%C3%A9mo"
+                className="btn btn-outline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle size={16} /> WhatsApp démo
+              </a>
+            </div>
+          </div>
+
+          <div className="premium-glass">
+            <h3>⚙️ État plateforme</h3>
+            <p>Vue live frontend + backend pour éviter les mauvaises surprises.</p>
+
+            <div className="premium-health">
+              <span className={`health-pill ${healthClass}`}>{healthLabel}</span>
+              <div style={{ display: 'grid', gap: 6, fontSize: 13 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Database size={14} /> Supabase creds: {health?.hasSupabaseCreds ? 'oui' : 'non'}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Gauge size={14} /> Latence: {health?.latencyMs != null ? `${health.latencyMs} ms` : 'n/a'}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Wifi size={14} /> Partages offline en attente: {health?.pendingOfflineShares ?? 0}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="card" style={{ padding: 16, marginBottom: 16, border: '1px solid #d9f2e2' }}>
+      <section className="trust-strip">
         <h2 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <ShieldCheck size={20} /> Cadre de confiance (version pilote)
+          <ShieldCheck size={20} /> Cadre de confiance (pilote)
         </h2>
-        <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.7 }}>
-          <li>Statut du projet : plateforme pilote opérationnelle en Martinique.</li>
-          <li>Traçabilité : niveaux D0 à D3 (déclaré, recoupé, documenté, validé tiers).</li>
-          <li>Aucune promesse de certification automatique : la plateforme organise la preuve, elle ne remplace pas les autorités.</li>
-          <li>Données sensibles : non affichées publiquement (RIB, téléphone privé, email privé, adresse exacte).</li>
+        <ul>
+          <li>Traçabilité D0 à D3 (déclaré, recoupé, documenté, validation tierce).</li>
+          <li>Aucune promesse de certification automatique.</li>
+          <li>Données sensibles non exposées publiquement.</li>
         </ul>
         <div style={{ marginTop: 10 }}>
-          <Link to="/legal" className="btn btn-outline"><FileText size={16} /> Mentions légales, RGPD et limites</Link>
+          <Link to="/legal" className="btn btn-outline"><FileText size={16} /> Mentions légales & RGPD</Link>
         </div>
       </section>
 
-      <section className="stats-grid" style={{ marginBottom: 16 }}>
-        <div className="stat-card"><div className="stat-icon"><Tractor size={20} /></div><div className="stat-info"><span className="stat-label">Pour producteurs</span><span className="stat-number">Publiez en 1 minute</span></div></div>
-        <div className="stat-card"><div className="stat-icon"><Fish size={20} /></div><div className="stat-info"><span className="stat-label">Pour pêcheurs</span><span className="stat-number">Lots + traçabilité</span></div></div>
-        <div className="stat-card"><div className="stat-icon"><ShoppingCart size={20} /></div><div className="stat-info"><span className="stat-label">Pour acheteurs</span><span className="stat-number">Volumes localement</span></div></div>
-        <div className="stat-card"><div className="stat-icon"><Truck size={20} /></div><div className="stat-info"><span className="stat-label">Pour transporteurs</span><span className="stat-number">Missions de collecte</span></div></div>
-        <div className="stat-card"><div className="stat-icon"><Building2 size={20} /></div><div className="stat-info"><span className="stat-label">Pour institutions</span><span className="stat-number">Pilotage filière</span></div></div>
+      <section className="premium-cards">
+        <div className="premium-card"><h4><Tractor size={16} /> Producteurs</h4><p>Publiez un lot en moins de 5 min.</p></div>
+        <div className="premium-card"><h4><Fish size={16} /> Pêcheurs</h4><p>Lots + QR origine + partage direct.</p></div>
+        <div className="premium-card"><h4><ShoppingCart size={16} /> Acheteurs</h4><p>Accès rapide aux volumes disponibles.</p></div>
+        <div className="premium-card"><h4><Truck size={16} /> Transporteurs</h4><p>Missions de collecte en un clic.</p></div>
+        <div className="premium-card"><h4><Building2 size={16} /> Institutions</h4><p>Suivi filière avec indicateurs terrain.</p></div>
       </section>
 
-      <section className="card" style={{ padding: 16, marginBottom: 16 }}>
-        <h2>Parcours terrain simple</h2>
+      <section className="section-block" style={{ marginBottom: 16 }}>
+        <h2>Parcours simple</h2>
         <ol>
           <li>Je vends</li>
           <li>Je récolte / je pêche</li>
@@ -66,35 +127,13 @@ const LandingOfficiellePage: React.FC = () => {
         </ol>
       </section>
 
-      <section className="card" style={{ padding: 16, marginBottom: 16 }}>
-        <h2>Pages publiques partageables</h2>
+      <section className="section-block" style={{ marginBottom: 16 }}>
+        <h2>Accès rapide</h2>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <Link to="/lot/lot1" className="btn btn-outline">Page lot</Link>
-          <Link to="/marketplace" className="btn btn-outline">Catalogue WhatsApp</Link>
-          <Link to="/partners" className="btn btn-outline">Acheteurs partenaires</Link>
-          <Link to="/producers" className="btn btn-outline">Page producteurs</Link>
-          <Link to="/seafood" className="btn btn-outline">Page pêcheurs</Link>
-        </div>
-      </section>
-
-      <section className="card" style={{ padding: 16, marginBottom: 16 }}>
-        <h2>Appels pilote</h2>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <Link to="/onboarding" className="btn btn-primary">Inscrire un producteur</Link>
-          <Link to="/onboarding" className="btn btn-primary">Inscrire un pêcheur</Link>
-          <Link to="/onboarding" className="btn btn-outline">Devenir acheteur partenaire</Link>
-          <a href="https://wa.me/596696000000?text=Bonjour%2C%20je%20veux%20rejoindre%20le%20pilote%20Martinique" target="_blank" rel="noopener noreferrer" className="btn btn-outline">Contacter l’équipe</a>
-        </div>
-      </section>
-
-      <section className="card" style={{ padding: 16 }}>
-        <h2>Références officielles utiles</h2>
-        <div style={{ display: 'grid', gap: 8 }}>
-          <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL — Données personnelles</a>
-          <a href="https://www.legifrance.gouv.fr" target="_blank" rel="noopener noreferrer">Légifrance — Cadre juridique</a>
-          <a href="https://agriculture.gouv.fr" target="_blank" rel="noopener noreferrer">Ministère de l’Agriculture</a>
-          <a href="https://www.economie.gouv.fr/dgccrf" target="_blank" rel="noopener noreferrer">DGCCRF — Information consommateur / origine</a>
-          <a href="https://www.mer.gouv.fr" target="_blank" rel="noopener noreferrer">mer.gouv.fr — Réglementation pêche</a>
+          <Link to="/marketplace" className="btn btn-outline">Catalogue</Link>
+          <Link to="/sell-now" className="btn btn-primary">Publier maintenant</Link>
+          <Link to="/dashboard" className="btn btn-outline">Dashboard</Link>
         </div>
       </section>
     </div>

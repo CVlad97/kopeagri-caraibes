@@ -14,6 +14,20 @@
 
 import { supabase, HAS_CREDENTIALS } from '../lib/supabase'
 import * as dataService from './dataService'
+
+async function withRetry<T>(fn: () => Promise<T>, attempts = 3, delayMs = 400): Promise<T> {
+  let lastError: unknown = null
+  for (let i = 1; i <= attempts; i += 1) {
+    try {
+      return await fn()
+    } catch (err) {
+      lastError = err
+      if (i === attempts) break
+      await new Promise(resolve => setTimeout(resolve, delayMs * i))
+    }
+  }
+  throw lastError
+}
 import type {
   Producer, LogisticsProvider, Distributor, Plot, Resource,
   Booking, Lot, Order, RFQ,
@@ -493,7 +507,12 @@ export async function syncFromSupabase(
     if (!table) continue
 
     try {
-      const { data, error } = await supabase.from(table).select('*')
+      const result = await withRetry<{ data: Record<string, unknown>[] | null; error: { message?: string } | null }>(
+        () => supabase.from(table).select('*') as Promise<{ data: Record<string, unknown>[] | null; error: { message?: string } | null }>,
+        3,
+        500,
+      )
+      const { data, error } = result
 
       if (error) {
         errors[collection] = error.message || String(error)
@@ -576,9 +595,12 @@ export async function syncToSupabase(
       const BATCH = 50
       for (let i = 0; i < supabaseRows.length; i += BATCH) {
         const batch = supabaseRows.slice(i, i + BATCH)
-        const { error } = await supabase.from(table).upsert(batch, {
-          onConflict: 'id',
-        })
+        const upsertResult = await withRetry<{ error: { message?: string } | null }>(
+          () => supabase.from(table).upsert(batch, { onConflict: 'id' }) as Promise<{ error: { message?: string } | null }>,
+          3,
+          500,
+        )
+        const { error } = upsertResult
         if (error) {
           errors[`${collection}_batch_${i}`] = error.message || String(error)
         }
