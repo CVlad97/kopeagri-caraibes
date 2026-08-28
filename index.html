@@ -13,6 +13,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search)
+        var redirectedPath = params.get('p')
+        if (!redirectedPath) return
+        var normalized = redirectedPath.startsWith('/') ? redirectedPath : '/' + redirectedPath
+        var cleanUrl = '/kopeagri-caraibes' + normalized
+        window.history.replaceState(null, '', cleanUrl)
+      })()
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
