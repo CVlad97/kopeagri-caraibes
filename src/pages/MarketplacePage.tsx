@@ -10,6 +10,8 @@ import { getAll as getData, MARTINIQUE_COMMUNES, AGRICULTURE_CULTURES } from '..
 import type { Lot, Order } from '../services/dataService'
 
 /* ===== Types ===== */
+type MarketFlow = 'local_circuit_court' | 'export_long'
+
 interface MarketplaceLot {
   id: string
   product: string
@@ -21,6 +23,7 @@ interface MarketplaceLot {
   originalPrice?: number
   quality: string
   category: 'lot_standard' | 'anti_gaspillage' | 'demande_achat' | 'export'
+  marketFlow?: MarketFlow
   status: 'disponible' | 'réservé' | 'expiré' | 'vendu'
   expiresAt: string
   description: string
@@ -40,6 +43,26 @@ interface PriceTrend {
 }
 
 const LS_KEY = 'kopeagri_marketplace'
+
+const FLOW_CONFIG: Record<MarketFlow, { label: string; emoji: string; color: string; description: string }> = {
+  local_circuit_court: {
+    label: 'Circuit court local',
+    emoji: '🏝️',
+    color: '#2E7D32',
+    description: 'Vente locale Martinique/Caraïbes, délais courts et logistique de proximité.',
+  },
+  export_long: {
+    label: 'Export international',
+    emoji: '🌍',
+    color: '#1565C0',
+    description: 'Flux long international: groupage, transit, conformité documentaire et délais maritimes.',
+  },
+}
+
+function getLotFlow(lot: MarketplaceLot): MarketFlow {
+  if (lot.marketFlow) return lot.marketFlow
+  return lot.category === 'export' ? 'export_long' : 'local_circuit_court'
+}
 
 const CATEGORIES = [
   { value: 'lot_standard', label: 'Achats', emoji: '📦' },
@@ -151,8 +174,9 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): nu
 
 /* ===== CSV ===== */
 function exportCSV(lots: MarketplaceLot[]): void {
-  const headers = ['Produit', 'Producteur', 'Commune', 'Quantité', 'Unité', 'Prix', 'Prix Original', 'Catégorie', 'Statut', 'Qualité', 'Certifications', 'Expiration', 'Description']
+  const headers = ['Flux', 'Produit', 'Producteur', 'Commune', 'Quantité', 'Unité', 'Prix', 'Prix Original', 'Catégorie', 'Statut', 'Qualité', 'Certifications', 'Expiration', 'Description']
   const rows = lots.map(l => [
+    FLOW_CONFIG[getLotFlow(l)].label,
     l.product, l.producer, l.commune, l.qty, l.unit, l.price,
     l.originalPrice || '', l.category, l.status, l.quality,
     l.certs.join('; '), l.expiresAt, l.description
@@ -276,7 +300,11 @@ function seedMarketplaceIfEmpty(): void {
       certs: ['Bio', 'IGP', 'Commerce équitable'], aiSuggested: false, created_at: new Date(now - 3 * 86400000).toISOString(),
     },
   ]
-  saveAll(lots)
+  const normalizedLots = lots.map(lot => ({
+    ...lot,
+    marketFlow: lot.category === 'export' ? 'export_long' as const : 'local_circuit_court' as const,
+  }))
+  saveAll(normalizedLots)
 }
 
 /* ===== Component ===== */
@@ -284,6 +312,7 @@ const MarketplacePage: React.FC = () => {
   const [lots, setLots] = useState<MarketplaceLot[]>([])
   const [search, setSearch] = useState('')
   const [filterCat, setFilterCat] = useState<string>('all')
+  const [filterFlow, setFilterFlow] = useState<'all' | MarketFlow>('local_circuit_court')
   const [filterStatus, setFilterStatus] = useState<string>('all')
   const [showCreate, setShowCreate] = useState(false)
   const [showAISuggestions, setShowAISuggestions] = useState(false)
@@ -300,6 +329,7 @@ const MarketplacePage: React.FC = () => {
   const [formPrice, setFormPrice] = useState(0)
   const [formOrigPrice, setFormOrigPrice] = useState(0)
   const [formCategory, setFormCategory] = useState<MarketplaceLot['category']>('lot_standard')
+  const [formFlow, setFormFlow] = useState<MarketFlow>('local_circuit_court')
   const [formQuality, setFormQuality] = useState('Standard')
   const [formDesc, setFormDesc] = useState('')
   const [formExpires, setFormExpires] = useState('')
@@ -323,7 +353,7 @@ const MarketplacePage: React.FC = () => {
   const resetForm = () => {
     setFormProduct(''); setFormProducer(''); setFormCommune('')
     setFormQty(1); setFormUnit('kg'); setFormPrice(0); setFormOrigPrice(0)
-    setFormCategory('lot_standard'); setFormQuality('Standard')
+    setFormCategory('lot_standard'); setFormFlow('local_circuit_court'); setFormQuality('Standard')
     setFormDesc(''); setFormExpires(''); setFormCerts([])
     setFormBudget(0); setFormDelivery(''); setFormDeadline('')
     setShowCreate(false)
@@ -331,16 +361,22 @@ const MarketplacePage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    const normalizedCategory: MarketplaceLot['category'] = formFlow === 'export_long'
+      ? 'export'
+      : (formCategory === 'export' ? 'lot_standard' : formCategory)
+
     addLot({
       product: formProduct, producer: formProducer, commune: formCommune,
       qty: formQty, unit: formUnit, price: formPrice,
-      originalPrice: formCategory === 'anti_gaspillage' ? formOrigPrice : undefined,
-      category: formCategory, status: 'disponible', quality: formQuality,
+      originalPrice: normalizedCategory === 'anti_gaspillage' ? formOrigPrice : undefined,
+      category: normalizedCategory,
+      marketFlow: formFlow,
+      status: 'disponible', quality: formQuality,
       expiresAt: formExpires || new Date(Date.now() + 86400000 * 3).toISOString(),
       description: formDesc, certs: formCerts, aiSuggested: false,
-      budget: formCategory === 'demande_achat' ? formBudget : undefined,
-      deliveryLocation: formCategory === 'demande_achat' ? formDelivery : undefined,
-      deadline: formCategory === 'demande_achat' ? formDeadline : undefined,
+      budget: normalizedCategory === 'demande_achat' ? formBudget : undefined,
+      deliveryLocation: normalizedCategory === 'demande_achat' ? formDelivery : undefined,
+      deadline: normalizedCategory === 'demande_achat' ? formDeadline : undefined,
     })
     resetForm(); load()
   }
@@ -377,6 +413,8 @@ const MarketplacePage: React.FC = () => {
   }
 
   const filtered = useMemo(() => lots.filter(l => {
+    const flow = getLotFlow(l)
+    if (filterFlow !== 'all' && flow !== filterFlow) return false
     if (filterCat !== 'all' && l.category !== filterCat) return false
     if (filterStatus !== 'all' && l.status !== filterStatus) return false
     if (search) {
@@ -384,7 +422,7 @@ const MarketplacePage: React.FC = () => {
       return l.product.toLowerCase().includes(q) || l.producer.toLowerCase().includes(q) || l.commune.toLowerCase().includes(q)
     }
     return true
-  }), [lots, filterCat, filterStatus, search, now])
+  }), [lots, filterFlow, filterCat, filterStatus, search, now])
 
   const antiGaspillage = useMemo(() => filtered.filter(l => l.category === 'anti_gaspillage'), [filtered, now])
   const standards = useMemo(() => filtered.filter(l => l.category === 'lot_standard'), [filtered])
@@ -404,7 +442,8 @@ const MarketplacePage: React.FC = () => {
     antiGasp: lots.filter(l => l.category === 'anti_gaspillage').length,
     economie: lots.filter(l => l.category === 'anti_gaspillage' && l.originalPrice).reduce((s, l) => s + ((l.originalPrice! - l.price) * l.qty), 0),
     demandes: lots.filter(l => l.category === 'demande_achat').length,
-    export: lots.filter(l => l.category === 'export').length,
+    export: lots.filter(l => getLotFlow(l) === 'export_long').length,
+    local: lots.filter(l => getLotFlow(l) === 'local_circuit_court').length,
   }), [lots])
 
   // Map view data
@@ -513,6 +552,16 @@ const MarketplacePage: React.FC = () => {
             <span style={{ fontSize: 13, color: 'var(--gray-500, #666)' }}>
               {isDemande ? '🛒 Demande par ' : 'Par '}{lot.producer} • 📍 {lot.commune}
             </span>
+            <div style={{ marginTop: 6 }}>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                background: `${FLOW_CONFIG[getLotFlow(lot)].color}18`,
+                color: FLOW_CONFIG[getLotFlow(lot)].color,
+                padding: '3px 10px', borderRadius: 999, fontSize: 12, fontWeight: 700,
+              }}>
+                {FLOW_CONFIG[getLotFlow(lot)].emoji} {FLOW_CONFIG[getLotFlow(lot)].label}
+              </span>
+            </div>
           </div>
           <span className={`badge ${STATUS_CFG[lot.status].label === 'Disponible' ? 'badge-green' : STATUS_CFG[lot.status].label === 'Réservé' ? 'badge-gold' : 'badge-orange'}`}>
             {STATUS_CFG[lot.status].emoji} {STATUS_CFG[lot.status].label}
@@ -641,9 +690,46 @@ const MarketplacePage: React.FC = () => {
         <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>
           🛒 Marketplace KopéAgri
         </h1>
-        <p style={{ fontSize: 15, opacity: 0.9, marginBottom: 20, maxWidth: 600 }}>
-          Achetez, vendez, sauvez — connectez-vous aux opportunités agricoles de Martinique
+        <p style={{ fontSize: 15, opacity: 0.9, marginBottom: 20, maxWidth: 760 }}>
+          Deux couloirs commerciaux: <strong>circuit court local</strong> (délais courts Martinique/Caraïbes)
+          et <strong>export international</strong> (flux long maritime/documentaire).
         </p>
+
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+          <button
+            onClick={() => setFilterFlow('local_circuit_court')}
+            style={{
+              padding: '8px 18px', borderRadius: 20, fontSize: 13, fontWeight: 700, cursor: 'pointer',
+              background: filterFlow === 'local_circuit_court' ? 'white' : 'rgba(255,255,255,0.2)',
+              color: filterFlow === 'local_circuit_court' ? FLOW_CONFIG.local_circuit_court.color : 'white',
+              border: '1px solid rgba(255,255,255,0.3)',
+            }}
+          >
+            {FLOW_CONFIG.local_circuit_court.emoji} {FLOW_CONFIG.local_circuit_court.label}
+          </button>
+          <button
+            onClick={() => setFilterFlow('export_long')}
+            style={{
+              padding: '8px 18px', borderRadius: 20, fontSize: 13, fontWeight: 700, cursor: 'pointer',
+              background: filterFlow === 'export_long' ? 'white' : 'rgba(255,255,255,0.2)',
+              color: filterFlow === 'export_long' ? FLOW_CONFIG.export_long.color : 'white',
+              border: '1px solid rgba(255,255,255,0.3)',
+            }}
+          >
+            {FLOW_CONFIG.export_long.emoji} {FLOW_CONFIG.export_long.label}
+          </button>
+          <button
+            onClick={() => setFilterFlow('all')}
+            style={{
+              padding: '8px 18px', borderRadius: 20, fontSize: 13, fontWeight: 700, cursor: 'pointer',
+              background: filterFlow === 'all' ? 'white' : 'rgba(255,255,255,0.2)',
+              color: filterFlow === 'all' ? '#1B5E20' : 'white',
+              border: '1px solid rgba(255,255,255,0.3)',
+            }}
+          >
+            🌐 Tous les flux
+          </button>
+        </div>
 
         {/* Search bar */}
         <div style={{
@@ -701,17 +787,24 @@ const MarketplacePage: React.FC = () => {
           </div>
         </div>
         <div className="stat-card">
+          <div className="stat-icon" style={{ background: '#E3F2FD', color: '#1565C0' }}>🌍</div>
+          <div className="stat-info">
+            <span className="stat-num">{stats.export}</span>
+            <span className="stat-label">Flux export international</span>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon" style={{ background: '#E8F5E9', color: '#1B5E20' }}>🏝️</div>
+          <div className="stat-info">
+            <span className="stat-num">{stats.local}</span>
+            <span className="stat-label">Flux local circuit court</span>
+          </div>
+        </div>
+        <div className="stat-card">
           <div className="stat-icon" style={{ background: '#FFF3E0', color: '#E65100' }}>🌱</div>
           <div className="stat-info">
             <span className="stat-num">{stats.antiGasp}</span>
             <span className="stat-label">Anti-gaspillage</span>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon" style={{ background: '#E3F2FD', color: '#1565C0' }}>💰</div>
-          <div className="stat-info">
-            <span className="stat-num">{Math.round(stats.economie)}€</span>
-            <span className="stat-label">Économies anti-gaspillage</span>
           </div>
         </div>
         <div className="stat-card">
@@ -924,6 +1017,17 @@ const MarketplacePage: React.FC = () => {
         ))}
       </div>
 
+      <div className="section-block" style={{ marginBottom: 20, borderLeft: `4px solid ${filterFlow === 'export_long' ? FLOW_CONFIG.export_long.color : FLOW_CONFIG.local_circuit_court.color}` }}>
+        <h3 style={{ marginBottom: 6 }}>
+          {filterFlow === 'all' ? '🌐 Marketplace multi-flux' : `${FLOW_CONFIG[filterFlow].emoji} ${FLOW_CONFIG[filterFlow].label}`}
+        </h3>
+        <p style={{ margin: 0, color: 'var(--gray-600, #555)', fontSize: 13 }}>
+          {filterFlow === 'all'
+            ? 'Affichage global: circuit court local + export international.'
+            : FLOW_CONFIG[filterFlow].description}
+        </p>
+      </div>
+
       {/* ===== 2. LOTS DISPONIBLES ===== */}
       {viewMode === 'cards' && standards.length > 0 && (
         <div style={{ marginBottom: 32 }}>
@@ -1062,9 +1166,34 @@ const MarketplacePage: React.FC = () => {
                   <input className="form-input" required value={formProduct} onChange={e => setFormProduct(e.target.value)} placeholder="Banane, mangue..." />
                 </div>
                 <div className="form-group">
+                  <label>Canal commercial *</label>
+                  <select
+                    className="form-input"
+                    value={formFlow}
+                    onChange={e => {
+                      const nextFlow = e.target.value as MarketFlow
+                      setFormFlow(nextFlow)
+                      if (nextFlow === 'export_long') {
+                        setFormCategory('export')
+                      } else if (formCategory === 'export') {
+                        setFormCategory('lot_standard')
+                      }
+                    }}
+                  >
+                    <option value="local_circuit_court">🏝️ Circuit court local</option>
+                    <option value="export_long">🌍 Export international</option>
+                  </select>
+                </div>
+                <div className="form-group">
                   <label>Catégorie *</label>
-                  <select className="form-input" value={formCategory} onChange={e => setFormCategory(e.target.value as MarketplaceLot['category'])}>
-                    {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>)}
+                  <select
+                    className="form-input"
+                    value={formCategory}
+                    onChange={e => setFormCategory(e.target.value as MarketplaceLot['category'])}
+                  >
+                    {CATEGORIES.filter(c => formFlow === 'export_long' ? c.value === 'export' : c.value !== 'export').map(c => (
+                      <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>
