@@ -578,7 +578,7 @@ const PricingPage: React.FC = () => {
               </div>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <a
-                  href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9Agri%2C%20je%20souhaite%20des%20informations%20sur%20vos%20offres"
+                  href="https://wa.me/596696653589?text=Bonjour%20Kop%C3%A9Agri%2C%20je%20souhaite%20des%20informations%20sur%20vos%20offres"
                   target="_blank" rel="noopener noreferrer"
                   className="btn btn-outline" style={{ color: '#25D366', borderColor: '#25D366' }}
                 >
