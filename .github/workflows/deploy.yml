@@ -32,6 +32,11 @@ jobs:
       - name: Add SPA fallback
         run: cp dist/index.html dist/404.html
 
+      - name: Publish direct demo entry point
+        run: |
+          mkdir -p dist/demo
+          cp dist/index.html dist/demo/index.html
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
