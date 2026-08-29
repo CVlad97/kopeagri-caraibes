@@ -257,7 +257,7 @@ const AdhesionPage: React.FC = () => {
               </div>
             </form>
             <a
-              href={`https://wa.me/596696000000?text=${encodeURIComponent(
+              href={`https://wa.me/596696653589?text=${encodeURIComponent(
                 `Bonjour KopéAgri, je souhaite adhérer au plan ${PLANS.find(p => p.id === selectedPlan)?.name}. Pouvez-vous m'aider ?`
               )}`}
               target="_blank"
@@ -327,7 +327,7 @@ const AdhesionPage: React.FC = () => {
                           </button>
                         )}
                         <a
-                          href={`https://wa.me/596696000000?text=${encodeURIComponent(
+                          href={`https://wa.me/596696653589?text=${encodeURIComponent(
                             `Bonjour, question sur mon abonnement ${plan?.name} (réf ${sub.reference}).`
                           )}`}
                           target="_blank"
