@@ -389,14 +389,14 @@ const MarketplacePage: React.FC = () => {
     const msg = encodeURIComponent(
       `Bonjour, je suis intéressé(e) par votre offre : ${lot.product} (${lot.qty} ${lot.unit}) à ${lot.price}€/${lot.unit}. Ref: ${lot.id}`
     )
-    window.open(`https://wa.me/596696000000?text=${msg}`, '_blank')
+    window.open(`https://wa.me/596696653589?text=${msg}`, '_blank')
   }
 
   const handleReserve = (lot: MarketplaceLot) => {
     const msg = encodeURIComponent(
       `🌱 Réservation anti-gaspillage : ${lot.product} (${lot.qty} ${lot.unit}) à ${lot.price}€/${lot.unit} — Réf: ${lot.id}`
     )
-    window.open(`https://wa.me/596696000000?text=${msg}`, '_blank')
+    window.open(`https://wa.me/596696653589?text=${msg}`, '_blank')
     updateLotStatus(lot.id, 'réservé')
     load()
   }
@@ -405,7 +405,7 @@ const MarketplacePage: React.FC = () => {
     const msg = encodeURIComponent(
       `Bonjour, suite à votre demande d'achat de ${lot.product} (${lot.qty} ${lot.unit}), je souhaite proposer mon lot. Réf: ${lot.id}`
     )
-    window.open(`https://wa.me/596696000000?text=${msg}`, '_blank')
+    window.open(`https://wa.me/596696653589?text=${msg}`, '_blank')
   }
 
   const toggleCert = (cert: string) => {
