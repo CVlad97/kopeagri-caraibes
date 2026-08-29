@@ -135,7 +135,7 @@ const SellNowPage: React.FC = () => {
       `Disponible: ${publishedLot.available}\n` +
       `Traçabilité: ${trackedLotUrl}`
     )
-    return `https://wa.me/596696000000?text=${txt}`
+    return `https://wa.me/596696653589?text=${txt}`
   }, [publishedLot, trackedLotUrl])
 
   const inviteNeighborsUrl = useMemo(() => {
