@@ -459,7 +459,7 @@ const FacturationPage: React.FC = () => {
                     📋 Demander un devis officiel
                   </button>
                   <a
-                    href={`https://wa.me/596696000000?text=${encodeURIComponent(`Bonjour, estimation pour ${estimateResult.quantity} ${estimateResult.unit} de ${estimateResult.product}. Fourchette: ${(estimateResult.estimated_price_min + estimateResult.transport_cost_min).toFixed(2)}€ — ${(estimateResult.estimated_price_max + estimateResult.transport_cost_max).toFixed(2)}€. Pouvez-vous confirmer ?`)} `}
+                    href={`https://wa.me/596696653589?text=${encodeURIComponent(`Bonjour, estimation pour ${estimateResult.quantity} ${estimateResult.unit} de ${estimateResult.product}. Fourchette: ${(estimateResult.estimated_price_min + estimateResult.transport_cost_min).toFixed(2)}€ — ${(estimateResult.estimated_price_max + estimateResult.transport_cost_max).toFixed(2)}€. Pouvez-vous confirmer ?`)} `}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-whatsapp"
