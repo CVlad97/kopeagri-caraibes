@@ -1,5 +1,5 @@
 // KopéAgri Caraïbes — Service Worker for offline support
-const CACHE_NAME = 'kopeagri-v1'
+const CACHE_NAME = 'kopeagri-v2'
 const STATIC_ASSETS = [
   '/kopeagri-caraibes/',
   '/kopeagri-caraibes/index.html',
