@@ -50,7 +50,7 @@ const LotPublicPage: React.FC = () => {
       </div>
 
       <div style={{ display: 'flex', gap: 12, marginTop: 16, flexWrap: 'wrap' }}>
-        <a className="btn btn-primary" href={`https://wa.me/596696000000?text=${whatsappText}`} target="_blank" rel="noopener noreferrer">Contacter / commander</a>
+        <a className="btn btn-primary" href={`https://wa.me/596696653589?text=${whatsappText}`} target="_blank" rel="noopener noreferrer">Contacter / commander</a>
         <a className="btn btn-outline" href={appOrderUrl}>Créer une commande dans l'app</a>
         <a className="btn btn-outline" href="/marketplace">Voir prochaines disponibilités</a>
       </div>
