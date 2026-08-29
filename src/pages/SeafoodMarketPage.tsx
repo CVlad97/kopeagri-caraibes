@@ -808,7 +808,7 @@ export default function SeafoodMarketPage() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
           <a
-            href="https://wa.me/596696000000"
+            href="https://wa.me/596696653589"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
