@@ -57,10 +57,10 @@ const LandingOfficiellePage: React.FC = () => {
 
             <div className="premium-cta">
               <Link to="/sell-now" className="btn btn-primary">Publier mon lot</Link>
-              <Link to="/demo?demo=1" className="btn btn-outline">Voir la démo</Link>
+              <Link to="/demo" className="btn btn-outline">Voir la démo</Link>
               <Link to="/onboarding" className="btn btn-outline">Créer mon compte</Link>
               <a
-                href="https://wa.me/596696000000?text=Bonjour%2C%20je%20veux%20vendre%20mon%20lot%20avec%20Kop%C3%A9"
+                href="https://wa.me/596696653589?text=Bonjour%2C%20je%20veux%20vendre%20mon%20lot%20avec%20Kop%C3%A9"
                 className="btn btn-outline"
                 target="_blank"
                 rel="noopener noreferrer"
