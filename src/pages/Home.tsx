@@ -131,7 +131,7 @@ const Home: React.FC = () => {
           </div>
           {/* TODO: remplacer par le vrai numéro WhatsApp professionnel */}
           <a
-            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20je%20souhaite%20en%20savoir%20plus"
+            href="https://wa.me/596696653589?text=Bonjour%20KopéAgri%2C%20je%20souhaite%20en%20savoir%20plus"
             target="_blank"
             rel="noopener noreferrer"
             className="hero-whatsapp"
@@ -249,7 +249,7 @@ const Home: React.FC = () => {
               <div className="faq-answer">
                 <p>{item.a}</p>
                                 <a
-                                  href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20je%20souhaite%20en%20savoir%20plus"
+                                  href="https://wa.me/596696653589?text=Bonjour%20KopéAgri%2C%20je%20souhaite%20en%20savoir%20plus"
                                   target="_blank"
                                   className="whatsapp-cta"
                                 >
@@ -306,7 +306,7 @@ const Home: React.FC = () => {
             </div>
           </div>
           <a
-            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri"
+            href="https://wa.me/596696653589?text=Bonjour%20KopéAgri"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-whatsapp"
