@@ -273,7 +273,7 @@ seedExportLots()
 
 // ===== WhatsApp URL builder =====
 function buildWhatsAppUrl(lot: ExportLot): string {
-  const phone = '596696000000'
+  const phone = '596696653589'
   const text = encodeURIComponent(
     `Bonjour KopéAgri Export 🌍,\n\n` +
     `📦 Lot export : ${lot.product} — ${lot.quantity}\n` +
@@ -783,7 +783,7 @@ const ExportPage: React.FC = () => {
           <p>Échangez directement avec les transporteurs, transitaires et producteurs pour organiser vos expéditions export en temps réel.</p>
         </div>
         <a
-          href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%20Export%2C%20j%27ai%20besoin%20d%27aide%20pour%20un%20lot%20export."
+          href="https://wa.me/596696653589?text=Bonjour%20KopéAgri%20Export%2C%20j%27ai%20besoin%20d%27aide%20pour%20un%20lot%20export."
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-whatsapp"
