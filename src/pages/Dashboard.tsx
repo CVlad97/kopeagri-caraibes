@@ -522,7 +522,7 @@ const Dashboard: React.FC = () => {
           <p>Contactez-nous sur WhatsApp — réponse rapide</p>
         </div>
         <a
-          href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9Agri%2C%20j%27ai%20besoin%20d%27aide"
+          href="https://wa.me/596696653589?text=Bonjour%20Kop%C3%A9Agri%2C%20j%27ai%20besoin%20d%27aide"
           target="_blank" rel="noopener noreferrer"
           className="btn btn-whatsapp"
         >
