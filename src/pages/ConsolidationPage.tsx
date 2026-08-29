@@ -247,7 +247,7 @@ const ConsolidationPage: React.FC = () => {
           <Plus size={18} /> Créer un lot consolidé
         </button>
         <a
-          href="https://wa.me/596696000000?text=Bonjour%20Kop%C3%A9Agri%2C%20je%20souhaite%20organiser%20un%20groupage%20pour%20export"
+          href="https://wa.me/596696653589?text=Bonjour%20Kop%C3%A9Agri%2C%20je%20souhaite%20organiser%20un%20groupage%20pour%20export"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-whatsapp"
