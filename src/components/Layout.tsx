@@ -160,7 +160,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </nav>
         <div className="sidebar-footer">
           <a
-            href="https://wa.me/596696000000?text=Bonjour%20KopéAgri%2C%20j%27ai%20besoin%20d%27aide"
+            href="https://wa.me/596696653589?text=Bonjour%20KopéAgri%2C%20j%27ai%20besoin%20d%27aide"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-item"
