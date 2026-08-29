@@ -182,7 +182,7 @@ const LotsPage: React.FC = () => {
   const buildLotShareLink = (lot: Lot) => `${window.location.origin}${import.meta.env.BASE_URL}lot/${lot.id}`
   const buildLotWhatsAppLink = (lot: Lot) => {
     const txt = encodeURIComponent(`Lot ${buildLotCode(lot)} - ${lot.product} (${lot.qty} ${lot.unit}) à ${lot.price}€/${lot.unit}. Détails: ${buildLotShareLink(lot)}`)
-    return `https://wa.me/596696000000?text=${txt}`
+    return `https://wa.me/596696653589?text=${txt}`
   }
 
   const filtered = lots.filter(l => {
