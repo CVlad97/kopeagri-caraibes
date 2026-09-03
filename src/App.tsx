@@ -41,6 +41,7 @@ const EInvoicingPage = lazy(() => import('./pages/EInvoicingPage'))
 const SellNowPage = lazy(() => import('./pages/SellNowPage'))
 const LotPublicPage = lazy(() => import('./pages/LotPublicPage'))
 const DemoAccessPage = lazy(() => import('./pages/DemoAccessPage'))
+const GuidePage = lazy(() => import('./pages/GuidePage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -67,6 +68,7 @@ function App() {
             <Route path="/" element={<LandingOfficiellePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/demo" element={<DemoAccessPage />} />
+            <Route path="/guide" element={<GuidePage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
