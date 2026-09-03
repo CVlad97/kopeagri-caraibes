@@ -19,6 +19,7 @@ interface AuthContextType {
   requestMagicLink: (email: string, fullName?: string, role?: string, commune?: string, phone?: string) => Promise<string | null>
   signOut: () => Promise<void>
   useDemoMode: () => void
+  enableDemo: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -27,7 +28,12 @@ const isDemoExplicitlyEnabled = () => {
   if (typeof window === 'undefined') return false
   try {
     const qp = new URLSearchParams(window.location.search)
-    if (qp.get('demo') === '1') {
+    const hasQueryFlag = qp.get('demo') === '1'
+    // GitHub Pages SPA redirect can stash the original path (incl. ?demo=1) in ?p=
+    const pParam = qp.get('p') || ''
+    const hasPFlag = pParam.includes('demo=1') || pParam.includes('demo%3D1')
+    const hasHashFlag = window.location.hash.includes('demo=1')
+    if (hasQueryFlag || hasPFlag || hasHashFlag) {
       localStorage.setItem('kopeagri_demo_enabled', '1')
       return true
     }
@@ -37,7 +43,7 @@ const isDemoExplicitlyEnabled = () => {
   }
 }
 
-const DEMO_ENABLED = import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true' || isDemoExplicitlyEnabled()
+const isDemoBuildEnabled = () => import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true'
 
 const makeDemoProfile = (profile: Omit<Profile, 'siret' | 'rib' | 'company_name' | 'address' | 'latitude' | 'longitude' | 'active' | 'onboarding_complete' | 'updated_at'> & { password: string }): Profile & { password: string } => ({
   ...profile,
@@ -120,6 +126,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [isDemo, setIsDemo] = useState(false)
+  const [demoEnabled, setDemoEnabled] = useState<boolean>(() => isDemoBuildEnabled() || isDemoExplicitlyEnabled())
+
+  const enableDemo = () => {
+    try { localStorage.setItem('kopeagri_demo_enabled', '1') } catch { /* ignore */ }
+    setDemoEnabled(true)
+  }
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -153,7 +165,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const signIn = async (email: string, password: string): Promise<string | null> => {
-    if (DEMO_ENABLED && DEMO_USERS[email] && password === DEMO_USERS[email].password) {
+    if ((demoEnabled || isDemoBuildEnabled()) && DEMO_USERS[email] && password === DEMO_USERS[email].password) {
       setUser({ id: DEMO_USERS[email].id, email: DEMO_USERS[email].email })
       setProfile(DEMO_USERS[email])
       setIsDemo(true)
@@ -202,7 +214,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const useDemoMode = () => {
-    if (!DEMO_ENABLED) return
+    enableDemo()
     setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' })
     setProfile(DEMO_USERS['producteur@demo.fr'])
     setIsDemo(true)
@@ -210,7 +222,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isDemo, demoEnabled: DEMO_ENABLED, signIn, signUp, requestMagicLink, signOut, useDemoMode }}>
+    <AuthContext.Provider value={{ user, profile, loading, isDemo, demoEnabled, signIn, signUp, requestMagicLink, signOut, useDemoMode, enableDemo }}>
       {children}
     </AuthContext.Provider>
   )
