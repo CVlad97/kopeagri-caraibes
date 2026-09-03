@@ -1,5 +1,6 @@
 import React from 'react'
-import { Shield, FileText, Lock, Mail, Phone, MapPin, AlertTriangle } from 'lucide-react'
+import { Shield, FileText, Lock, Phone, MapPin, AlertTriangle, BookOpen } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const pStyle: React.CSSProperties = { fontSize: 14, color: 'var(--gray-700)', lineHeight: 1.8 }
 const h3Style: React.CSSProperties = { fontSize: 17, fontWeight: 700, marginTop: 18, marginBottom: 8 }
@@ -29,7 +30,7 @@ const LegalPage: React.FC = () => {
           <strong>Kopé Agri & Pêche</strong><br />
           Projet en structuration (GIE / coopérative à valider juridiquement)<br />
           Territoire pilote : Martinique (Fort-de-France)<br />
-          Contact : <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a><br />
+          Contact : <a href="https://wa.me/596696653589" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>WhatsApp +596 696 65 35 89</a><br />
           Référent publication : Vladimir Claveau
         </p>
 
@@ -84,7 +85,7 @@ const LegalPage: React.FC = () => {
         <h3 style={h3Style}>Droits</h3>
         <p style={pStyle}>
           Droit d’accès, rectification, effacement, limitation, opposition, portabilité.
-          Contact RGPD : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>.
+          Contact RGPD : <a href="https://wa.me/596696653589?text=Demande%20RGPD%20-%20Kop%C3%A9Agri" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>WhatsApp +596 696 65 35 89</a>.
           Réclamation possible auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>www.cnil.fr</a>.
         </p>
 
@@ -96,23 +97,20 @@ const LegalPage: React.FC = () => {
       </div>
 
       <div className="section-block">
-        <h2><Mail size={18} /> 4) Contact</h2>
+        <h2><Phone size={18} /> 4) Contact</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <Mail size={16} /> <a href="mailto:contact@kopeagri.mq" style={{ color: 'var(--green-700)' }}>contact@kopeagri.mq</a>
-          </p>
-          <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <Phone size={16} /> Contact opérationnel : 0696 00 00 00
+            <Phone size={16} /> <a href="https://wa.me/596696653589" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>WhatsApp : +596 696 65 35 89</a>
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
             <MapPin size={16} /> Fort-de-France, Martinique
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <Lock size={16} /> DPO : <a href="mailto:dpo@kopeagri.mq" style={{ color: 'var(--green-700)' }}>dpo@kopeagri.mq</a>
+            <BookOpen size={16} /> <Link to="/guide" style={{ color: 'var(--green-700)' }}>Mode d’emploi de la plateforme</Link>
           </p>
         </div>
         <p style={{ marginTop: 20, fontSize: 12, color: 'var(--gray-400)' }}>
-          Dernière mise à jour : août 2026 — Version fusionnée V1.
+          Dernière mise à jour : septembre 2026 — Version fusionnée V1.
         </p>
       </div>
     </div>
