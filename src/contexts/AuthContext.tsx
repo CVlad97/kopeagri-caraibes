@@ -43,7 +43,7 @@ const isDemoExplicitlyEnabled = () => {
   }
 }
 
-const isDemoBuildEnabled = () => import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO === 'true'
+const isDemoBuildEnabled = () => import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO !== 'false'
 
 const makeDemoProfile = (profile: Omit<Profile, 'siret' | 'rib' | 'company_name' | 'address' | 'latitude' | 'longitude' | 'active' | 'onboarding_complete' | 'updated_at'> & { password: string }): Profile & { password: string } => ({
   ...profile,
