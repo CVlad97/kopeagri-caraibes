@@ -15,11 +15,11 @@ import sys
 # ============================================================
 # CONFIGURATION — Remplace par tes vraies valeurs
 # ============================================================
-SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://gppnfqedfrimpvrgwxkk.supabase.co')
+SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://boihlgodmclljtckhmgz.supabase.co')
 SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', '')
 SUPABASE_SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_KEY', '')  # sbp_cd...
 DB_PASSWORD = os.environ.get('SUPABASE_DB_PASSWORD', '')  # Same as service key
-PROJECT_REF = 'gppnfqedfrimpvrgwxkk'
+PROJECT_REF = 'boihlgodmclljtckhmgz'
 
 SCHEMA_FILE = os.path.join(os.path.dirname(__file__), 'supabase', 'schema-production.sql')
 
