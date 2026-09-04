@@ -42,6 +42,7 @@ const SellNowPage = lazy(() => import('./pages/SellNowPage'))
 const LotPublicPage = lazy(() => import('./pages/LotPublicPage'))
 const DemoAccessPage = lazy(() => import('./pages/DemoAccessPage'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
+const ExportProPage = lazy(() => import('./pages/ExportProPage'))
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
@@ -69,6 +70,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/demo" element={<DemoAccessPage />} />
             <Route path="/guide" element={<GuidePage />} />
+            <Route path="/export-pro" element={<ExportProPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />

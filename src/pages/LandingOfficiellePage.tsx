@@ -163,7 +163,10 @@ const LandingOfficiellePage: React.FC = () => {
           <div className="lp-channel lp-channel-export">
             <h3><Globe size={18} /> Export — flux long international</h3>
             <p>Groupage, conformité documentaire, transit portuaire et délais maritimes. Vends au-delà des Caraïbes.</p>
-            <Link to="/marketplace" className="btn btn-sm btn-outline">Voir l’export</Link>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <Link to="/marketplace" className="btn btn-sm btn-outline">Voir l’export</Link>
+              <Link to="/export-pro" className="btn btn-sm btn-outline">Distributeurs métropole →</Link>
+            </div>
           </div>
         </div>
       </section>
@@ -230,7 +233,7 @@ const LandingOfficiellePage: React.FC = () => {
       <footer className="lp-footer">
         <span>KopéAgri Caraïbes — Plateforme GIE agricole & pêche, Martinique</span>
         <span>
-          <Link to="/guide">Mode d’emploi</Link> · <Link to="/legal">Mentions légales</Link> · <Link to="/pricing">Tarifs</Link>
+          <Link to="/guide">Mode d’emploi</Link> · <Link to="/export-pro">Export métropole</Link> · <Link to="/legal">Mentions légales</Link> · <Link to="/pricing">Tarifs</Link>
         </span>
       </footer>
     </div>
