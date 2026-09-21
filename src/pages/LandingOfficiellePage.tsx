@@ -24,8 +24,8 @@ import '../styles/landing-premium.css'
 
 const FAQ = [
   {
-    q: 'Qu’est-ce que KopéAgri exactement ?',
-    a: 'Un projet de plateforme coopérative / GIE agricole et pêche pour la Martinique et les Caraïbes. Le but est de mutualiser les parcelles, ressources, lots, transport, froid, acheteurs et preuves de traçabilité. La forme juridique et les agréments restent à valider avant tout lancement officiel.',
+    q: 'Qu’est-ce que KopéAgri & Pêche Caraïbes exactement ?',
+    a: 'Un projet de plateforme de mutualisation agricole, pêche et logistique pour la Martinique et les Caraïbes. Le but est de regrouper parcelles, ressources, lots, transport, froid, acheteurs et preuves de traçabilité. La forme juridique finale reste à choisir avec les partenaires pilotes avant tout lancement officiel.',
   },
   {
     q: 'Ça marche-t-il avec une connexion faible ?',
@@ -135,10 +135,10 @@ const LandingOfficiellePage: React.FC = () => {
 
         <div className="premium-grid">
           <div>
-            <span className="premium-badge">🌱 Projet de GIE / coopérative agricole & pêche — Martinique</span>
+            <span className="premium-badge">🌱 Collectif pilote agriculture, pêche & logistique — Martinique</span>
             <h1 className="premium-title">Mutualiser les terres.<br />Vendre plus fort ensemble.</h1>
             <p className="premium-sub">
-              KopéAgri aide producteurs, pêcheurs, transporteurs et acheteurs à partager les parcelles,
+              KopéAgri & Pêche Caraïbes aide producteurs, pêcheurs, transporteurs et acheteurs à partager les parcelles,
               louer les ressources, regrouper les volumes, organiser le froid et préparer les marchés local,
               caribéen et export.
             </p>
@@ -250,6 +250,34 @@ const LandingOfficiellePage: React.FC = () => {
         </div>
       </section>
 
+      {/* ===== COLLECTIF PILOTE ===== */}
+      <section className="lp-section">
+        <h2 className="lp-h2">Rejoindre le collectif pilote</h2>
+        <p className="lp-section-sub">On commence avec peu d’acteurs, des rôles clairs et un test terrain mesurable avant d’élargir.</p>
+        <div className="premium-cards">
+          <div className="premium-card">
+            <h4><Tractor size={16} /> Producteur / pêcheur</h4>
+            <p>Je propose une production, une pêche, une parcelle ou un volume disponible pour le pilote.</p>
+            <Link to="/register" className="btn btn-sm btn-primary" style={{ marginTop: 10 }}>Rejoindre comme fournisseur</Link>
+          </div>
+          <div className="premium-card">
+            <h4><Truck size={16} /> Transport / froid / conditionnement</h4>
+            <p>Je peux contribuer à la collecte, au stockage, au froid, au conditionnement ou au transport.</p>
+            <Link to="/register" className="btn btn-sm btn-outline" style={{ marginTop: 10 }}>Proposer une capacité</Link>
+          </div>
+          <div className="premium-card">
+            <h4><ShoppingCart size={16} /> Acheteur professionnel</h4>
+            <p>Restaurant, hôtel, primeur, distributeur ou collectivité : je précise mon besoin et mes volumes.</p>
+            <Link to="/register" className="btn btn-sm btn-outline" style={{ marginTop: 10 }}>Déclarer un besoin</Link>
+          </div>
+        </div>
+        <div className="lp-guide-cta">
+          <a href="https://wa.me/596696653589?text=Bonjour%2C%20je%20souhaite%20rejoindre%20le%20collectif%20pilote%20KopeAgri%20%26%20Peche%20Caraibes" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <MessageCircle size={16} /> Échanger sur le pilote
+          </a>
+        </div>
+      </section>
+
       {/* ===== CONFORMITÉ ===== */}
       <section className="lp-section compliance-panel">
         <h2 className="lp-h2"><ShieldCheck size={20} /> Agrément & conformité à sécuriser</h2>
@@ -313,7 +341,7 @@ const LandingOfficiellePage: React.FC = () => {
       </section>
 
       <footer className="lp-footer">
-        <span>KopéAgri Caraïbes — projet GIE / coopérative agricole & pêche, Martinique</span>
+        <span>KopéAgri & Pêche Caraïbes — collectif pilote de mutualisation, Martinique</span>
         <span>
           <Link to="/guide">Mode d’emploi</Link> · <Link to="/export-pro">Export</Link> · <Link to="/legal">Mentions légales</Link> · <Link to="/pricing">Tarifs</Link>
         </span>
