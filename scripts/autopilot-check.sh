@@ -5,6 +5,23 @@ STAMP=$(date -u +%Y%m%dT%H%M%SZ)
 OUT="$ROOT/reports/autopilot/$STAMP.md"
 mkdir -p "$(dirname "$OUT")"
 cd "$ROOT"
+
+run_check() {
+  local name="$1"; shift
+  local log
+  log=$(mktemp)
+  "$@" >"$log" 2>&1
+  local rc=$?
+  {
+    echo "## $name"
+    echo "exit_code=$rc"
+    tail -6 "$log"
+    echo
+  } >> "$OUT"
+  rm -f "$log"
+  return 0
+}
+
 {
   echo "# Audit automatique KopéAgri — $STAMP"
   echo
@@ -15,15 +32,20 @@ cd "$ROOT"
   echo "## Disque"
   df -h / || true
   echo
-  echo "## Typecheck"
-  npm run typecheck 2>&1 || true
-  echo
-  echo "## Build"
-  npm run build 2>&1 || true
 } > "$OUT"
+run_check "Lint" npm run lint
+run_check "Typecheck" npm run typecheck
+run_check "Build" npm run build
+
+REPORT_CONTEXT=$(cat "$OUT")
 {
   echo
   echo "## Synthèse IA locale"
-  timeout 120 "$ROOT/scripts/kopeagri-agent" "Analyse le rapport $OUT et donne 5 priorités maximum. N'invente aucune action externe." 2>&1 || echo "Synthèse IA indisponible"
+  timeout 120 "$ROOT/scripts/kopeagri-agent" "Voici le contenu du dernier audit :
+
+$REPORT_CONTEXT
+
+Donne 3 priorités concrètes maximum en 220 mots maximum. Cite les preuves du rapport. Distingue correction automatique et validation humaine. N'invente aucune action externe." 2>&1 || echo "Synthèse IA indisponible"
 } >> "$OUT"
+
 echo "$OUT"
