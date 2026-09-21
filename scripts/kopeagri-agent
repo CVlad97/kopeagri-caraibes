@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="/opt/vlad/projects/KOPEAGRI"
+ROUTER="/opt/openclaw/router/ai"
+TASK="${*:-}"
+[ -n "$TASK" ] || { echo 'usage: kopeagri-agent "instruction"'; exit 1; }
+CONTEXT=$(cat "$ROOT/docs/AGENT_CONTEXT.md")
+POLICY=$(cat "$ROOT/docs/AUTOMATION_POLICY.md")
+PROMPT="$CONTEXT
+
+$POLICY
+
+TÂCHE DEMANDÉE:
+$TASK
+
+Réponds avec: état vérifié, action proposée, risque, prochaine étape."
+if RESPONSE=$(python3 - "$PROMPT" <<'PY'
+import json,sys,urllib.request
+prompt=sys.argv[1]
+payload=json.dumps({'model':'supergtp','prompt':prompt,'stream':False,'keep_alive':'10m','options':{'num_predict':480}}).encode()
+req=urllib.request.Request('http://127.0.0.1:11434/api/generate',data=payload,headers={'Content-Type':'application/json'})
+with urllib.request.urlopen(req,timeout=60) as r:
+    data=json.load(r)
+print(data.get('response','').strip())
+PY
+); then
+  printf '%s\n' "$RESPONSE"
+else
+  exec "$ROUTER" "$PROMPT"
+fi
