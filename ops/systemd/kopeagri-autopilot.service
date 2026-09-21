@@ -1,0 +1,12 @@
+[Unit]
+Description=KopeAgri local audit and build report
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/vlad/projects/KOPEAGRI
+ExecStart=/opt/vlad/projects/KOPEAGRI/scripts/autopilot-check.sh
+Nice=10
+CPUWeight=25
+IOSchedulingClass=idle
+TimeoutStartSec=10min
