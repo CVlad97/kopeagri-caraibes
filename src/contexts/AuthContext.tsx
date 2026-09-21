@@ -18,7 +18,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, fullName: string, role: string, commune: string, phone: string) => Promise<string | null>
   requestMagicLink: (email: string, fullName?: string, role?: string, commune?: string, phone?: string) => Promise<string | null>
   signOut: () => Promise<void>
-  useDemoMode: () => void
+  enterDemoMode: () => void
   enableDemo: () => void
 }
 
@@ -213,7 +213,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await supabase.auth.signOut()
   }
 
-  const useDemoMode = () => {
+  const enterDemoMode = () => {
     enableDemo()
     setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' })
     setProfile(DEMO_USERS['producteur@demo.fr'])
@@ -222,7 +222,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isDemo, demoEnabled, signIn, signUp, requestMagicLink, signOut, useDemoMode, enableDemo }}>
+    <AuthContext.Provider value={{ user, profile, loading, isDemo, demoEnabled, signIn, signUp, requestMagicLink, signOut, enterDemoMode, enableDemo }}>
       {children}
     </AuthContext.Provider>
   )

@@ -3,15 +3,15 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; roles?: string[] }> = ({ children, roles }) => {
-  const { user, profile, loading, demoEnabled, useDemoMode: activateDemoMode } = useAuth()
+  const { user, profile, loading, demoEnabled, enterDemoMode } = useAuth()
 
   // Accès démo public: si la démo est activée mais aucun user connecté,
   // on bascule automatiquement en mode démo au lieu de renvoyer au login.
   useEffect(() => {
     if (!loading && !user && demoEnabled) {
-      activateDemoMode()
+      enterDemoMode()
     }
-  }, [loading, user, demoEnabled, activateDemoMode])
+  }, [loading, user, demoEnabled, enterDemoMode])
 
   if (loading) return <div className="loading-screen"><div className="spinner" /></div>
   if (!user && demoEnabled) return <div className="loading-screen"><div className="spinner" /></div>
