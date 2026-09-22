@@ -4,6 +4,7 @@ ROOT="/opt/vlad/projects/KOPEAGRI"
 STAMP=$(date -u +%Y%m%dT%H%M%SZ)
 OUT="$ROOT/reports/autopilot/$STAMP.md"
 mkdir -p "$(dirname "$OUT")"
+find "$ROOT/reports/autopilot" -type f -name "*.md" -mtime +14 -delete 2>/dev/null || true
 cd "$ROOT"
 
 run_check() {
