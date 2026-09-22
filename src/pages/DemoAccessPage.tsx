@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 const DemoAccessPage: React.FC = () => {
-  const { useDemoMode: enterDemoMode } = useAuth()
+  const { enterDemoMode } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {

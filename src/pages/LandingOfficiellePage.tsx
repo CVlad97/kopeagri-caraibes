@@ -149,7 +149,7 @@ const LandingOfficiellePage: React.FC = () => {
               <Link to="/resources" className="btn btn-outline">Louer une ressource</Link>
               <Link to="/demo" className="btn btn-outline">Voir la démo</Link>
               <a
-                href="https://wa.me/596696653589?text=Bonjour%2C%20je%20veux%20rejoindre%20Kop%C3%A9Agri"
+                href="https://wa.me/596696653589?text=Bonjour%2C%20je%20veux%20rejoindre%20Kop%C3%A9Agri%20%26%20P%C3%AAche%20Cara%C3%AFbes"
                 className="btn btn-outline"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -334,7 +334,7 @@ const LandingOfficiellePage: React.FC = () => {
           <Link to="/sell-now" className="btn btn-primary">Publier un lot <ArrowRight size={15} /></Link>
           <Link to="/plots" className="btn btn-outline">Mutualiser une parcelle</Link>
           <Link to="/demo" className="btn btn-outline">Voir la démo</Link>
-          <a href="https://wa.me/596696653589?text=Bonjour%2C%20je%20veux%20lancer%20Kop%C3%A9Agri%20avec%20vous" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/596696653589?text=Bonjour%2C%20je%20veux%20rejoindre%20le%20collectif%20pilote%20Kop%C3%A9Agri%20%26%20P%C3%AAche%20Cara%C3%AFbes" className="btn btn-outline" target="_blank" rel="noopener noreferrer">
             <MessageCircle size={16} /> Parler à l’équipe
           </a>
         </div>

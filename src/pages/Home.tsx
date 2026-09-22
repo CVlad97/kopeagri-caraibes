@@ -79,7 +79,7 @@ const BENEFITS = [
 ]
 
 const Home: React.FC = () => {
-  const { user, useDemoMode, demoEnabled } = useAuth()
+  const { user, enterDemoMode, demoEnabled } = useAuth()
   const navigate = useNavigate()
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [counts, setCounts] = useState({ producers: 0, logistics: 0, distributors: 0, communes: 0 })
@@ -122,7 +122,7 @@ const Home: React.FC = () => {
                   Rejoindre KopéAgri <ArrowRight size={20} />
                 </button>
                 {demoEnabled && (
-                  <button className="btn btn-outline btn-lg" onClick={useDemoMode}>
+                  <button className="btn btn-outline btn-lg" onClick={enterDemoMode}>
                     Essayer la démo
                   </button>
                 )}
