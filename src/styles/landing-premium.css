@@ -601,3 +601,7 @@ body.dark .landing-premium .demo-card {
   .demo-card { min-height: auto; }
   .demo-section, .complement-section, .pilot-proof { padding: 18px 14px; }
 }
+
+
+/* Pilot 2026 — logo, hero visual and commercial outlets */
+.public-brand-logo{display:flex;align-items:center;gap:10px;text-decoration:none}.public-brand-logo img{width:42px;height:42px;object-fit:contain;border-radius:12px;background:#fff;padding:3px;box-shadow:0 4px 14px rgba(0,0,0,.12)}.public-brand-logo span{display:flex;flex-direction:column;line-height:1.05}.public-brand-logo em{font-size:12px;font-style:normal;font-weight:700;opacity:.72}.hero-visual-card{overflow:hidden;padding:12px}.hero-main-image{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18)}.hero-image-copy{padding:14px 6px 4px}.hero-image-copy h3{margin:5px 0 12px}.outlet-section .premium-card a{display:inline-block;margin-top:10px;font-weight:800;text-decoration:none}.outlet-section .premium-card a:hover{text-decoration:underline}@media(max-width:760px){.public-brand-logo img{width:36px;height:36px}.hero-main-image{aspect-ratio:4/3}}

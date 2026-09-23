@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { MARTINIQUE_COMMUNES, AGRICULTURE_CULTURES, LOGISTICS_SERVICES } from '../services/dataService'
 import '../styles/landing-premium.css'
+import heroImage from '../assets/hero.png'
 
 const DELIKREOL_URL = 'https://delikreol.com'
 const demoTo = (path: string) => `/demo?next=${encodeURIComponent(path)}`
@@ -56,7 +57,7 @@ const LandingOfficiellePage: React.FC = () => {
   return (
     <div className="page landing-premium">
       <header className="public-nav">
-        <Link to="/" className="public-brand">KopéAgri <span>& Pêche Caraïbes</span></Link>
+        <Link to="/" className="public-brand public-brand-logo"><img src={`${import.meta.env.BASE_URL}icon-192.svg`} alt="Logo KopéAgri" /><span>KopéAgri <em>& Pêche Caraïbes</em></span></Link>
         <nav className="public-nav-links" aria-label="Navigation principale">
           <a href="#fonctionnement">Comment ça marche</a>
           <a href="#complementarite">Complémentarité</a>
@@ -91,17 +92,18 @@ const LandingOfficiellePage: React.FC = () => {
             <p className="hero-note">Version de démonstration : le pilote sert à tester le fonctionnement avant lancement commercial.</p>
           </div>
 
-          <div className="premium-glass presentation-card">
-            <span className="mini-kicker">En 30 secondes</span>
-            <h3>Une seule chaîne à rendre plus fluide</h3>
-            <div className="mini-flow">
-              <span>👨‍🌾 Produire</span><b>→</b>
-              <span>📦 Regrouper</span><b>→</b>
-              <span>🚚 Acheminer</span><b>→</b>
-              <span>🤝 Vendre</span>
+          <div className="premium-glass presentation-card hero-visual-card">
+            <img src={heroImage} alt="Agriculture locale, mutualisation et débouchés KopéAgri" className="hero-main-image" />
+            <div className="hero-image-copy">
+              <span className="mini-kicker">Du terrain aux débouchés</span>
+              <h3>Une chaîne locale organisée et traçable</h3>
+              <div className="mini-flow">
+                <span>👨‍🌾 Produire</span><b>→</b>
+                <span>📦 Regrouper</span><b>→</b>
+                <span>🚚 Acheminer</span><b>→</b>
+                <span>🤝 Vendre</span>
+              </div>
             </div>
-            <p><strong>KopéAgri</strong> organise l’amont et les moyens partagés.</p>
-            <p><strong>DELIKREOL</strong> peut valoriser l’aval pour les offres de restauration et la livraison.</p>
           </div>
         </div>
       </section>
@@ -135,6 +137,17 @@ const LandingOfficiellePage: React.FC = () => {
           <Link to={demoTo('/qr-codes')} className="demo-card">
             <QrCode size={24} /><h3>Traçabilité</h3><p>Voir l’origine d’un lot et les informations utiles au suivi.</p><span>Ouvrir →</span>
           </Link>
+        </div>
+      </section>
+
+      <section className="lp-section outlet-section" id="debouches">
+        <span className="section-eyebrow">Trois stratégies commerciales</span>
+        <h2 className="lp-h2">Un même lot, plusieurs débouchés possibles</h2>
+        <p className="lp-section-sub">Le pilote doit orienter chaque lot vers le circuit le plus pertinent selon le volume, la qualité, le coût logistique et la demande réelle.</p>
+        <div className="premium-cards">
+          <div className="premium-card"><h4>🥘 Circuit court & DELIKREOL</h4><p>Approvisionner les traiteurs, restaurants, particuliers et points relais en produits locaux disponibles.</p><a href={DELIKREOL_URL} target="_blank" rel="noopener noreferrer">Voir DELIKREOL ↗</a></div>
+          <div className="premium-card"><h4>🏪 B2B Martinique</h4><p>Consolider des volumes pour transformateurs, hôtels, restaurants, collectivités et distributeurs.</p><Link to="/demo">Explorer la démo →</Link></div>
+          <div className="premium-card"><h4>✈️ Export France</h4><p>Préparer des lots tracés pour des distributeurs et restaurateurs ciblés, après validation sanitaire, logistique et économique.</p><Link to="/export-pro">Voir le parcours export →</Link></div>
         </div>
       </section>
 
