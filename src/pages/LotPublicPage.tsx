@@ -34,6 +34,23 @@ const LotPublicPage: React.FC = () => {
   const traceLevel = 'D0 — Déclaré par opérateur'
   const whatsappText = encodeURIComponent(`Bonjour, je souhaite commander le lot ${lotCode} (${lot.product})`)
   const appOrderUrl = `/lots?lotId=${lot.id}&src=${trafficSource}`
+  const delikreolUrl = (() => {
+    if (!lot.outlets?.includes('delikreol')) return ''
+    const trace = `${window.location.origin}${import.meta.env.BASE_URL}lot/${lot.id}`
+    const qs = new URLSearchParams({
+      source: 'kopeagri',
+      lot: lotCode,
+      product: lot.product,
+      producer: lot.producer,
+      commune: lot.commune,
+      qty: String(lot.qty),
+      unit: lot.unit,
+      price: String(lot.price),
+      available: lot.available,
+      trace,
+    })
+    return `https://delikreol.com/approvisionnement?${qs.toString()}`
+  })()
 
   return (
     <div className="page" style={{ maxWidth: 860, margin: '0 auto', padding: '24px 16px' }}>
@@ -53,6 +70,7 @@ const LotPublicPage: React.FC = () => {
         <a className="btn btn-primary" href={`https://wa.me/596696653589?text=${whatsappText}`} target="_blank" rel="noopener noreferrer">Contacter / commander</a>
         <a className="btn btn-outline" href={appOrderUrl}>Créer une commande dans l'app</a>
         <a className="btn btn-outline" href="/marketplace">Voir prochaines disponibilités</a>
+        {delikreolUrl && <a className="btn btn-primary" href={delikreolUrl} target="_blank" rel="noopener noreferrer">Proposer à DELIKREOL</a>}
       </div>
     </div>
   )

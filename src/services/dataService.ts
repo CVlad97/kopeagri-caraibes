@@ -93,6 +93,7 @@ export interface Lot {
   certs: string[]
   image: string
   active: boolean
+  outlets?: Array<'delikreol' | 'b2b_martinique' | 'export_france'>
   created_at: string
 }
 

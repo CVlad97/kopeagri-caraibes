@@ -19,6 +19,7 @@ type SellNowDraft = {
   available: string
   commune: string
   photoNote: string
+  outlets: Array<'delikreol' | 'b2b_martinique' | 'export_france'>
 }
 
 const DRAFT_KEY = 'kopeagri_sell_now_draft_v1'
@@ -50,6 +51,7 @@ const SellNowPage: React.FC = () => {
   const [available, setAvailable] = useState(new Date().toISOString().slice(0, 10))
   const [commune, setCommune] = useState(profile?.commune || 'Fort-de-France')
   const [photoNote, setPhotoNote] = useState('')
+  const [outlets, setOutlets] = useState<Array<'delikreol' | 'b2b_martinique' | 'export_france'>>(['delikreol', 'b2b_martinique'])
   const [publishedLot, setPublishedLot] = useState<Lot | null>(null)
 
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true)
@@ -83,6 +85,7 @@ const SellNowPage: React.FC = () => {
       setAvailable(d.available)
       setCommune(d.commune)
       setPhotoNote(d.photoNote)
+      setOutlets(d.outlets?.length ? d.outlets : ['delikreol', 'b2b_martinique'])
       setDraftRecovered(true)
     } catch {
       // ignore corrupted draft
@@ -101,6 +104,7 @@ const SellNowPage: React.FC = () => {
       available,
       commune,
       photoNote,
+      outlets,
     }
     try {
       localStorage.setItem(DRAFT_KEY, JSON.stringify(draft))
@@ -108,7 +112,7 @@ const SellNowPage: React.FC = () => {
     } catch {
       // localStorage may fail in private mode
     }
-  }, [step, lotType, product, qty, unit, price, available, commune, photoNote, publishedLot])
+  }, [step, lotType, product, qty, unit, price, available, commune, photoNote, outlets, publishedLot])
 
   const priceHint = useMemo(() => {
     if (!product || !PRICE_HINTS[product]) return null
@@ -123,6 +127,23 @@ const SellNowPage: React.FC = () => {
   const trackedLotUrl = useMemo(() => {
     if (!publishedLot) return ''
     return `${publicLotUrl}?src=lot_share`
+  }, [publishedLot, publicLotUrl])
+
+  const delikreolHandoffUrl = useMemo(() => {
+    if (!publishedLot || !publishedLot.outlets?.includes('delikreol')) return ''
+    const qs = new URLSearchParams({
+      source: 'kopeagri',
+      lot: `KPA-${publishedLot.id.toUpperCase()}`,
+      product: publishedLot.product,
+      producer: publishedLot.producer,
+      commune: publishedLot.commune,
+      qty: String(publishedLot.qty),
+      unit: publishedLot.unit,
+      price: String(publishedLot.price),
+      available: publishedLot.available,
+      trace: publicLotUrl,
+    })
+    return `https://delikreol.com/approvisionnement?${qs.toString()}`
   }, [publishedLot, publicLotUrl])
 
   const whatsappUrl = useMemo(() => {
@@ -235,6 +256,7 @@ const SellNowPage: React.FC = () => {
       certs: [],
       image: photoNote ? photoNote.slice(0, 25) : emoji,
       active: true,
+      outlets,
     }) as Lot
 
     setPublishedLot(lot)
@@ -280,6 +302,9 @@ const SellNowPage: React.FC = () => {
           <button className="btn btn-outline" onClick={flushQueuedShare} disabled={!isOnline}>Envoyer partages en attente</button>
           <a href={publicLotUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">Voir page lot</a>
           <Link to="/orders" className="btn btn-outline">Mes commandes</Link>
+          {delikreolHandoffUrl && (
+            <a href={delikreolHandoffUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">🥘 Proposer à DELIKREOL</a>
+          )}
           <button className="btn btn-outline" onClick={() => { setPublishedLot(null); setStep(1) }}>Publier un autre lot</button>
         </div>
 
@@ -391,6 +416,27 @@ const SellNowPage: React.FC = () => {
               {MARTINIQUE_COMMUNES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
             <input className="form-input" placeholder="Photo (optionnel): note rapide ou nom fichier" value={photoNote} onChange={e => setPhotoNote(e.target.value)} style={{ marginTop: 8 }} />
+            <div style={{ marginTop: 14 }}>
+              <label>Débouchés autorisés pour ce lot</label>
+              <div style={{ display: 'grid', gap: 8, marginTop: 8 }}>
+                {[
+                  ['delikreol', '🥘 DELIKREOL / circuit court'],
+                  ['b2b_martinique', '🏪 B2B Martinique'],
+                  ['export_france', '✈️ Export France (préparation)'],
+                ].map(([value, label]) => (
+                  <label key={value} style={{ display: 'flex', gap: 8, alignItems: 'center', cursor: 'pointer' }}>
+                    <input
+                      type="checkbox"
+                      checked={outlets.includes(value as 'delikreol' | 'b2b_martinique' | 'export_france')}
+                      onChange={(e) => setOutlets((prev) => e.target.checked
+                        ? [...prev, value as 'delikreol' | 'b2b_martinique' | 'export_france']
+                        : prev.filter((item) => item !== value))}
+                    />
+                    <span>{label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
           </>
         )}
 
