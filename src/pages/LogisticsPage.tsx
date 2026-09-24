@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Check, X, Truck, Pencil } from 'lucide-react'
+import { Plus, Search, MessageCircle, ToggleLeft, ToggleRight, Trash2, Check, X, Truck, Pencil, Plane, Ship, ExternalLink, Mail, PackageCheck } from 'lucide-react'
 import { getAll, add, update, toggleActive, remove } from '../services/dataService'
 import type { LogisticsProvider } from '../services/dataService'
 import EntityForms from '../components/EntityForms'
@@ -58,6 +58,29 @@ const LogisticsPage: React.FC = () => {
         <Search size={18} />
         <input placeholder="Chercher par nom ou commune..." value={search} onChange={e => setSearch(e.target.value)} />
       </div>
+
+      <section className="card" style={{ padding: 18, marginBottom: 18, border: '1px solid #b7dfd1', background: 'linear-gradient(135deg,#f3fbf7,#ffffff)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+          <div style={{ maxWidth: 720 }}>
+            <span className="badge badge-green">Prestataire logistique identifié — à contractualiser</span>
+            <h2 style={{ margin: '10px 0 6px' }}>Meridian Affret — corridor France / Europe / Caraïbes</h2>
+            <p style={{ margin: 0, opacity: .82 }}>Commissionnaire de transport vérifié publiquement : route en France/Europe, aérien, maritime, enlèvement au dépôt ou directement chez le fournisseur, documents/douane et suivi d’expédition.</p>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <a className="btn btn-primary" href="https://meridianaffret.com/demande-cotation" target="_blank" rel="noopener noreferrer">Demander une cotation <ExternalLink size={14} /></a>
+            <a className="btn btn-outline" href="mailto:info@meridianaffret.com"><Mail size={14} /> Email</a>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 10, marginTop: 16 }}>
+          <div className="card" style={{ padding: 12 }}><Truck size={18} /><strong> France / Europe</strong><p style={{ margin: '6px 0 0', fontSize: 13 }}>Collecte fournisseur et transport routier.</p></div>
+          <div className="card" style={{ padding: 12 }}><Plane size={18} /><strong> Aérien</strong><p style={{ margin: '6px 0 0', fontSize: 13 }}>Pour flux rapides selon devis et contraintes produit.</p></div>
+          <div className="card" style={{ padding: 12 }}><Ship size={18} /><strong> Maritime</strong><p style={{ margin: '6px 0 0', fontSize: 13 }}>Groupage ou volumes importants selon étude.</p></div>
+          <div className="card" style={{ padding: 12 }}><PackageCheck size={18} /><strong> Passage de relais</strong><p style={{ margin: '6px 0 0', fontSize: 13 }}>KopéAgri prépare et consolide ; le commissionnaire prend le flux export après validation.</p></div>
+        </div>
+        <div style={{ marginTop: 14, padding: 12, borderRadius: 12, background: '#fff8e6', fontSize: 13 }}>
+          <strong>Opérationnel communiqué :</strong> dépôt 6A rue Henri François, Lot 41, 77330 Ozoir-la-Ferrière, chez AJM. À utiliser seulement après confirmation du dossier/cotation. Les tarifs, délais et conditions restent ceux du devis Meridian.
+        </div>
+      </section>
 
       {showForm && <EntityForms type="logistics" onSubmit={handleAdd} onCancel={handleCancelForm} initial={editItem ? { name: editItem.name, contact: editItem.contact, phone: editItem.phone, commune: editItem.commune, services: editItem.services, fleet: editItem.fleet } : undefined} />}
 
