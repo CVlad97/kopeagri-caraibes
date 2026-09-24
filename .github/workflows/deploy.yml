@@ -37,6 +37,11 @@ jobs:
           mkdir -p dist/demo
           cp dist/index.html dist/demo/index.html
 
+      - name: Publish direct logistics entry point
+        run: |
+          mkdir -p dist/logistics
+          cp dist/index.html dist/logistics/index.html
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
