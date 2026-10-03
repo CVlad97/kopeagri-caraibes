@@ -17,22 +17,22 @@ const REQUIREMENTS = [
   {
     icon: <FileText size={16} />,
     need: 'Extrait Kbis / attestation SIRET',
-    answer: 'Chaque producteur membre complète son profil: SIRET vérifiable, statut d’exploitation. Les documents officiels sont archivés dans le dossier export du producteur, jamais affichés publiquement.',
+    answer: 'Le pilote prévoit de vérifier l’identité professionnelle et les justificatifs utiles avant de qualifier un producteur pour un flux export.',
   },
   {
     icon: <ShieldCheck size={16} />,
     need: 'MSA + assurance RC pro à jour',
-    answer: 'La checklist export du producteur affiche son état de conformité (MSA, RC pro, attestations sanitaires) avant tout échange commercial.',
+    answer: 'Une checklist export peut centraliser MSA, RC pro et attestations utiles ; aucun statut conforme ne doit être affiché sans justificatif vérifié.',
   },
   {
     icon: <CheckCircle2 size={16} />,
     need: 'Certification Bio / HVE / autre',
-    answer: 'Les certifications sont attachées au lot (badge visible sur la marketplace) avec pièce justificative au niveau de traçabilité D2.',
+    answer: 'Les certifications peuvent être associées au lot uniquement après contrôle d’une pièce justificative ; aucun badge ne vaut certification autonome de KopéAgri.',
   },
   {
     icon: <QrCode size={16} />,
     need: 'Registre de traçabilité des lots',
-    answer: 'Chaque lot publié génère un QR unique: producteur, commune, date, variété, niveau de preuve D0→D3. Historique exportable (CSV).',
+    answer: 'Le démonstrateur associe un identifiant/QR au lot et peut conserver les informations de traçabilité utiles ; le niveau de preuve dépend des justificatifs réellement collectés.',
   },
   {
     icon: <ClipboardList size={16} />,
@@ -47,7 +47,7 @@ const REQUIREMENTS = [
   {
     icon: <Truck size={16} />,
     need: 'Coordonnées du transitaire',
-    answer: 'Le réseau transporteurs/transitaires de la plateforme (collecte, groupage, transit portuaire, documentation export) couvre ce besoin.',
+    answer: 'La plateforme peut référencer et comparer des transporteurs/transitaires pour la collecte, le groupage et le transit ; chaque prestataire reste à contractualiser pour le flux concerné.',
   },
   {
     icon: <CalendarCheck size={16} />,
@@ -61,11 +61,10 @@ const ExportProPage: React.FC = () => {
     <div className="page" style={{ maxWidth: 920, margin: '0 auto' }}>
       <div className="guide-hero">
         <span className="guide-badge"><Globe size={14} /> Distributeurs métropole & international</span>
-        <h1>Achetez des produits authentiques de Martinique, en direct des exploitations</h1>
+        <h1>Préparez un approvisionnement martiniquais traçable, du lot au débouché</h1>
         <p>
           Vous êtes primeur indépendant, restaurant, grossiste ou transitaire en métropole ?
-          KopéAgri structure la filière export martiniquaise: producteurs identifiés,
-          conformité documentée, traçabilité QR de la parcelle au colis.
+          KopéAgri propose un cadre pilote pour identifier les producteurs, documenter les lots, préparer les pièces de conformité et organiser la traçabilité avant tout engagement export.
         </p>
         <div className="guide-hero-cta">
           <a
@@ -76,15 +75,15 @@ const ExportProPage: React.FC = () => {
           >
             <MessageCircle size={15} /> Ouvrir le dialogue
           </a>
-          <Link to="/marketplace" className="btn btn-outline">Voir les lots export</Link>
+          <Link to="/demo" className="btn btn-outline">Explorer le parcours en démo</Link>
         </div>
       </div>
 
       <section className="guide-profile">
-        <h2>Votre exigence de conformité, notre organisation</h2>
+        <div className="guide-note"><strong>Pilote :</strong> aucune offre export n’est considérée disponible, conforme ou contractualisée tant que producteur, volume, documents, transport, assurance, prix et destinataire n’ont pas été validés.</div>
+        <h2>Votre exigence de conformité, ce que le pilote doit documenter</h2>
         <p className="guide-intro">
-          Les distributeurs professionnels exigent des documents et de la traçabilité.
-          La plateforme est construite pour y répondre point par point:
+          Les distributeurs professionnels exigent des documents et de la traçabilité. Le démonstrateur organise ces informations, mais chaque pièce et chaque statut doivent être vérifiés avant un flux commercial réel.
         </p>
         <ol className="guide-steps">
           {REQUIREMENTS.map((r, i) => (
