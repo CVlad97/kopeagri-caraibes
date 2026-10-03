@@ -63,6 +63,7 @@ const LandingOfficiellePage: React.FC = () => {
           <a href="#complementarite">Complémentarité</a>
           <a href="#demo">Démo</a>
           <Link to="/guide">Mode d’emploi</Link>
+          <Link to="/partenariat-pilote">Partenariat pilote</Link>
           <a href={DELIKREOL_URL} target="_blank" rel="noopener noreferrer">DELIKREOL ↗</a>
         </nav>
         <Link to="/demo" className="btn btn-primary btn-sm">Voir la démo</Link>

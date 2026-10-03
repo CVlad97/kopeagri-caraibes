@@ -42,6 +42,13 @@ jobs:
           mkdir -p dist/logistics
           cp dist/index.html dist/logistics/index.html
 
+      - name: Publish partner-facing direct entry points
+        run: |
+          for route in guide export-pro partenariat-pilote legal; do
+            mkdir -p "dist/$route"
+            cp dist/index.html "dist/$route/index.html"
+          done
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -49,3 +56,20 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           force_orphan: true
+
+
+  verify:
+    name: Post-deploy smoke test
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Verify public partner routes
+        run: |
+          set -euo pipefail
+          base="https://cvlad97.github.io/kopeagri-caraibes"
+          for route in / /demo/ /logistics/ /guide/ /export-pro/ /partenariat-pilote/ /legal/; do
+            code="$(curl --silent --show-error --location --retry 5 --retry-delay 3 --retry-all-errors -o /tmp/page -w '%{http_code}' "$base$route")"
+            echo "$route -> $code"
+            test "$code" = "200"
+            grep -q 'id="root"' /tmp/page
+          done

@@ -27,6 +27,7 @@ const SeasonalCalendarPage = lazy(() => import('./pages/SeasonalCalendarPage'))
 const QRCodesPage = lazy(() => import('./pages/QRCodesPage'))
 const ConsolidationPage = lazy(() => import('./pages/ConsolidationPage'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
+const PilotPartnershipPage = lazy(() => import('./pages/PilotPartnershipPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const GiePage = lazy(() => import('./pages/GiePage'))
 const SeafoodMarketPage = lazy(() => import('./pages/SeafoodMarketPage'))
@@ -91,6 +92,7 @@ function App() {
             <Route path="/qr-codes" element={<ProtectedRoute><Layout><QRCodesPage /></Layout></ProtectedRoute>} />
             <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
+            <Route path="/partenariat-pilote" element={<PilotPartnershipPage />} />
             <Route path="/lot/:lotId" element={<LotPublicPage />} />
             <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
             <Route path="/export-data" element={<ProtectedRoute><Layout><ExportDataPage /></Layout></ProtectedRoute>} />
