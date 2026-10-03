@@ -68,8 +68,15 @@ jobs:
           set -euo pipefail
           base="https://cvlad97.github.io/kopeagri-caraibes"
           for route in / /demo/ /logistics/ /guide/ /export-pro/ /partenariat-pilote/ /legal/; do
-            code="$(curl --silent --show-error --location --retry 5 --retry-delay 3 --retry-all-errors -o /tmp/page -w '%{http_code}' "$base$route")"
-            echo "$route -> $code"
-            test "$code" = "200"
-            grep -q 'id="root"' /tmp/page
+            ok=0
+            for attempt in $(seq 1 12); do
+              code="$(curl --silent --show-error --location -o /tmp/page -w '%{http_code}' "$base$route" || true)"
+              echo "$route attempt $attempt -> $code"
+              if test "$code" = "200" && grep -q 'id="root"' /tmp/page; then
+                ok=1
+                break
+              fi
+              sleep 5
+            done
+            test "$ok" = "1"
           done
