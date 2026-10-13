@@ -93,6 +93,7 @@ function App() {
             <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/partenariat-pilote" element={<PilotPartnershipPage />} />
+            <Route path="/partenariat" element={<PilotPartnershipPage />} />
             <Route path="/lot/:lotId" element={<LotPublicPage />} />
             <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
             <Route path="/export-data" element={<ProtectedRoute><Layout><ExportDataPage /></Layout></ProtectedRoute>} />
