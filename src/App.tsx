@@ -45,6 +45,8 @@ const DemoAccessPage = lazy(() => import('./pages/DemoAccessPage'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const ExportProPage = lazy(() => import('./pages/ExportProPage'))
 
+const CollectionPage = lazy(() => import("./pages/CollectionPage"))
+
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 /* Skeleton fallback — gives instant perceived speed */
@@ -93,6 +95,7 @@ function App() {
             <Route path="/consolidation" element={<ProtectedRoute><Layout><ConsolidationPage /></Layout></ProtectedRoute>} />
             <Route path="/legal" element={<LegalPage />} />
             <Route path="/partenariat-pilote" element={<PilotPartnershipPage />} />
+            <Route path="/collecte" element={<CollectionPage />} />
             <Route path="/partenariat" element={<PilotPartnershipPage />} />
             <Route path="/lot/:lotId" element={<LotPublicPage />} />
             <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />

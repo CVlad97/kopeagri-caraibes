@@ -1,0 +1,807 @@
+{
+  "Partenaires": [
+    [
+      "partenaire_id",
+      "Identifiant stable, unique. Exemple de format : PAR-0001.",
+      "Oui"
+    ],
+    [
+      "type_partenaire",
+      "producteur, pecheur, aquaculteur, transformateur, cooperative, acheteur, transporteur, relais, institution",
+      "Oui"
+    ],
+    [
+      "raison_sociale",
+      "Nom légal ou professionnel",
+      "Oui"
+    ],
+    [
+      "nom_public",
+      "Nom autorisé pour l’annuaire",
+      "Oui"
+    ],
+    [
+      "siret",
+      "14 chiffres stockés en texte. Pour entreprise française.",
+      "Conditionnel"
+    ],
+    [
+      "pays",
+      "Pays de l’établissement",
+      "Oui"
+    ],
+    [
+      "commune",
+      "Commune principale",
+      "Oui"
+    ],
+    [
+      "contact_nom",
+      "Contact professionnel privé",
+      "Oui"
+    ],
+    [
+      "email",
+      "Adresse professionnelle privée",
+      "Oui"
+    ],
+    [
+      "telephone",
+      "Texte avec indicatif. Privé.",
+      "Oui"
+    ],
+    [
+      "adresse_collecte",
+      "Adresse précise privée, à communiquer aux seuls intervenants",
+      "Conditionnel"
+    ],
+    [
+      "filieres",
+      "Agriculture, pêche, aquaculture, transformation…",
+      "Oui"
+    ],
+    [
+      "contact_public_autorise",
+      "oui ou non. Ne pas déduire un accord de la présence du contact.",
+      "Oui"
+    ],
+    [
+      "statut_validation",
+      "a_completer, a_verifier, valide, refuse",
+      "Oui"
+    ],
+    [
+      "source_information",
+      "Document ou personne ayant fourni les données",
+      "Oui"
+    ],
+    [
+      "date_maj",
+      "Dernière confirmation, date Excel",
+      "Oui"
+    ]
+  ],
+  "Produits": [
+    [
+      "produit_id",
+      "Identifiant produit stable et unique",
+      "Oui"
+    ],
+    [
+      "nom_produit",
+      "Dénomination exacte",
+      "Oui"
+    ],
+    [
+      "categorie",
+      "fruit, legume, peche, aquaculture, transforme, autre",
+      "Oui"
+    ],
+    [
+      "description",
+      "Description commerciale factuelle",
+      "Oui"
+    ],
+    [
+      "unite",
+      "kg, piece, litre, botte, colis. Même unité sur toute la chaîne.",
+      "Oui"
+    ],
+    [
+      "conditionnement",
+      "Type et contenu du conditionnement",
+      "Oui"
+    ],
+    [
+      "poids_net_kg",
+      "Poids par unité si connu, pas de conversion inventée",
+      "Conditionnel"
+    ],
+    [
+      "ingredients",
+      "Produits transformés/préemballés selon applicabilité",
+      "Conditionnel"
+    ],
+    [
+      "allergenes",
+      "Présence à documenter. Inconnu ne signifie pas absence.",
+      "Conditionnel"
+    ],
+    [
+      "conservation",
+      "Conditions fournies par l’opérateur",
+      "Oui"
+    ],
+    [
+      "temperature_min_c",
+      "Selon produit et procédure validée, aucune valeur par défaut",
+      "Conditionnel"
+    ],
+    [
+      "temperature_max_c",
+      "Selon produit et procédure validée",
+      "Conditionnel"
+    ],
+    [
+      "photo_url",
+      "URL HTTPS autorisée, sans document privé",
+      "Facultatif"
+    ],
+    [
+      "label_revendique",
+      "Uniquement avec preuve, vide si aucun label",
+      "Facultatif"
+    ],
+    [
+      "preuve_label_ref",
+      "Référence privée de justificatif si label revendiqué",
+      "Conditionnel"
+    ],
+    [
+      "statut_validation",
+      "a_completer, a_verifier, valide, refuse",
+      "Oui"
+    ]
+  ],
+  "Offres": [
+    [
+      "offre_id",
+      "Identifiant stable unique",
+      "Oui"
+    ],
+    [
+      "partenaire_id",
+      "Doit exister dans Partenaires",
+      "Oui"
+    ],
+    [
+      "produit_id",
+      "Doit exister dans Produits",
+      "Oui"
+    ],
+    [
+      "prix_unitaire_ht",
+      "Prix pour UNE unité indiquée. Hors transport.",
+      "Oui"
+    ],
+    [
+      "taux_tva",
+      "Taux confirmé au format %, zéro uniquement si justifié",
+      "Oui"
+    ],
+    [
+      "prix_unitaire_ttc",
+      "Calcul : HT × (1 + TVA)",
+      "Calcul"
+    ],
+    [
+      "devise",
+      "EUR pour pilote local proposé",
+      "Oui"
+    ],
+    [
+      "unite",
+      "Identique à celle du produit",
+      "Oui"
+    ],
+    [
+      "commande_min_qte",
+      "Quantité minimale dans cette unité",
+      "Oui"
+    ],
+    [
+      "capacite_hebdo_qte",
+      "Capacité prévisionnelle par semaine, distincte du stock réel",
+      "Oui"
+    ],
+    [
+      "disponible_du",
+      "Début de disponibilité, date Excel",
+      "Oui"
+    ],
+    [
+      "disponible_au",
+      "Fin de disponibilité, date Excel",
+      "Oui"
+    ],
+    [
+      "delai_preparation_j",
+      "Nombre de jours calendaires",
+      "Oui"
+    ],
+    [
+      "jours_collecte",
+      "Créneaux proposés par le producteur",
+      "Oui"
+    ],
+    [
+      "prix_valable_jusquau",
+      "Date limite du tarif",
+      "Oui"
+    ],
+    [
+      "conditions_paiement",
+      "Délai et moyen à valider contractuellement",
+      "Oui"
+    ],
+    [
+      "statut_validation",
+      "a_completer, a_verifier, valide, refuse",
+      "Oui"
+    ]
+  ],
+  "Lots": [
+    [
+      "lot_id",
+      "Identifiant unique traçable, conservé durant les transferts",
+      "Oui"
+    ],
+    [
+      "offre_id",
+      "Référence à Offres",
+      "Oui"
+    ],
+    [
+      "partenaire_id",
+      "Fournisseur responsable du lot",
+      "Oui"
+    ],
+    [
+      "produit_id",
+      "Référence à Produits",
+      "Oui"
+    ],
+    [
+      "date_production",
+      "Récolte, pêche ou fabrication, date Excel",
+      "Oui"
+    ],
+    [
+      "origine_lieu",
+      "Lieu/commune/parcelle ou zone de pêche déclarée",
+      "Oui"
+    ],
+    [
+      "qte_initiale",
+      "Quantité initiale réelle du lot",
+      "Oui"
+    ],
+    [
+      "qte_reservee",
+      "Réservations ouvertes NON encore sorties",
+      "Oui"
+    ],
+    [
+      "qte_sortie",
+      "Quantité physiquement sortie. Retirer alors la réservation correspondante.",
+      "Oui"
+    ],
+    [
+      "qte_perdue",
+      "Pertes ou retraits quantitatifs",
+      "Oui"
+    ],
+    [
+      "qte_disponible",
+      "Calcul : initiale − réservée − sortie − perdue. Négatif = erreur.",
+      "Calcul"
+    ],
+    [
+      "unite",
+      "Identique à l’offre et au produit",
+      "Oui"
+    ],
+    [
+      "type_date_limite",
+      "DLC, DDM ou non_applicable, avec justification",
+      "Oui"
+    ],
+    [
+      "date_limite",
+      "Date Excel si DLC ou DDM",
+      "Conditionnel"
+    ],
+    [
+      "statut_lot",
+      "brouillon, disponible, bloque, epuise, retire",
+      "Oui"
+    ],
+    [
+      "preuve_origine_ref",
+      "Référence du document privé ou déclaration horodatée",
+      "Oui"
+    ],
+    [
+      "controle_qualite",
+      "Résultat documenté, sans certification supposée",
+      "Oui"
+    ],
+    [
+      "date_maj",
+      "Date du dernier inventaire",
+      "Oui"
+    ]
+  ],
+  "Peche": [
+    [
+      "peche_id",
+      "Identifiant unique de ligne, une sortie/espèce par ligne",
+      "Oui"
+    ],
+    [
+      "lot_id",
+      "Lot concerné",
+      "Oui"
+    ],
+    [
+      "mode_production",
+      "capture_mer, capture_eau_douce, aquaculture",
+      "Oui"
+    ],
+    [
+      "sortie_jour_id",
+      "Identifiant sortie ou jour pour capture non importée",
+      "Conditionnel"
+    ],
+    [
+      "unite_aquacole",
+      "Nom et enregistrement pour aquaculture",
+      "Conditionnel"
+    ],
+    [
+      "navire_id",
+      "Identifiant navire si applicable",
+      "Conditionnel"
+    ],
+    [
+      "certificat_capture_ref",
+      "Référence si importation concernée",
+      "Conditionnel"
+    ],
+    [
+      "code_fao_alpha3",
+      "Code espèce FAO exact",
+      "Oui"
+    ],
+    [
+      "nom_scientifique",
+      "Nom scientifique de l’espèce",
+      "Oui"
+    ],
+    [
+      "zone_capture",
+      "Zone réglementaire, à confirmer par opérateur",
+      "Oui"
+    ],
+    [
+      "categorie_engin",
+      "Catégorie d’engin pour pêche",
+      "Conditionnel"
+    ],
+    [
+      "date_capture_recolte",
+      "Date réelle, une ligne par date si nécessaire",
+      "Oui"
+    ],
+    [
+      "poids_net_kg",
+      "Poids net traçable",
+      "Oui"
+    ],
+    [
+      "nombre_individus",
+      "Si applicable",
+      "Facultatif"
+    ],
+    [
+      "qte_sous_taille_kg",
+      "Si concerné, distincte du poids total",
+      "Conditionnel"
+    ],
+    [
+      "normes_commercialisation",
+      "Informations requises selon produit",
+      "Conditionnel"
+    ],
+    [
+      "preuve_transmission_ref",
+      "Courriel ou document transmis au maillon suivant",
+      "Conditionnel"
+    ]
+  ],
+  "Evenements": [
+    [
+      "evenement_id",
+      "Unique. Journal append-only : correction par nouvel événement.",
+      "Oui"
+    ],
+    [
+      "lot_id",
+      "Lot concerné",
+      "Oui"
+    ],
+    [
+      "lot_parent_id",
+      "Si division, assemblage ou transformation. Une ligne par lien.",
+      "Conditionnel"
+    ],
+    [
+      "type_evenement",
+      "creation, collecte, reception, transfert, transformation, division, perte, blocage, rappel, correction",
+      "Oui"
+    ],
+    [
+      "horodatage_iso",
+      "Texte ISO 8601 avec fuseau, ex. AAAA-MM-JJThh:mm:ss-04:00",
+      "Oui"
+    ],
+    [
+      "acteur_id",
+      "Responsable existant dans Partenaires",
+      "Oui"
+    ],
+    [
+      "de_partenaire_id",
+      "Maillon amont, si transfert",
+      "Conditionnel"
+    ],
+    [
+      "vers_partenaire_id",
+      "Maillon aval, si transfert",
+      "Conditionnel"
+    ],
+    [
+      "quantite",
+      "Quantité concernée, sans doubler le stock",
+      "Oui"
+    ],
+    [
+      "unite",
+      "Unité cohérente avec lot",
+      "Oui"
+    ],
+    [
+      "lieu",
+      "Lieu de l’événement",
+      "Oui"
+    ],
+    [
+      "temperature_c",
+      "Mesure réelle si chaîne du froid",
+      "Conditionnel"
+    ],
+    [
+      "preuve_ref",
+      "Référence privée bon, photo, pesée ou contrôle",
+      "Oui"
+    ],
+    [
+      "commande_id",
+      "Si événement lié à une commande",
+      "Conditionnel"
+    ],
+    [
+      "commentaire",
+      "Motif, anomalie, correction ou suite donnée",
+      "Facultatif"
+    ]
+  ],
+  "Commandes": [
+    [
+      "ligne_id",
+      "Identifiant unique de ligne",
+      "Oui"
+    ],
+    [
+      "commande_id",
+      "Commun aux lignes de la même commande",
+      "Oui"
+    ],
+    [
+      "acheteur_id",
+      "Partenaire acheteur",
+      "Oui"
+    ],
+    [
+      "lot_id",
+      "Lot affecté à la ligne",
+      "Oui"
+    ],
+    [
+      "date_commande",
+      "Date Excel",
+      "Oui"
+    ],
+    [
+      "quantite",
+      "Dans l’unité du lot",
+      "Oui"
+    ],
+    [
+      "unite",
+      "Doit correspondre au lot",
+      "Oui"
+    ],
+    [
+      "prix_unitaire_ht",
+      "Prix réellement accepté, historique figé",
+      "Oui"
+    ],
+    [
+      "taux_tva",
+      "Taux réellement applicable, confirmé",
+      "Oui"
+    ],
+    [
+      "total_ligne_ht",
+      "Calcul quantité × prix",
+      "Calcul"
+    ],
+    [
+      "total_ligne_ttc",
+      "Calcul HT × (1 + TVA)",
+      "Calcul"
+    ],
+    [
+      "statut",
+      "demande, confirmee, preparation, expediee, livree, annulee",
+      "Oui"
+    ],
+    [
+      "date_livraison_prevue",
+      "Date Excel",
+      "Oui"
+    ],
+    [
+      "facture_ref",
+      "Référence facture, privée",
+      "Conditionnel"
+    ],
+    [
+      "statut_paiement",
+      "a_facturer, en_attente, paye, rembourse, litige",
+      "Oui"
+    ],
+    [
+      "preuve_livraison_ref",
+      "Bon signé ou autre preuve privée",
+      "Conditionnel"
+    ]
+  ],
+  "Logistique": [
+    [
+      "flux_id",
+      "Identifiant unique",
+      "Oui"
+    ],
+    [
+      "commande_id",
+      "Commande transportée",
+      "Oui"
+    ],
+    [
+      "lot_id",
+      "Lot transporté, une ligne par lot",
+      "Oui"
+    ],
+    [
+      "transporteur_id",
+      "Partenaire transporteur",
+      "Oui"
+    ],
+    [
+      "depart_lieu",
+      "Lieu de prise en charge",
+      "Oui"
+    ],
+    [
+      "arrivee_lieu",
+      "Destination",
+      "Oui"
+    ],
+    [
+      "depart_prevu_iso",
+      "ISO 8601 avec fuseau",
+      "Oui"
+    ],
+    [
+      "arrivee_prevue_iso",
+      "ISO 8601 avec fuseau",
+      "Oui"
+    ],
+    [
+      "quantite",
+      "Quantité du lot transportée",
+      "Oui"
+    ],
+    [
+      "unite",
+      "Unité du lot",
+      "Oui"
+    ],
+    [
+      "capacite_vehicule_kg",
+      "Capacité validée, ne pas additionner avec pièces",
+      "Conditionnel"
+    ],
+    [
+      "froid_requis",
+      "oui, non, a_confirmer",
+      "Oui"
+    ],
+    [
+      "temperature_cible_c",
+      "Selon procédure produit validée",
+      "Conditionnel"
+    ],
+    [
+      "cout_transport_ht",
+      "Coût du flux. Ne pas répéter le total sur chaque lot.",
+      "Oui"
+    ],
+    [
+      "payeur_id",
+      "Qui supporte ce coût",
+      "Oui"
+    ],
+    [
+      "statut",
+      "a_planifier, confirme, collecte, livre, incident",
+      "Oui"
+    ],
+    [
+      "preuve_ref",
+      "Bon, relevé froid ou assurance, référence privée",
+      "Conditionnel"
+    ]
+  ],
+  "Administratif": [
+    [
+      "document_id",
+      "Identifiant unique, métadonnée uniquement",
+      "Oui"
+    ],
+    [
+      "partenaire_id",
+      "Partenaire concerné",
+      "Oui"
+    ],
+    [
+      "type_document",
+      "identite_entreprise, assurance, sanitaire, label, convention, conditions_vente, information_donnees, paiement, autre",
+      "Oui"
+    ],
+    [
+      "applicabilite",
+      "requis, non_applicable, a_confirmer",
+      "Oui"
+    ],
+    [
+      "statut_document",
+      "manquant, recu, a_verifier, valide, expire, refuse",
+      "Oui"
+    ],
+    [
+      "reference_privee",
+      "Identifiant coffre privé. Aucun lien public ni RIB dans ce classeur.",
+      "Conditionnel"
+    ],
+    [
+      "date_emission",
+      "Date Excel",
+      "Conditionnel"
+    ],
+    [
+      "date_expiration",
+      "Date Excel si applicable",
+      "Conditionnel"
+    ],
+    [
+      "verificateur",
+      "Personne ayant réellement vérifié",
+      "Conditionnel"
+    ],
+    [
+      "date_verification",
+      "Date Excel",
+      "Conditionnel"
+    ],
+    [
+      "action_attendue",
+      "Demande précise à adresser au partenaire",
+      "Facultatif"
+    ],
+    [
+      "echeance",
+      "Date Excel",
+      "Facultatif"
+    ]
+  ],
+  "Besoins_acheteurs": [
+    [
+      "besoin_id",
+      "Identifiant unique",
+      "Oui"
+    ],
+    [
+      "acheteur_id",
+      "Partenaire existant",
+      "Oui"
+    ],
+    [
+      "produit_id",
+      "Produit existant",
+      "Oui"
+    ],
+    [
+      "qte_hebdo",
+      "Besoin par semaine, pas une commande ferme",
+      "Oui"
+    ],
+    [
+      "unite",
+      "Unité du produit",
+      "Oui"
+    ],
+    [
+      "prix_cible_ht",
+      "Objectif communiqué par acheteur, pas prix convenu",
+      "Facultatif"
+    ],
+    [
+      "debut_periode",
+      "Date Excel",
+      "Oui"
+    ],
+    [
+      "fin_periode",
+      "Date Excel",
+      "Oui"
+    ],
+    [
+      "frequence_livraison",
+      "Fréquence souhaitée",
+      "Oui"
+    ],
+    [
+      "lieu_livraison",
+      "Adresse privée",
+      "Oui"
+    ],
+    [
+      "exigences_qualite",
+      "Calibre, maturité, emballage, etc.",
+      "Oui"
+    ],
+    [
+      "engagement",
+      "indicatif, lettre_intention, commande_ferme",
+      "Oui"
+    ],
+    [
+      "preuve_ref",
+      "Référence de demande ou engagement",
+      "Oui"
+    ]
+  ]
+}
