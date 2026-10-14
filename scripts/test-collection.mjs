@@ -15,3 +15,20 @@ check('orphan keys, negative stock, and mixed units',()=>{const s=empty();row(s,
 check('missing VAT does not become zero',()=>{const s=empty();row(s,'Offres',{offre_id:'O-1',prix_unitaire_ht:10});assert.ok(analyzeCollection(s,schema).issues.some(x=>x.champ==='taux_tva'))})
 check('invalid date and price',()=>{const s=empty();row(s,'Offres',{offre_id:'O-1',prix_unitaire_ht:'12,50',disponible_du:'demain'});const r=analyzeCollection(s,schema);assert.ok(r.issues.some(x=>x.message==='Nombre Excel requis'));assert.ok(r.issues.some(x=>x.message==='Date Excel requise'))})
 if(process.argv[2]){const sheets=await readXlsx(process.argv[2]);const r=analyzeCollection(sheets,schema);assert.equal(r.issueCount,0);assert.equal(r.empty,true);console.log('PASS delivered XLSX: all 10 collection sheets, no errors or fake records')}
+
+check('valid linked data and price-validity date',()=>{
+ const sheets=empty()
+ const base={partenaire_id:'TEST-PAR',produit_id:'TEST-PRO',offre_id:'TEST-OFF',lot_id:'TEST-LOT',unite:'kg',email:'test@example.invalid',statut_validation:'a_verifier',type_date_limite:'non_applicable',statut_lot:'disponible',qte_initiale:100,qte_reservee:20,qte_sortie:10,qte_perdue:5,taux_tva:0.085}
+ for(const name of ['Partenaires','Produits','Offres','Lots']){
+  sheets.find(s=>s.sheet===name).data.push(schema[name].map(([key,,req])=>{
+   if(base[key]!==undefined)return base[key]
+   if(req!=='Oui')return null
+   if(/^(date_|disponible_|prix_valable)/.test(key))return new Date('2026-10-14T00:00:00Z')
+   if(/^(prix_|commande_min|capacite_|delai_)/.test(key))return 10
+   return 'TEST'
+  }))
+ }
+ const r=analyzeCollection(sheets,schema)
+ assert.equal(r.issueCount,0,JSON.stringify(r.issues))
+ assert.equal(r.volumes[0].disponible,65)
+})

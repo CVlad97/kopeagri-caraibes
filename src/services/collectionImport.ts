@@ -33,7 +33,7 @@ export function analyzeCollection(sheets: SheetInput[], schema: Schema): Report 
     const value=cells[headers.indexOf(key)]??null;row[key]=value
     if(required==='Calcul')continue
     if(required==='Oui'&&blank(value))issue(name,idx+2,key,'À renseigner')
-    if(!blank(value)&&numberFields.test(key)){
+    if(!blank(value)&&numberFields.test(key)&&!isDateField(key)){
      if(typeof value!=='number'||!Number.isFinite(value))issue(name,idx+2,key,'Nombre Excel requis')
      else if(!key.startsWith('temperature_')&&value<0)issue(name,idx+2,key,'Valeur négative interdite')
      else if(key==='taux_tva'&&value>1)issue(name,idx+2,key,'Saisir un pourcentage, par exemple 8,5 % et non 8,5')
