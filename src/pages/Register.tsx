@@ -45,14 +45,14 @@ const Register: React.FC = () => {
 
   // Persist form data to localStorage on change
   useEffect(() => {
-    try { localStorage.setItem('kopeagri_register_draft', JSON.stringify(form)) } catch {}
+    try { localStorage.setItem('kopeagri_register_draft', JSON.stringify({ ...form, password: '', confirmPw: '' })) } catch {}
   }, [form])
 
   // Restore form data on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('kopeagri_register_draft')
-      if (saved) setForm(prev => ({ ...prev, ...JSON.parse(saved) }))
+      if (saved) setForm(prev => ({ ...prev, ...JSON.parse(saved), password: '', confirmPw: '' }))
     } catch {}
   }, [])
 

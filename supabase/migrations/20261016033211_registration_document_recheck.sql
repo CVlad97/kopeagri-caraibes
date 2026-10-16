@@ -1,0 +1,2 @@
+CREATE FUNCTION kopeagri.recheck_partner_documents() RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path='' AS $$ BEGIN UPDATE kopeagri.partner_applications SET status='draft' WHERE user_id=coalesce(NEW.user_id,OLD.user_id); RETURN coalesce(NEW,OLD); END $$;
+CREATE TRIGGER recheck_partner_documents AFTER INSERT OR DELETE ON kopeagri.partner_documents FOR EACH ROW EXECUTE FUNCTION kopeagri.recheck_partner_documents();

@@ -66,7 +66,7 @@ const LandingOfficiellePage: React.FC = () => {
           <Link to="/partenariat-pilote">Partenariat pilote</Link>
           <a href={DELIKREOL_URL} target="_blank" rel="noopener noreferrer">DELIKREOL ↗</a>
         </nav>
-        <Link to="/demo" className="btn btn-primary btn-sm">Voir la démo</Link>
+        <Link to="/inscription" className="btn btn-primary btn-sm">M’inscrire / mon dossier</Link>
       </header>
 
       <section className="premium-hero premium-hero-photo">
@@ -79,7 +79,7 @@ const LandingOfficiellePage: React.FC = () => {
               regrouper des volumes et organiser les moyens utiles : parcelles, matériel, froid, stockage et transport.
             </p>
             <div className="premium-cta">
-              <Link to="/demo" className="btn btn-primary">Démarrer la démo <ArrowRight size={16} /></Link>
+              <Link to="/inscription" className="btn btn-primary">Devenir partenaire <ArrowRight size={16} /></Link>
               <a href="#fonctionnement" className="btn btn-outline">Comprendre en 2 minutes</a>
               <a
                 href="https://wa.me/596696653589?text=Bonjour%2C%20je%20souhaite%20en%20savoir%20plus%20sur%20Kop%C3%A9Agri"
@@ -90,7 +90,7 @@ const LandingOfficiellePage: React.FC = () => {
                 <MessageCircle size={16} /> WhatsApp
               </a>
             </div>
-            <p className="hero-note">Version de démonstration : le pilote sert à tester le fonctionnement avant lancement commercial.</p>
+            <p className="hero-note">Inscription partenaire en ligne : dossier et justificatifs, avec ou sans fichier Excel.</p>
           </div>
 
           <div className="premium-glass presentation-card hero-visual-card">

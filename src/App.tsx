@@ -8,8 +8,8 @@ import NotificationsPage from './pages/NotificationsPage'
 /* Lazy load all non-critical pages — reduces initial bundle for slow rural connections */
 const LandingOfficiellePage = lazy(() => import('./pages/LandingOfficiellePage'))
 const Login = lazy(() => import('./pages/Login'))
-const Register = lazy(() => import('./pages/Register'))
-const OnboardingPage = lazy(() => import('./pages/OnboardingPage'))
+const Register = lazy(() => import('./pages/PartnerRegistrationPage'))
+const OnboardingPage = lazy(() => import('./pages/PartnerRegistrationPage'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const ProducersPage = lazy(() => import('./pages/ProducersPage'))
 const LogisticsPage = lazy(() => import('./pages/LogisticsPage'))
@@ -75,6 +75,8 @@ function App() {
             <Route path="/guide" element={<GuidePage />} />
             <Route path="/export-pro" element={<ExportProPage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/inscription" element={<Register />} />
+            <Route path="/dossier-partenaire" element={<Register />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
             <Route path="/producers" element={<ProtectedRoute><Layout><ProducersPage /></Layout></ProtectedRoute>} />

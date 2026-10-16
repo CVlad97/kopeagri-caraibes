@@ -9,7 +9,7 @@ const PilotPartnershipPage = () => (
       <nav className="public-nav-links" aria-label="Navigation partenariat">
         <Link to="/">Accueil</Link><Link to="/guide">Mode d’emploi</Link><Link to="/collecte">Préparer les données</Link><Link to="/export-pro">Export pro</Link><Link to="/demo">Démo</Link>
       </nav>
-      <Link to="/demo" className="btn btn-primary btn-sm">Voir la démo</Link>
+      <Link to="/inscription" className="btn btn-primary btn-sm">M’inscrire / mon dossier</Link>
     </header>
 
     <section className="premium-hero">
@@ -18,7 +18,7 @@ const PilotPartnershipPage = () => (
           <span className="premium-badge">🤝 Proposition de collaboration — pilote à contractualiser</span>
           <h1 className="premium-title">Prouver une chaîne locale,<br />avant de l’élargir.</h1>
           <p className="premium-sub">KopéAgri propose un pilote simple pour relier production, insertion ou accompagnement, regroupement de lots, traçabilité, logistique et débouchés. Les rôles, engagements, prix et responsabilités restent à formaliser par convention.</p>
-          <div className="premium-cta"><Link to="/collecte" className="btn btn-primary">Charger le classeur Excel</Link><Link to="/demo" className="btn btn-primary">Explorer le parcours <ArrowRight size={16} /></Link><Link to="/logistics" className="btn btn-outline">Voir la logistique</Link></div>
+          <div className="premium-cta"><Link to="/inscription" className="btn btn-primary">M’inscrire et déposer mon dossier</Link><Link to="/collecte" className="btn btn-outline">Excel facultatif</Link><Link to="/demo" className="btn btn-primary">Explorer le parcours <ArrowRight size={16} /></Link><Link to="/logistics" className="btn btn-outline">Voir la logistique</Link></div>
         </div>
         <div className="premium-glass presentation-card">
           <span className="mini-kicker">Pilote 30 jours</span>

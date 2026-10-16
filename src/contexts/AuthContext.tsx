@@ -1,7 +1,8 @@
+import type { Session } from '@supabase/supabase-js'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import type { Profile } from '../lib/types'
-import { autoSyncOnLogin, hasCredentials, syncToSupabase } from '../services/syncService'
+
 
 interface AuthUser {
   id: string
@@ -144,7 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
+    supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => {
       const session = data?.session
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email || '' })
@@ -159,6 +160,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (authSession?.user) {
         setUser({ id: authSession.user.id, email: authSession.user.email || '' })
         fetchProfile(authSession.user.id)
+      } else {
+        setUser(null); setProfile(null); setIsDemo(false); setLoading(false)
       }
     })
     return () => subscription.unsubscribe()
@@ -169,12 +172,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser({ id: DEMO_USERS[email].id, email: DEMO_USERS[email].email })
       setProfile(DEMO_USERS[email])
       setIsDemo(true)
-      if (hasCredentials()) autoSyncOnLogin()
+
       return null
     }
 
     const result = await supabase.auth.signInWithPassword({ email, password })
-    if (!result.error && result.data.user && hasCredentials()) autoSyncOnLogin()
+
     return result.error?.message || null
   }
 
@@ -199,10 +202,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const result = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName, role, commune, phone } },
+      options: { data: { app: 'kopeagri', full_name: fullName, role, commune, phone } },
     })
     if (result.error) return result.error.message || 'Erreur'
-    if (hasCredentials()) syncToSupabase()
+
     return null
   }
 
