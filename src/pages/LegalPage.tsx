@@ -16,7 +16,7 @@ const LegalPage: React.FC = () => {
       <div className="section-block" style={{ border: '1px solid #fde68a', background: '#fffbeb' }}>
         <h2><AlertTriangle size={18} /> Avertissement important</h2>
         <p style={pStyle}>
-          Cette plateforme est actuellement une démonstration fonctionnelle. Les services commerciaux,
+          Les inscriptions partenaires et le dépôt de dossiers sont disponibles. Le pilote de commande reste fermé. Les services commerciaux,
           paiements, adhésions, agréments, assurances, conditions contractuelles, obligations sanitaires
           et obligations fiscales devront être validés avant lancement officiel.
         </p>
@@ -28,10 +28,12 @@ const LegalPage: React.FC = () => {
         <h3 style={h3Style}>Éditeur</h3>
         <p style={pStyle}>
           <strong>KopéAgri Caraïbes</strong><br />
-          Projet en structuration : GIE / société coopérative agricole / autre forme à valider juridiquement<br />
-          SIRET : en cours de validation<br />
+          Nom commercial : IKABAY Sourcing<br />
+          Entreprise : CLAVEAU VLADIMIR — Entrepreneur individuel (EI)<br />
+          SIREN : 103 128 716 — SIRET : 103 128 716 00018<br />
+          Adresse : Quartier Fougainville, 97211 Rivière-Pilote, Martinique<br />
           N° TVA intracommunautaire : en cours de validation<br />
-          Agrément coopératif : non déclaré comme obtenu à ce stade<br />
+
           Territoire pilote : Martinique<br />
           Contact : <a href="https://wa.me/596696653589" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>WhatsApp +596 696 65 35 89</a><br />
           Référent publication : Vladimir Claveau
@@ -40,8 +42,8 @@ const LegalPage: React.FC = () => {
         <h3 style={h3Style}>Hébergement et services techniques</h3>
         <p style={pStyle}>
           Frontend : GitHub Pages (GitHub Inc.)<br />
-          Backend / base de données : Supabase prévu ou en cours de configuration selon environnement<br />
-          Paiement : Stripe ou autre prestataire prévu uniquement après validation KYC, CGV, assurance et conformité<br />
+          Comptes, dossiers partenaires et suivi du pilote : Supabase<br />
+          Paiement en ligne : non activé ; prestataire et compte marchand à valider avant encaissement<br />
           Certaines fonctions utilisent le stockage local navigateur pour la démo et les brouillons terrain.
         </p>
       </div>
@@ -51,9 +53,10 @@ const LegalPage: React.FC = () => {
 
         <h3 style={h3Style}>Objet</h3>
         <p style={pStyle}>
-          KopéAgri Caraïbes fournit une démonstration d’outil de publication de lots, mutualisation de parcelles,
-          partage de ressources, mise en relation, coordination logistique, traçabilité QR code et préparation
-          de ventes locales, caribéennes ou export.
+          KopéAgri Caraïbes permet de constituer un dossier partenaire et prépare un circuit de publication de lots,
+          réservation et suivi des enlèvements et livraisons. Le modèle commercial retenu prévoit une vente
+          et une facturation par CLAVEAU VLADIMIR EI, sous le nom commercial IKABAY Sourcing,
+          avec transporteur partenaire et coordination Kopé. Les demandes du pilote ne sont pas des commandes payées.
         </p>
 
         <h3 style={h3Style}>Commissions et paiements</h3>
@@ -80,21 +83,14 @@ const LegalPage: React.FC = () => {
       </div>
 
       <div className="section-block">
-        <h2><Shield size={18} /> 3) Cadre juridique et agrément à sécuriser</h2>
+        <h2><Shield size={18} /> 3) Conditions commerciales à finaliser</h2>
 
-        <h3 style={h3Style}>GIE</h3>
+        <h3 style={h3Style}>Vente et livraison</h3>
         <p style={pStyle}>
-          Un groupement d’intérêt économique peut permettre à plusieurs membres de mutualiser des moyens
-          tout en conservant leur activité propre. Ce choix doit être formalisé par des statuts, une immatriculation
-          et une analyse des responsabilités entre membres.<br />
-          Source utile : <a href="https://entreprendre.service-public.fr/vosdroits/F37404" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>Service-Public / Entreprendre — Groupement d’intérêt économique</a>.
-        </p>
-
-        <h3 style={h3Style}>Société coopérative agricole</h3>
-        <p style={pStyle}>
-          Si le projet devient une société coopérative agricole, les règles d’adhésion, de gouvernance,
-          d’agrément et de contrôle doivent être validées dans le cadre applicable à la coopération agricole.<br />
-          Source utile : <a href="https://www.hcca.coop/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>Haut Conseil de la Coopération Agricole</a>.
+          Le vendeur prévu est CLAVEAU VLADIMIR EI / IKABAY Sourcing. Les prix de vente définitifs,
+          taxes applicables, frais et zones de livraison, délais, conditions d’annulation et de remboursement
+          doivent être définis avant ouverture. Le transport sera confié à un transporteur partenaire,
+          avec coordination par Kopé. Aucun transporteur ni délai garanti n’est annoncé à ce stade.
         </p>
 
         <h3 style={h3Style}>Export végétal et produits frais</h3>
@@ -138,14 +134,14 @@ const LegalPage: React.FC = () => {
             <Phone size={16} /> <a href="https://wa.me/596696653589" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--green-700)' }}>WhatsApp : +596 696 65 35 89</a>
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
-            <MapPin size={16} /> Martinique — localisation administrative à compléter avant lancement commercial
+            <MapPin size={16} /> Quartier Fougainville, 97211 Rivière-Pilote, Martinique
           </p>
           <p style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 15 }}>
             <BookOpen size={16} /> <Link to="/guide" style={{ color: 'var(--green-700)' }}>Mode d’emploi de la plateforme</Link>
           </p>
         </div>
         <p style={{ marginTop: 20, fontSize: 12, color: 'var(--gray-400)' }}>
-          Dernière mise à jour : septembre 2026 — version pilote à valider juridiquement.
+          Dernière mise à jour : 19 octobre 2026 — version pilote à valider juridiquement.
         </p>
       </div>
     </div>

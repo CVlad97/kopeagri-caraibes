@@ -48,6 +48,7 @@ export default function CommercePage(){
  }
  return <div className="kp-shell"><header className="kp-header"><Link className="kp-brand" to="/">Kopé<span>Agri</span></Link><nav><Link to="/inscription/">Mon dossier</Link><Link to="/legal/">Informations légales</Link></nav></header><main className="kp-main">
  <div className="kp-intro"><p className="kp-eyebrow">Espace partagé des partenaires</p><h1>Lots et suivi des demandes</h1><p>Disponibilités, réservations et étapes de livraison enregistrées dans votre espace commun.</p></div>
+ <section className="kp-card"><h2>Votre circuit commercial</h2><p>Vendeur prévu : CLAVEAU VLADIMIR EI · IKABAY Sourcing · SIRET 103 128 716 00018.</p><p>Livraison par transporteur partenaire, coordonnée par Kopé. Le paiement en ligne et la facturation ne sont pas encore activés.</p><Link to="/legal/">Consulter les informations et conditions du pilote</Link></section>
  {error&&<div role="alert" className="kp-error">{error}</div>}{notice&&<div role="status" className="kp-success">{notice}</div>}
  {loading?<p>Chargement…</p>:!session?<section className="kp-card"><h2>Connectez-vous à votre compte partenaire</h2><p>Cet espace utilise votre compte et votre dossier validé.</p><Link to="/inscription/">Créer mon compte ou me connecter</Link></section>:<>
  <div className="kp-toolbar"><span>{session.user.email}</span><button disabled={busy} onClick={()=>void task(async()=>{})}>Actualiser</button></div>
