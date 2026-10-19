@@ -21,3 +21,10 @@ Les fonctions de paiement de la base partagée existent pour les autres projets 
 - Définir CGV, régime de TVA et médiation applicable avant ouverture.
 
 Retour arrière : branche backup/before-ikabay-20261019. Aucune migration de base dans ce correctif.
+
+## Correctifs de reprise
+- Publication précédente vérifiée : CI et GitHub Pages réussis ; pages legal/marche-pilote/inscription HTTP200, identité visible, sans débordement à 390px.
+- Connexion /login unifiée avec le formulaire de compte et dossier réel.
+- Suppression du faux checkout d’abonnement et de son fallback WhatsApp. Paiement explicitement indisponible.
+- Ancien webhook du dépôt neutralisé : il ignorait les signatures et écrivait dans public. Aucun webhook de la base partagée n’a été déployé ou remplacé.
+- Tests de non-encaissement et de rejet des événements falsifiés ajoutés à la CI.
