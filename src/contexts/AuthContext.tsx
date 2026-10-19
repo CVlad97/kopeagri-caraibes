@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   const [isDemo, setIsDemo] = useState(false)
-  const [demoEnabled, setDemoEnabled] = useState<boolean>(() => isDemoBuildEnabled() || isDemoExplicitlyEnabled())
+  const [demoEnabled, setDemoEnabled] = useState<boolean>(() => isDemoExplicitlyEnabled())
 
   const enableDemo = () => {
     try { localStorage.setItem('kopeagri_demo_enabled', '1') } catch { /* ignore */ }

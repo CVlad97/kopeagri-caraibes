@@ -7,6 +7,7 @@ import NotificationsPage from './pages/NotificationsPage'
 
 /* Lazy load all non-critical pages — reduces initial bundle for slow rural connections */
 const LandingOfficiellePage = lazy(() => import('./pages/LandingOfficiellePage'))
+const CommercePage = lazy(() => import('./pages/CommercePage'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/PartnerRegistrationPage'))
 const OnboardingPage = lazy(() => import('./pages/PartnerRegistrationPage'))
@@ -70,6 +71,7 @@ function App() {
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
             <Route path="/" element={<LandingOfficiellePage />} />
+            <Route path="/marche-pilote" element={<CommercePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/demo" element={<DemoAccessPage />} />
             <Route path="/guide" element={<GuidePage />} />

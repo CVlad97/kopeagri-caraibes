@@ -19,3 +19,7 @@ Exécuter les tests transactionnels via un accès SQL fonctionnel; ajouter un te
 Conserver pilot_enabled=false. Les permissions restrictives préservent les données; ne pas rétablir les anciennes règles permissives. Les anciennes pages de démonstration restent inchangées. Pas de suppression de table ou données métier.
 
 Advisors existants: https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable ; https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
+
+## Raccordement interface — 19 octobre UTC
+Ajout de /marche-pilote/ : session Supabase réelle, lecture des lots/commandes/événements, appels aux fonctions publier/réserver/changer étape. Lien depuis le dossier partenaire. Les comptes réels sont redirigés des anciens modules locaux vers cet espace; la démo nécessite une activation explicite. Le pilote reste fermé.
+Build et contrôle TypeScript réussis; test navigateur mobile: entrée publique, connexion requise, lien inscription et absence d’erreur JavaScript. Cela ne valide pas encore le parcours transactionnel multi-comptes. Aucun paiement ni facture généré par le nouvel écran.

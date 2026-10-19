@@ -44,7 +44,7 @@ jobs:
 
       - name: Publish partner-facing direct entry points
         run: |
-          for route in guide export-pro partenariat-pilote partenariat collecte legal inscription register onboarding dossier-partenaire; do
+          for route in marche-pilote marketplace orders lots login guide export-pro partenariat-pilote partenariat collecte legal inscription register onboarding dossier-partenaire; do
             mkdir -p "dist/$route"
             cp dist/index.html "dist/$route/index.html"
           done
@@ -67,7 +67,7 @@ jobs:
         run: |
           set -euo pipefail
           base="https://cvlad97.github.io/kopeagri-caraibes"
-          for route in / /demo/ /logistics/ /guide/ /export-pro/ /partenariat-pilote/ /partenariat/ /collecte/ /legal/ /inscription/ /register/ /dossier-partenaire/; do
+          for route in / /marche-pilote/ /marketplace/ /demo/ /logistics/ /guide/ /export-pro/ /partenariat-pilote/ /partenariat/ /collecte/ /legal/ /inscription/ /register/ /dossier-partenaire/; do
             ok=0
             for attempt in $(seq 1 12); do
               code="$(curl --silent --show-error --location -o /tmp/page -w '%{http_code}' "$base$route" || true)"
