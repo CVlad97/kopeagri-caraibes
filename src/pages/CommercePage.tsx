@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { Link } from 'react-router-dom'
 import { getRealClient } from '../lib/supabase'
+import { PRICE_REFERENCES } from '../services/billingService'
 import '../styles/partner-registration.css'
 
 type Lot={id:string;owner_id:string;product:string;qty:number;unit:string;price_per_unit:number;commune:string;available_date:string}
@@ -14,6 +15,7 @@ export default function CommercePage(){
  const [session,setSession]=useState<Session|null>(null),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('')
  const [enabled,setEnabled]=useState(false),[role,setRole]=useState(''),[approved,setApproved]=useState(false),[lots,setLots]=useState<Lot[]>([]),[orders,setOrders]=useState<Order[]>([]),[events,setEvents]=useState<Event[]>([])
  const [offer,setOffer]=useState({product:'',qty:'',unit:'kg',price:'',commune:'',available:''})
+ const [pricingQuery,setPricingQuery]=useState(''),[pricingQty,setPricingQty]=useState('100'),[pricingUnitPrice,setPricingUnitPrice]=useState('')
  const [requests,setRequests]=useState<Record<string,{qty:string;delivery:string}>>({}),[notes,setNotes]=useState<Record<string,string>>({})
  const keys=useRef<Record<string,string>>({})
  const loadVersion=useRef(0),taskLock=useRef(false)
@@ -48,6 +50,7 @@ export default function CommercePage(){
  }
  return <div className="kp-shell"><header className="kp-header"><Link className="kp-brand" to="/">Kopé<span>Agri</span></Link><nav><Link to="/inscription/">Mon dossier</Link><Link to="/legal/">Informations légales</Link></nav></header><main className="kp-main">
  <div className="kp-intro"><p className="kp-eyebrow">Espace partagé des partenaires</p><h1>Lots et suivi des demandes</h1><p>Disponibilités, réservations et étapes de livraison enregistrées dans votre espace commun.</p></div>
+ <section className="kp-card"><h2>Matrice tarifaire — criée digitale locale (indicative)</h2><p>Références de travail non actualisées en temps réel : elles ne sont ni des prix de marché officiels ni une obligation de vente. Le professionnel fixe librement son prix HT ; transport, conditionnement et TVA restent distincts.</p><div className="kp-fields"><label>Produit de référence<select value={pricingQuery} onChange={e=>setPricingQuery(e.target.value)}><option value="">Choisir un produit</option>{Object.entries(PRICE_REFERENCES).filter(([k])=>k!=='transport martinique').map(([k,v])=><option key={k} value={k}>{k} ({v.unit})</option>)}</select></label><label>Quantité estimée<input type="number" min="0.001" step="0.001" value={pricingQty} onChange={e=>setPricingQty(e.target.value)}/></label><label>Prix vendeur HT par unité (€)<input type="number" min="0" step="0.01" value={pricingUnitPrice} onChange={e=>setPricingUnitPrice(e.target.value)}/></label></div>{pricingQuery&&<p>Fourchette indicative : <strong>{PRICE_REFERENCES[pricingQuery].min.toFixed(2)}–{PRICE_REFERENCES[pricingQuery].max.toFixed(2)} € HT / {PRICE_REFERENCES[pricingQuery].unit}</strong> (source et date de cotation non vérifiées).</p>}{Number(pricingQty)>0&&pricingUnitPrice!==''&&Number(pricingUnitPrice)>=0&&<p>Simulation : produit {(Number(pricingQty)*Number(pricingUnitPrice)).toFixed(2)} € HT ; frais de gestion envisagés 0,10 € par transaction ; total indicatif {(Number(pricingQty)*Number(pricingUnitPrice)+0.10).toFixed(2)} € hors livraison et TVA éventuelle. <strong>Ces frais ne sont pas encore facturés ni prélevés.</strong></p>}<p>Proposition pilote : inscription gratuite, prix vendeur libre, frais de gestion de 0,10 € par commande confirmée, sous réserve de validation contractuelle et des coûts du prestataire de paiement. Les références doivent être confirmées auprès des professionnels locaux avant usage commercial.</p></section>
  <section className="kp-card"><h2>Votre circuit commercial</h2><p>Vendeur prévu : CLAVEAU VLADIMIR EI · IKABAY Sourcing · SIRET 103 128 716 00018.</p><p>Livraison par transporteur partenaire, coordonnée par Kopé. Le paiement en ligne et la facturation ne sont pas encore activés.</p><Link to="/legal/">Consulter les informations et conditions du pilote</Link></section>
  {error&&<div role="alert" className="kp-error">{error}</div>}{notice&&<div role="status" className="kp-success">{notice}</div>}
  {loading?<p>Chargement…</p>:!session?<section className="kp-card"><h2>Connectez-vous à votre compte partenaire</h2><p>Cet espace utilise votre compte et votre dossier validé.</p><Link to="/inscription/">Créer mon compte ou me connecter</Link></section>:<>
