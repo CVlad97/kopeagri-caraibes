@@ -1,0 +1,13 @@
+{
+  "name": "KopéAgri Caraïbes",
+  "short_name": "KopéAgri",
+  "description": "Plateforme GIE agricole & pêche digitale pour la Martinique et les Caraïbes",
+  "start_url": "/kopeagri-caraibes/",
+  "display": "standalone",
+  "background_color": "#1a472a",
+  "theme_color": "#1a472a",
+  "icons": [
+    { "src": "/kopeagri-caraibes/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" },
+    { "src": "/kopeagri-caraibes/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml" }
+  ]
+}
