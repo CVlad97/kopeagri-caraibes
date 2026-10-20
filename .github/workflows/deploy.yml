@@ -44,7 +44,7 @@ jobs:
 
       - name: Publish partner-facing direct entry points
         run: |
-          for route in marche-pilote marketplace orders lots login guide export-pro partenariat-pilote partenariat collecte legal inscription register onboarding dossier-partenaire; do
+          for route in marche-pilote marketplace orders lots login guide export-pro partenariat-pilote partenariat collecte legal inscription register onboarding dossier-partenaire dashboard pricing logistics producers distributors plots sell-now adhesion facturation admin export calendar qr-codes consolidation notifications export-data ai-arbitrage partners erp; do
             mkdir -p "dist/$route"
             cp dist/index.html "dist/$route/index.html"
           done
