@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: VITE_ENABLE_DEMO=true npm run build
+        run: NODE_ENV=production VITE_ENABLE_DEMO=false npm run build
 
       - name: Add SPA fallback
         run: cp dist/index.html dist/404.html

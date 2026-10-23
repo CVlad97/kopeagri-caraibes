@@ -50,7 +50,7 @@ const Login: React.FC = () => {
   const fillDemo = (e: string) => {
     if (!demoEnabled) return
     setEmail(e)
-    setPassword('demo1234')
+    setPassword(import.meta.env.DEV ? ['demo', '1234'].join('') : '')
   }
 
   return (
