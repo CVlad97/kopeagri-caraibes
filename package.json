@@ -9,7 +9,10 @@
     "typecheck": "tsc -b --pretty false",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "node --test tests/payment-guard.cjs && node scripts/test-collection.mjs"
+    "test": "node --test tests/payment-guard.cjs && node scripts/test-collection.mjs",
+    "api:catalog": "node scripts/public-api-bridge.mjs list",
+    "api:audit": "node scripts/public-api-bridge.mjs audit",
+    "api:test": "node --test tests/public-api-bridge.test.mjs"
   },
   "dependencies": {
     "@stripe/stripe-js": "^9.13.0",
