@@ -98,11 +98,13 @@ export default function LandingOfficiellePage() {
 
         <section className="hero" aria-labelledby="hero-title">
           <div>
+
             <div className="eyebrow">Pilote Martinique · ouvert aux partenaires</div>
             <h1 id="hero-title">La production locale,<br /><span>enfin coordonnée.</span></h1>
             <p className="hero-copy">KopéAgri transforme les disponibilités dispersées en débouchés concrets : volumes regroupés, logistique organisée et origine suivie.</p>
-            <div className="hero-actions"><Link className="button button-primary" to={role.href}>{role.action} →</Link><Link className="button button-light" to="/demo">Voir la démo en 2 min</Link></div>
+            <div className="hero-actions"><Link className="button button-primary" to={role.href}>{role.action} →</Link><Link className="button button-gold" to="/devis-approvisionnement">Demander un devis approvisionnement →</Link><Link className="button button-light" to="/demo">Voir la démo en 2 min</Link></div>
             <div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
+
           </div>
           <aside className="hero-card" aria-label="Aperçu du marché local">
             <div className="live"><span><i className="live-dot" />ACTIVITÉ DU PILOTE</span><span>Martinique</span></div>
