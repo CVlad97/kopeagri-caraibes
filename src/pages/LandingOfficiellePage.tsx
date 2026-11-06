@@ -111,6 +111,13 @@ export default function LandingOfficiellePage() {
           </aside>
         </section>
 
+        <section className="section" aria-labelledby="pilote-langouste">
+          <div className="market-card" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:22,alignItems:'center',border:'2px solid #e6c77b'}}>
+            <img src="https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg" alt="Photo réelle d’une langouste cuisinée pour Langouste House" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
+            <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/partenaire/langouste-house">Découvrir le partenaire pilote →</Link></div>
+          </div>
+        </section>
+
         <section className="section" id="marche" aria-labelledby="market-title">
           <div className="section-heading"><div><div className="eyebrow">Préparation du marché</div><h2 id="market-title">Construisons les premières offres locales</h2></div><p>Exemples de besoins possibles, non publiés comme commandes réelles. Les premiers partenaires peuvent maintenant se présenter.</p></div>
           <div className="market"><div className="market-card dark"><h3>Exemples de besoins à qualifier</h3><p>Illustrations non contractuelles : aucun acheteur ou volume n’est confirmé.</p><div className="listing"><span><b>Fruits tropicaux</b><small>Fort-de-France · volume à définir</small></span><span className="price">Exemple</span></div><div className="listing"><span><b>Poisson frais</b><small>Le Marin · prospect à identifier</small></span><span className="price">Exemple</span></div><div className="listing"><span><b>Légumes pays</b><small>Le Lamentin · prospect à identifier</small></span><span className="price">Exemple</span></div></div><div className="market-card"><h3>Déclarer une disponibilité</h3><p>Produit, quantité, commune et date : les informations de base pour constituer votre dossier. Publication après validation.</p><Link className="button button-gold" to="/collecte">Déclarer une disponibilité →</Link><p style={{ fontSize: '.8rem', marginTop: 18 }}>L'inscription nécessite un compte et peut demander une validation par email.</p></div></div>

@@ -9,6 +9,7 @@ import NotificationsPage from './pages/NotificationsPage'
 const LandingOfficiellePage = lazy(() => import('./pages/LandingOfficiellePage'))
 const CommercePage = lazy(() => import('./pages/CommercePage'))
 const SourcingRequestPage = lazy(() => import('./pages/SourcingRequestPage'))
+const LangoustePilotPage = lazy(() => import('./pages/LangoustePilotPage'))
 const Login = lazy(() => import('./pages/PartnerRegistrationPage'))
 const Register = lazy(() => import('./pages/PartnerRegistrationPage'))
 const OnboardingPage = lazy(() => import('./pages/PartnerRegistrationPage'))
@@ -74,6 +75,7 @@ function App() {
             <Route path="/" element={<LandingOfficiellePage />} />
             <Route path="/marche-pilote" element={<CommercePage />} />
             <Route path="/devis-approvisionnement" element={<SourcingRequestPage />} />
+            <Route path="/partenaire/langouste-house" element={<LangoustePilotPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/demo" element={<DemoAccessPage />} />
             <Route path="/guide" element={<GuidePage />} />
