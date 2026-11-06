@@ -80,6 +80,7 @@ const LandingOfficiellePage: React.FC = () => {
             </p>
             <div className="premium-cta">
               <Link to="/inscription" className="btn btn-primary">Devenir partenaire <ArrowRight size={16} /></Link>
+              <Link to="/devis-approvisionnement" className="btn btn-primary"><Package size={16}/> Demander un devis approvisionnement</Link>
               <a href="#fonctionnement" className="btn btn-outline">Comprendre en 2 minutes</a>
               <a
                 href="https://wa.me/596696653589?text=Bonjour%2C%20je%20souhaite%20en%20savoir%20plus%20sur%20Kop%C3%A9Agri"
