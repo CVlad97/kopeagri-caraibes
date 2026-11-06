@@ -82,8 +82,6 @@ const roles: Role[] = [
 
 export default function LandingOfficiellePage() {
   const [activeRole, setActiveRole] = useState(0)
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
   const role = useMemo(() => roles[activeRole], [activeRole])
 
   return (
@@ -107,15 +105,15 @@ export default function LandingOfficiellePage() {
 
           </div>
           <aside className="hero-card" aria-label="Aperçu du marché local">
-            <div className="live"><span><i className="live-dot" />ACTIVITÉ DU PILOTE</span><span>Martinique</span></div>
-            <div className="snapshot"><div className="snapshot-item"><b>27</b><small>productions référencées</small></div><div className="snapshot-item"><b>34</b><small>communes couvertes</small></div><div className="snapshot-item"><b>8</b><small>services logistiques</small></div><div className="snapshot-item"><b>24h</b><small>pour déclarer un besoin</small></div></div>
-            <div className="alert">💡 <strong>À ne pas rater :</strong> les acheteurs cherchent des volumes regroupés et réguliers. Déclarez votre disponibilité aujourd'hui.</div>
+            <div className="live"><span><i className="live-dot" />PRÉSENTATION DU PILOTE</span><span>Martinique</span></div>
+            <div className="snapshot"><div className="snapshot-item"><b>34</b><small>communes prévues au périmètre</small></div><div className="snapshot-item"><b>Inscription</b><small>producteurs et acheteurs</small></div><div className="snapshot-item"><b>Devis</b><small>besoins et disponibilités à confirmer</small></div><div className="snapshot-item"><b>Pilote</b><small>transport et froid à organiser</small></div></div>
+            <div className="alert">💡 <strong>À ne pas rater :</strong> inscrivez-vous pour construire ensemble les premières offres. Aucun stock ni débouché n’est garanti à ce stade.</div>
           </aside>
         </section>
 
         <section className="section" id="marche" aria-labelledby="market-title">
-          <div className="section-heading"><div><div className="eyebrow">Le réflexe du matin</div><h2 id="market-title">Ce qui bouge sur le territoire</h2></div><p>Un aperçu simple des offres, besoins et capacités. La plateforme devient utile avant même la première commande.</p></div>
-          <div className="market"><div className="market-card dark"><h3>Demandes actives cette semaine</h3><p>Des débouchés identifiés à rapprocher des productions disponibles.</p><div className="listing"><span><b>Fruits tropicaux</b><small>Fort-de-France · 250 kg</small></span><span className="price">Urgent</span></div><div className="listing"><span><b>Poisson frais</b><small>Le Marin · restauration</small></span><span className="price">Nouveau</span></div><div className="listing"><span><b>Légumes pays</b><small>Lamentin · collectivité</small></span><span className="price">Cette semaine</span></div></div><div className="market-card"><h3>Déclarer en moins d'une minute</h3><p>Produit, quantité, commune et date : c'est tout ce qu'il faut pour rendre votre offre visible.</p><Link className="button button-gold" to="/collecte">Déclarer une disponibilité →</Link><p style={{ fontSize: '.8rem', marginTop: 18 }}>Vous n'avez pas encore de compte ? L'inscription peut commencer avec un simple numéro de téléphone.</p></div></div>
+          <div className="section-heading"><div><div className="eyebrow">Préparation du marché</div><h2 id="market-title">Construisons les premières offres locales</h2></div><p>Exemples de besoins possibles, non publiés comme commandes réelles. Les premiers partenaires peuvent maintenant se présenter.</p></div>
+          <div className="market"><div className="market-card dark"><h3>Exemples de besoins à qualifier</h3><p>Illustrations non contractuelles : aucun acheteur ou volume n’est confirmé.</p><div className="listing"><span><b>Fruits tropicaux</b><small>Fort-de-France · volume à définir</small></span><span className="price">Exemple</span></div><div className="listing"><span><b>Poisson frais</b><small>Le Marin · prospect à identifier</small></span><span className="price">Exemple</span></div><div className="listing"><span><b>Légumes pays</b><small>Le Lamentin · prospect à identifier</small></span><span className="price">Exemple</span></div></div><div className="market-card"><h3>Déclarer une disponibilité</h3><p>Produit, quantité, commune et date : les informations de base pour constituer votre dossier. Publication après validation.</p><Link className="button button-gold" to="/collecte">Déclarer une disponibilité →</Link><p style={{ fontSize: '.8rem', marginTop: 18 }}>L'inscription nécessite un compte et peut demander une validation par email.</p></div></div>
         </section>
 
         <section className="section" id="fonctionnement" aria-labelledby="role-title">
@@ -126,7 +124,7 @@ export default function LandingOfficiellePage() {
 
         <section className="section" aria-labelledby="steps-title"><div className="section-heading"><div><div className="eyebrow">Du terrain au débouché</div><h2 id="steps-title">Simple à comprendre, utile à répéter</h2></div></div><div className="workflow"><div className="step"><span className="step-number">1</span><h3>Déclarer</h3><p>Une production, un besoin ou une capacité logistique.</p></div><div className="step"><span className="step-number">2</span><h3>Rapprocher</h3><p>Les offres et les demandes compatibles sont réunies.</p></div><div className="step"><span className="step-number">3</span><h3>Organiser</h3><p>Collecte, froid, transport et stockage sont planifiés.</p></div><div className="step"><span className="step-number">4</span><h3>Vendre & suivre</h3><p>Le lot reste traçable jusqu'au débouché final.</p></div></div></section>
 
-        <section className="section"><div className="cta"><div><h2>Recevez les opportunités du pilote</h2><p>Un email utile, pas une newsletter de plus : demandes, appels à partenaires et nouvelles disponibilités.</p></div>{subscribed ? <strong>✓ Vous êtes inscrit — à bientôt !</strong> : <form onSubmit={(event) => { event.preventDefault(); if (email.trim()) setSubscribed(true) }} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><input aria-label="Votre email" type="email" required placeholder="votre@email.fr" value={email} onChange={(event) => setEmail(event.target.value)} style={{ minWidth: 210, padding: '12px 14px', border: '1px solid #d7c27a', borderRadius: 12, font: 'inherit' }} /><button className="button button-primary" type="submit">Je m'inscris</button></form>}</div></section>
+        <section className="section"><div className="cta"><div><h2>Parlons de vos besoins</h2><p>Producteur, pêcheur, traiteur, acheteur ou transporteur : présentez votre activité et recevez un retour sur les prochaines étapes du pilote.</p></div><div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}><Link className="button button-primary" to="/inscription">Créer mon dossier partenaire</Link><Link className="button button-light" to="/devis-approvisionnement">Demander un devis</Link></div></div></section>
 
         <footer className="hub-footer"><span>© KopéAgri & Pêche Caraïbes · Martinique</span><div><Link to="/legal">Mentions légales</Link><Link to="/partenariat-pilote">Partenariat pilote</Link><a href="https://delikreol.com">DELIKREOL ↗</a></div></footer>
       </div>
