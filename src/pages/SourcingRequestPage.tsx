@@ -16,7 +16,7 @@ type Request = {
 }
 const initial: Request = { nom: '', telephone: '', structure: '', produits: '', quantites: '', commune: '', date: '', logistique: '' }
 
-export function sourcingWhatsAppLink(data: Request): string {
+function sourcingWhatsAppLink(data: Request): string {
   const rows = [
     '🌱 *KopéAgri — demande de devis approvisionnement*',
     `Contact : ${data.nom.trim()}`,
