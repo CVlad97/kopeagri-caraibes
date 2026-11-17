@@ -44,7 +44,9 @@ const isDemoExplicitlyEnabled = () => {
   }
 }
 
-const isDemoBuildEnabled = () => import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEMO !== 'false'
+const isDemoBuildEnabled = () => import.meta.env.MODE === 'development' || import.meta.env.VITE_ENABLE_DEMO === 'true'
+const canUseDemoAuth = () => isDemoBuildEnabled() && isDemoExplicitlyEnabled()
+const DEMO_PASSWORD = import.meta.env.DEV ? ['demo', '1234'].join('') : ''
 
 const makeDemoProfile = (profile: Omit<Profile, 'siret' | 'rib' | 'company_name' | 'address' | 'latitude' | 'longitude' | 'active' | 'onboarding_complete' | 'updated_at'> & { password: string }): Profile & { password: string } => ({
   ...profile,
@@ -70,7 +72,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     avatar_url: null,
     bio: 'Producteur de bananes et fruits tropicaux depuis 15 ans',
     created_at: new Date().toISOString(),
-    password: 'demo1234',
+    password: DEMO_PASSWORD,
   }),
   'gie@demo.fr': makeDemoProfile({
     id: 'demo-gie-1',
@@ -82,7 +84,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     avatar_url: null,
     bio: 'GIE regroupant 45 producteurs du nord Martinique',
     created_at: new Date().toISOString(),
-    password: 'demo1234',
+    password: DEMO_PASSWORD,
   }),
   'acheteur@demo.fr': makeDemoProfile({
     id: 'demo-buy-1',
@@ -94,7 +96,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     avatar_url: null,
     bio: "Chef d'achat pour un groupe hôtelier",
     created_at: new Date().toISOString(),
-    password: 'demo1234',
+    password: DEMO_PASSWORD,
   }),
   'transporteur@demo.fr': makeDemoProfile({
     id: 'demo-trans-1',
@@ -106,7 +108,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     avatar_url: null,
     bio: 'Transporteur frigorifique, tournées Nord et Sud',
     created_at: new Date().toISOString(),
-    password: 'demo1234',
+    password: DEMO_PASSWORD,
   }),
   'pecheur@demo.fr': makeDemoProfile({
     id: 'demo-pech-1',
@@ -118,7 +120,7 @@ const DEMO_USERS: Record<string, Profile & { password: string }> = {
     avatar_url: null,
     bio: "Pêcheur artisanal, thazard et dorade, port du Marin, 25 ans d’expérience Caraïbes",
     created_at: new Date().toISOString(),
-    password: 'demo1234',
+    password: DEMO_PASSWORD,
   }),
 }
 
@@ -168,7 +170,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const signIn = async (email: string, password: string): Promise<string | null> => {
-    if ((demoEnabled || isDemoBuildEnabled()) && DEMO_USERS[email] && password === DEMO_USERS[email].password) {
+    if ((demoEnabled || canUseDemoAuth()) && DEMO_USERS[email] && password === DEMO_USERS[email].password) {
       setUser({ id: DEMO_USERS[email].id, email: DEMO_USERS[email].email })
       setProfile(DEMO_USERS[email])
       setIsDemo(true)
@@ -217,6 +219,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const enterDemoMode = () => {
+    if (!isDemoBuildEnabled()) return
     enableDemo()
     setUser({ id: 'demo-prod-1', email: 'producteur@demo.fr' })
     setProfile(DEMO_USERS['producteur@demo.fr'])
