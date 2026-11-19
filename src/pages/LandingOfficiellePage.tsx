@@ -28,6 +28,11 @@ const styles = `
   .micro-proof strong { color:#1d6b46; }
   .hero-card { position:relative; overflow:hidden; padding:22px; border-radius:28px; color:white; background:linear-gradient(145deg,#175e40,#123d2c); box-shadow:0 24px 60px #174d3630; }
   .hero-card:before { content:''; position:absolute; width:230px; height:230px; border-radius:50%; right:-80px; top:-80px; background:#f4c95d30; }
+  .hero-photo-grid { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+  .hero-photo-grid img { width:100%; height:220px; object-fit:cover; border-radius:14px; border:1px solid #ffffff2d; }
+  .hero-photo-grid img:first-child { object-position:center; }
+  .photo-credits {font-size:.65rem;color:#d5e6df;line-height:1.4;margin:3px 0 18px}
+  .photo-credits a {text-decoration:underline;color:#f9d875}
   .live { position:relative; display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; font-size:.8rem; }
   .live-dot { display:inline-block; width:8px; height:8px; margin-right:7px; border-radius:50%; background:#75e29c; box-shadow:0 0 0 5px #75e29c25; }
   .snapshot { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
@@ -110,7 +115,7 @@ export default function LandingOfficiellePage() {
             <div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
 
           </div>
-          <aside className="hero-card" aria-label="Aperçu du marché local">
+          <aside className="hero-card" aria-label="Aperçu du marché local"><div className="hero-photo-grid"><img src={import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg'} alt="Marché de fruits et légumes au Vauclin, Martinique" loading="eager"/><img src={import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg'} alt="Marché aux poissons à Fort-de-France, Martinique" loading="eager"/></div><p className="photo-credits">Photos : <a href="https://commons.wikimedia.org/wiki/File:Le-vauclin-fruits-and-vegetables-market.jpg" target="_blank" rel="noopener noreferrer">Olivier.jarfas (CC BY 3.0)</a> et <a href="https://commons.wikimedia.org/wiki/File:Fort-de-France_fish_market_2008_(1).jpg" target="_blank" rel="noopener noreferrer">Radosław Botev (CC BY 3.0 PL)</a>.</p>
             <div className="live"><span><i className="live-dot" />PRÉSENTATION DU PILOTE</span><span>Martinique</span></div>
             <div className="snapshot"><div className="snapshot-item"><b>34</b><small>communes prévues au périmètre</small></div><div className="snapshot-item"><b>Inscription</b><small>producteurs et acheteurs</small></div><div className="snapshot-item"><b>Devis</b><small>besoins et disponibilités à confirmer</small></div><div className="snapshot-item"><b>Pilote</b><small>transport et froid à organiser</small></div></div>
             <div className="alert">💡 <strong>À ne pas rater :</strong> inscrivez-vous pour construire ensemble les premières offres. Aucun stock ni débouché n’est garanti à ce stade.</div>
