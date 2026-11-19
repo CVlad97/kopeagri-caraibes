@@ -144,7 +144,7 @@ export default function LandingOfficiellePage() {
         <section className="section" aria-labelledby="pilote-langouste">
           <div className="market-card" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:22,alignItems:'center',border:'2px solid #e6c77b'}}>
             <img src="https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg" alt="Photo réelle d’une langouste cuisinée pour Langouste House" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
-            <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link></div>
+            <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link> <Link className="button button-light" to="/partenaire/langouste-house">Voir Langouste House →</Link></div>
           </div>
         </section>
 
