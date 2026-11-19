@@ -101,7 +101,7 @@ export default function LandingOfficiellePage() {
       <div className="hub-shell">
         <header className="hub-nav">
           <Link className="brand" to="/"><span className="brand-mark">🌿</span><span>KopéAgri<br /><small>& Pêche Caraïbes</small></span></Link>
-          <nav className="nav-links" aria-label="Navigation principale"><a href="#marche">Marché du jour</a><a href="#fonctionnement">Comment ça marche</a><Link to="/mareyage">Mareyage</Link><Link to="/guide">Guide</Link></nav>
+          <nav className="nav-links" aria-label="Navigation principale"><a href="#marche">Marché du jour</a><a href="#fonctionnement">Comment ça marche</a><Link to="/mareyage">Mareyage</Link><Link to="/equipes-pilotes">Équipes pilotes</Link><Link to="/guide">Guide</Link></nav>
           <a className="button button-primary" href={WA}>WhatsApp ↗</a>
         </header>
 
