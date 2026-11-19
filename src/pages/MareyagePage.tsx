@@ -1,39 +1,27 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-const products = [
-  { name: 'Langouste vivante / fraîche', detail: 'Vivier, calibre, arrivage et disponibilité à confirmer' },
-  { name: 'Poissons frais de pêche', detail: 'Espèce, origine, poids et prix selon arrivage' },
-  { name: 'Poissons pour restauration', detail: 'Préparation et volume de gros sur devis' },
+type Item = {id:string;name:string;unit:string;image:string;note:string}
+const items:Item[]=[
+{id:'langouste',name:'Langouste fraîche ou préparée',unit:'kg',image:'https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg',note:'Photo culinaire Langouste House · stock et prix à confirmer'},
+{id:'poisson',name:'Poissons frais selon arrivage',unit:'kg',image:import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg',note:'Photo documentaire du marché de Fort-de-France, non stock partenaire'},
+{id:'legumes',name:'Fruits & légumes pays',unit:'kg',image:import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg',note:'Photo documentaire Le Vauclin · offre LAKOU SANKOFA à confirmer'}
 ]
-export default function MareyagePage() {
-  return <main style={{fontFamily:'system-ui,sans-serif',background:'#f4f8f6',color:'#14392d',minHeight:'100vh',padding:'28px 5vw'}}>
-    <div style={{maxWidth:1100,margin:'auto'}}>
-      <Link to="/" style={{color:'#16644f'}}>← KopéAgri & Pêche</Link>
-      <p style={{letterSpacing:2,textTransform:'uppercase',color:'#317b75',fontWeight:700}}>Pôle mareyage · pilote Martinique</p>
-      <h1 style={{fontSize:'clamp(2rem,5vw,3.5rem)',lineHeight:1.1}}>De la pêche au marché : qualité, transparence et circuit court</h1>
-      <p>Langouste House / Vivier Caraïbe — partenaire pilote. Les offres et tarifs ci-dessous sont soumis à confirmation du fournisseur.</p>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(250px,1fr))',gap:18,margin:'32px 0'}}>
-        <img src="https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg" alt="Langouste préparée Langouste House (photo culinaire, non photo du vivier)" style={{width:'100%',height:260,objectFit:'cover',borderRadius:18}}/>
-        <div style={{background:'white',padding:24,borderRadius:18}}>
-          <h2>Vivier et photos des arrivages</h2>
-          <p>Photos réelles du vivier et des poissons : en attente de validation et fourniture par Charles. Aucune photo générique n'est présentée comme son stock.</p>
-          <Link to="/partenaire/langouste-house">Voir la fiche partenaire</Link>
-        </div>
-      </div>
-      <h2>Catalogue de demandes B2B / B2C</h2>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(230px,1fr))',gap:16}}>
-        {products.map(p=><article key={p.name} style={{background:'white',padding:24,borderRadius:18,border:'1px solid #d7e6df'}}>
-          <h3>{p.name}</h3><p>{p.detail}</p>
-          <p><strong>Prix particulier : sur devis</strong></p><p><strong>Prix professionnel / gros : sur devis</strong></p>
-          <Link to="/devis-approvisionnement">Demander quantité et prix →</Link>
-        </article>)}
-      </div>
-      <section style={{background:'#164a46',color:'white',padding:26,borderRadius:18,marginTop:24}}>
-        <h2>Mutualisation du transport</h2>
-        <p>Indiquez quantité, conditionnement, température requise, adresses et créneau dans la demande de devis. La faisabilité d'une tournée mutualisée via les services DELIKREOL sera vérifiée avant toute confirmation.</p>
-        <a href="https://delikreol.com/" target="_blank" rel="noopener noreferrer" style={{color:'#f3d782'}}>Découvrir DELIKREOL</a>
-        {' · '}<Link style={{color:'#f3d782'}} to="/devis-approvisionnement">Organiser une demande de livraison</Link>
-      </section>
-      <section style={{marginTop:24}}><h2>Réseau pilote</h2><p>LAKOU SANKOFA : filière fruits et légumes vers la France (modalités à confirmer). SAKIYO : équipe partenaire à intégrer et valider. Langouste House / Vivier Caraïbe : filière mareyage.</p><Link to="/inscription">Inscrire mon équipe / partenaire</Link></section>
-    </div>
-  </main>
+export default function MareyagePage(){
+const [role,setRole]=useState<'particulier'|'professionnel'>('particulier')
+const [basket,setBasket]=useState<Record<string,number>>({})
+const [delivery,setDelivery]=useState('retrait')
+const [commune,setCommune]=useState('')
+const selected=items.filter(p=>(basket[p.id]||0)>0)
+const quote=selected.map(p=>p.name+' : '+basket[p.id]+' '+p.unit).join('\n')
+const message='Bonjour KopeAgri, je suis '+role+'.\nDemande de devis :\n'+quote+'\nMode : '+delivery+'\nCommune : '+commune+'\nMerci de confirmer prix, stock, frais et délai avant commande.'
+return <main style={{background:'#f3f7f4',color:'#133d33',fontFamily:'system-ui,sans-serif',minHeight:'100vh'}}>
+<header style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:15,padding:'18px 5vw',background:'#fff'}}><Link to="/">← Accueil KopéAgri</Link><nav style={{display:'flex',gap:18,flexWrap:'wrap'}}><Link to="/equipes-pilotes">Nos partenaires</Link><Link to="/inscription">Créer mon compte</Link><a href="#panier">Ma sélection ({selected.length})</a></nav></header>
+<section style={{padding:'60px 5vw',color:'white',background:'linear-gradient(100deg,#123a34,#135760)'}}>
+<div style={{maxWidth:1120,margin:'auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(290px,1fr))',gap:28,alignItems:'center'}}>
+<div><p style={{color:'#f0d68b',fontWeight:800}}>LA MER ET LA TERRE, AU PLUS PRÈS DE VOUS</p><h1 style={{fontSize:'clamp(2.2rem,5vw,4rem)',lineHeight:1.06}}>Poissons, langoustes et produits pays.</h1><p style={{fontSize:18}}>Sélectionnez vos quantités. Recevez un tarif confirmé, adapté aux particuliers ou aux pros, avec retrait ou livraison à étudier.</p><a href="#catalogue" style={{display:'inline-block',background:'#f0cc71',color:'#173c30',padding:'14px 22px',borderRadius:12,fontWeight:800}}>Découvrir les produits ↓</a></div>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}><img src={import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg'} alt="Marché aux poissons de Fort-de-France, photo documentaire" style={{width:'100%',height:285,objectFit:'cover',borderRadius:15}}/><img src={import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg'} alt="Marché agricole du Vauclin, photo documentaire" style={{width:'100%',height:285,objectFit:'cover',borderRadius:15}}/></div></div></section>
+<div style={{maxWidth:1120,margin:'auto',padding:'35px 5vw'}}><h2>Vous achetez en tant que…</h2><div style={{display:'flex',gap:12,flexWrap:'wrap'}}><button type="button" aria-pressed={role==='particulier'} onClick={()=>setRole('particulier')} style={{padding:'13px 22px',borderRadius:12,background:role==='particulier'?'#17654d':'white',color:role==='particulier'?'white':'#173d2e',border:'1px solid #17654d'}}>🛒 Particulier · prix TTC à confirmer</button><button type="button" aria-pressed={role==='professionnel'} onClick={()=>setRole('professionnel')} style={{padding:'13px 22px',borderRadius:12,background:role==='professionnel'?'#17654d':'white',color:role==='professionnel'?'white':'#173d2e',border:'1px solid #17654d'}}>🏪 Professionnel · tarif de gros sur devis</button></div>
+<section id="catalogue" style={{marginTop:35}}><h2>Catalogue pilote · arrivages sur demande</h2><p>Les photos documentaires ne représentent pas les stocks actuels. Aucune commande ni prix ne sont confirmés avant acceptation du fournisseur.</p><div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:18}}>{items.map(item=><article key={item.id} style={{background:'white',borderRadius:20,overflow:'hidden',boxShadow:'0 8px 22px #17453413'}}><img src={item.image} alt={item.note} style={{width:'100%',height:190,objectFit:'cover'}}/><div style={{padding:20}}><h3>{item.name}</h3><p style={{fontSize:13,color:'#516b5f'}}>{item.note}</p><p><strong>{role==='professionnel'?'Prix de gros HT : sur devis':'Prix particulier TTC : sur devis'}</strong></p><label style={{display:'block'}}>Quantité souhaitée ({item.unit})<input type="number" min="0" step="0.5" value={basket[item.id]||''} onChange={e=>setBasket(b=>({...b,[item.id]:Math.max(0,Number(e.target.value)||0)}))} placeholder="Ex : 2" style={{display:'block',padding:12,width:'100%',boxSizing:'border-box',marginTop:8,borderRadius:10,border:'1px solid #b5cdc2'}}/></label></div></article>)}</div></section>
+<section id="panier" style={{marginTop:38,padding:26,background:'white',borderRadius:20}}><h2>Ma sélection · devis avant paiement</h2>{selected.length===0?<p>Ajoutez une quantité pour commencer.</p>:<ul>{selected.map(p=><li key={p.id}>{p.name} — {basket[p.id]} {p.unit}</li>)}</ul>}<p>Le total, le prix au kilo et les frais ne peuvent être calculés tant que les tarifs fournisseurs ne sont pas validés.</p><div style={{display:'flex',gap:12,flexWrap:'wrap'}}><label>Retrait ou livraison<select value={delivery} onChange={e=>setDelivery(e.target.value)} style={{display:'block',padding:12,borderRadius:9,marginTop:5}}><option value="retrait">Retrait</option><option value="livraison mutualisée à étudier">Livraison mutualisée à étudier</option></select></label><label>Commune souhaitée<input value={commune} onChange={e=>setCommune(e.target.value)} placeholder="Votre commune" style={{display:'block',padding:12,borderRadius:9,marginTop:5}}/></label></div><a href={selected.length?'https://wa.me/596696653589?text='+encodeURIComponent(message):undefined} aria-disabled={!selected.length} onClick={e=>{if(!selected.length)e.preventDefault()}} style={{display:'inline-block',marginTop:18,padding:'15px 23px',borderRadius:12,background:selected.length?'#17654d':'#849d91',color:'white',fontWeight:800}}>Demander mon devis personnalisé →</a><p style={{fontSize:13}}>Pas de débit bancaire sur cette page. Une confirmation écrite du prix et de la disponibilité est obligatoire.</p></section>
+<p style={{marginTop:26}}>Partenaires : <Link to="/inscription">créez votre compte et ajoutez vos vrais produits, prix et photos</Link>. <Link to="/partenaire/langouste-house">Langouste House</Link> · <Link to="/equipes-pilotes">LAKOU SANKOFA et SAKIYO</Link>.</p></div></main>
 }
