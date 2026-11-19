@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -72,6 +72,7 @@ function App() {
       <AuthProvider>
         <Suspense fallback={<PageSkeleton />}>
           <Routes>
+            <Route path="/KopeAgri_Caraibes" element={<Navigate to="/" replace />} />
             <Route path="/" element={<LandingOfficiellePage />} />
             <Route path="/marche-pilote" element={<CommercePage />} />
             <Route path="/devis-approvisionnement" element={<SourcingRequestPage />} />
