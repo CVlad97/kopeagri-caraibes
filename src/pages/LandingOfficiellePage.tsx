@@ -65,6 +65,12 @@ const styles = `
   .cta { display:flex; align-items:center; justify-content:space-between; gap:22px; padding:30px; border-radius:24px; background:linear-gradient(100deg,#f4c95d,#f8dfa0); }
   .cta h2 { margin:0 0 7px; color:#173b2d; letter-spacing:-.04em; }
   .cta p { margin:0; color:#566d5e; }
+  .fresco { margin-top:16px; border-radius:28px; overflow:hidden; padding:36px; color:#fffbea; background:radial-gradient(ellipse at 85% 10%,#cfaa5b55,transparent 40%),linear-gradient(110deg,#143d31 0%,#12505a 57%,#0d374c 100%); }
+  .fresco h2 { margin:8px 0; font-size:clamp(1.7rem,3vw,2.8rem); letter-spacing:-.04em; color:#fff8e7; }
+  .fresco p { color:#e1ede7; line-height:1.6; max-width:750px; }
+  .fresco-art { display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:18px; margin:26px 0 12px; font-size:clamp(2.5rem,6vw,5.4rem); }
+  .fresco-art span { display:grid; place-items:center; min-width:92px; min-height:100px; border-radius:50%; background:#ffffff14; border:1px solid #ffffff22; }
+  .fresco .button { background:#f0c66b; color:#16392e; }
   .hub-footer { display:flex; justify-content:space-between; gap:20px; padding:28px 0 42px; color:#71877a; font-size:.85rem; }
   .hub-footer div { display:flex; gap:16px; flex-wrap:wrap; }
   @media (max-width: 800px) { .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .nav-links { display:none; } .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
@@ -109,6 +115,25 @@ export default function LandingOfficiellePage() {
             <div className="snapshot"><div className="snapshot-item"><b>34</b><small>communes prévues au périmètre</small></div><div className="snapshot-item"><b>Inscription</b><small>producteurs et acheteurs</small></div><div className="snapshot-item"><b>Devis</b><small>besoins et disponibilités à confirmer</small></div><div className="snapshot-item"><b>Pilote</b><small>transport et froid à organiser</small></div></div>
             <div className="alert">💡 <strong>À ne pas rater :</strong> inscrivez-vous pour construire ensemble les premières offres. Aucun stock ni débouché n’est garanti à ce stade.</div>
           </aside>
+        </section>
+
+        <section className="fresco" aria-labelledby="fresco-title">
+          <div className="eyebrow" style={{color:'#f0c66b'}}>Terre · Mer · Transmission · Innovation</div>
+          <h2 id="fresco-title">Nos racines nourrissent l’avenir.</h2>
+          <p>Du jardin créole aux embarcations de pêche, nous réunissons les savoir-faire des producteurs, pêcheurs, transporteurs et distributeurs dans des parcours numériques traçables.</p>
+          <div className="fresco-art" role="img" aria-label="Fresque symbolique : jardin créole, légumes, pêche artisanale, mer et transport"><span>🌴</span><span>🥬</span><span>🛶</span><span>🐟</span><span>🚚</span></div>
+        </section>
+        <section className="section" aria-labelledby="sancofa-title">
+          <div className="market-card" style={{border:'2px solid #d3b977',background:'#fffdf5',padding:30}}>
+            <div className="eyebrow">Filière fruits & légumes · Projet de coopération France</div>
+            <h2 id="sancofa-title">Sancofa : préparer l’approvisionnement de notre distributeur en France</h2>
+            <p>Parcours pilote envisagé : présentation des produits, qualification des disponibilités, devis, contrôle documentaire, organisation logistique et suivi des lots jusqu’au distributeur. Les volumes, prix, conditions d’expédition et validations réglementaires restent à confirmer entre partenaires.</p>
+            <p><strong>Référence fournie pour le rapprochement commercial :</strong> <a href="https://www.kantekant.fr/" target="_blank" rel="noopener noreferrer" style={{textDecoration:'underline',color:'#1d6b46'}}>Kantekant.fr</a>. Ses données commerciales ne sont pas encore synchronisées ni vérifiées ici.</p>
+            <div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:18}}>
+              <Link className="button button-primary" to="/inscription">Créer mon dossier partenaire →</Link>
+              <Link className="button button-gold" to="/devis-approvisionnement">Tester une demande de devis →</Link>
+            </div>
+          </div>
         </section>
 
         <section className="section" aria-labelledby="pilote-langouste">
