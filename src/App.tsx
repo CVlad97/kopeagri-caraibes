@@ -49,6 +49,7 @@ const SellNowPage = lazy(() => import('./pages/SellNowPage'))
 const LotPublicPage = lazy(() => import('./pages/LotPublicPage'))
 const DemoAccessPage = lazy(() => import('./pages/DemoAccessPage'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
+const OffresPilotePage = lazy(() => import('./pages/OffresPilotePage'))
 const ExportProPage = lazy(() => import('./pages/ExportProPage'))
 
 const CollectionPage = lazy(() => import("./pages/CollectionPage"))
@@ -83,6 +84,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/demo" element={<DemoAccessPage />} />
             <Route path="/guide" element={<GuidePage />} />
+            <Route path="/offres-pilote" element={<OffresPilotePage />} />
             <Route path="/export-pro" element={<ExportProPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/inscription" element={<Register />} />
