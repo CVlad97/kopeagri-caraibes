@@ -147,7 +147,7 @@ export default function LandingOfficiellePage() {
           <div className="section-heading"><div><div className="eyebrow">Marketplace publique · aperçu</div><h2>Fruits, légumes et produits de la mer</h2></div><p>Photographies réelles d’illustration, non contractuelles : elles ne représentent pas les stocks des partenaires.</p></div>
           <div className="kp-audience-switch" role="group" aria-label="Type d'acheteur"><button type="button" aria-pressed={marketAudience === 'particulier'} onClick={() => setMarketAudience('particulier')}>Particulier · TTC</button><button type="button" aria-pressed={marketAudience === 'professionnel'} onClick={() => setMarketAudience('professionnel')}>Professionnel · HT / devis</button></div>
           <div className="kp-audience-switch" role="group" aria-label="Catégories de produits">{([['tous','Tous'],['fruits','Fruits'],['legumes','Légumes'],['mer','Produits de la mer']] as const).map(([key,label])=><button type="button" key={key} aria-pressed={marketCategory === key} onClick={()=>setMarketCategory(key)}>{label}</button>)}</div>
-          <div className="kp-market-preview">
+          <p style={{fontSize:14,color:'#456253',margin:'10px 0 16px'}}>Choisissez une catégorie, puis « Particulier » ou « Professionnel » pour consulter les conditions de prix et de livraison. Aucun compte requis pour voir les produits.</p><div className="kp-market-preview">
             {[
               { name:'Fruits de saison', image:'fruits.jpg', category:'fruits', description:'Assortiment de fruits frais, origine et variété à confirmer.', unit:'kg ou panier', delivery:'Retrait ou livraison à étudier' },
               { name:'Tomates fraîches', image:'tomates.jpg', category:'legumes', description:'Tomates pour particuliers et restauration, calibre à préciser.', unit:'kg', delivery:'Livraison locale sur devis' },
@@ -156,7 +156,7 @@ export default function LandingOfficiellePage() {
               { name:'Poisson frais', image:'poisson.jpg', category:'mer', description:'Pêche et mareyage, espèces et fraîcheur selon arrivages.', unit:'kg', delivery:'Transport réfrigéré à confirmer' },
               { name:'Langouste vivante ou congelée', image:'poisson.jpg', category:'mer', description:'Langouste House, Schœlcher : disponibilité au prochain arrivage à confirmer. Photo de catégorie, non du produit.', unit:'kg', delivery:'Retrait ou chaîne du froid sur devis', partner:true },
             ].filter(item=>marketCategory==='tous'||item.category===marketCategory).map(item => <article className="kp-market-item" key={item.name}>
-              <img loading="lazy" src={`${import.meta.env.BASE_URL}market-photos/${item.image}`} alt={`Photo de catégorie illustrative : ${item.name}`} />
+              <img loading="lazy" decoding="async" width="360" height="155" src={`${import.meta.env.BASE_URL}market-photos/${item.image}`} alt={`Photo de catégorie illustrative : ${item.name}`} />
               <div><h3>{item.name}</h3><p>{item.description}</p><p><b>Unité :</b> {item.unit}</p><p><b>Livraison :</b> {item.delivery}</p>
               <strong>{marketAudience === 'particulier' ? (item.partner ? '40,84 € TTC/kg · tarif communiqué, à reconfirmer' : 'Prix public TTC à confirmer') : 'Prix professionnel HT sur devis · volume à préciser'}</strong>
               {item.partner ? <Link to="/partenaires/langouste-house">Fiche Langouste House →</Link> : <Link to="/devis-approvisionnement">Demander disponibilité et prix →</Link>}
