@@ -86,7 +86,7 @@ type Role = { icon: string; title: string; description: string; href: string; ac
 
 const roles: Role[] = [
   { icon: '🌱', title: 'Je produis', description: 'Je déclare un lot, une parcelle ou une disponibilité.', href: '/inscription', action: 'Déclarer ma production' },
-  { icon: '🛒', title: "J'achète", description: 'Je trouve des volumes locaux, tracés et disponibles.', href: '/marketplace', action: 'Voir les disponibilités' },
+  { icon: '🛒', title: "J'achète", description: 'Je trouve des volumes locaux, tracés et disponibles.', href: '/mareyage', action: 'Voir les produits' },
   { icon: '🚚', title: 'Je transporte', description: 'Je propose une tournée, du froid ou du stockage.', href: '/inscription', action: 'Proposer mes capacités' },
   { icon: '🤝', title: "Je m'engage", description: 'Je rejoins le pilote comme partenaire du territoire.', href: '/partenariat-pilote', action: 'Devenir partenaire' },
 ]
@@ -102,7 +102,7 @@ export default function LandingOfficiellePage() {
       <div className="hub-shell">
         <header className="hub-nav">
           <Link className="brand" to="/"><span className="brand-mark">🌿</span><span>KopéAgri<br /><small>& Pêche Caraïbes</small></span></Link>
-          <nav className="nav-links" aria-label="Navigation principale"><a href="#marche">Marché du jour</a><a href="#fonctionnement">Comment ça marche</a><Link to="/mareyage">Mareyage</Link><Link to="/equipes-pilotes">Équipes pilotes</Link><Link to="/guide">Guide</Link></nav>
+          <nav className="nav-links" aria-label="Navigation principale"><a href="#catalogue-public">Marketplace</a><a href="#marche">Marché du jour</a><a href="#fonctionnement">Comment ça marche</a><Link to="/mareyage">Mareyage</Link><Link to="/equipes-pilotes">Équipes pilotes</Link><Link to="/guide">Guide</Link></nav>
           <a className="button button-primary" href={WA}>WhatsApp ↗</a>
         </header>
 
@@ -123,11 +123,11 @@ export default function LandingOfficiellePage() {
           </aside>
         </section>
 
-        <section className="fresco" aria-labelledby="fresco-title">
+        <section className="fresco fresco-photos" aria-labelledby="fresco-title">
           <div className="eyebrow" style={{color:'#f0c66b'}}>Terre · Mer · Transmission · Innovation</div>
           <h2 id="fresco-title">Nos racines nourrissent l’avenir.</h2>
           <p>Du jardin créole aux embarcations de pêche, nous réunissons les savoir-faire des producteurs, pêcheurs, transporteurs et distributeurs dans des parcours numériques traçables.</p>
-          <div className="fresco-art" role="img" aria-label="Fresque symbolique : jardin créole, légumes, pêche artisanale, mer et transport"><span>🌴</span><span>🥬</span><span>🛶</span><span>🐟</span><span>🚚</span></div>
+          <div className="fresco-art fresco-photo-grid" aria-label="Photographies de fruits, légumes et produits de la mer"><img src={import.meta.env.BASE_URL+'market-photos/fruits.jpg'} alt="Fruits frais, photographie illustrative"/><img src={import.meta.env.BASE_URL+'market-photos/legumes.jpg'} alt="Légumes frais, photographie illustrative"/><img src={import.meta.env.BASE_URL+'market-photos/poisson.jpg'} alt="Poisson, photographie illustrative"/></div>
         </section>
         <section className="section" aria-labelledby="sancofa-title">
           <div className="market-card" style={{border:'2px solid #d3b977',background:'#fffdf5',padding:30}}>
@@ -155,12 +155,12 @@ export default function LandingOfficiellePage() {
             ].map(item => <article className="kp-market-item" key={item.name}><img loading="lazy" src={`${import.meta.env.BASE_URL}market-photos/${item.image}`} alt={`Photo d'illustration : ${item.name}`} /><div><h3>{item.name}</h3><p>{item.kind}</p><strong>{marketAudience === 'particulier' ? 'Prix TTC à confirmer' : 'Prix HT sur devis'}</strong></div></article>)}
           </div>
           <p className="kp-market-disclaimer">Photos : Unsplash. Prix, disponibilité, origine exacte et livraison à confirmer avant toute commande. Aucun stock réel n'est garanti dans cette vitrine.</p>
-          <Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link>
+          <Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link> <Link className="button button-gold" to="/demo?next=%2Fmarketplace">Tester la marketplace (démo) →</Link>
         </section>
         <section className="section" aria-labelledby="pilote-langouste">
           <div className="market-card" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:22,alignItems:'center',border:'2px solid #e6c77b'}}>
             <img src="https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg" alt="Photo réelle d’une langouste cuisinée pour Langouste House" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
-            <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link> <Link className="button button-light" to="/partenaire/langouste-house">Voir Langouste House →</Link></div>
+            <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link> <Link className="button button-gold" to="/demo?next=%2Fmarketplace">Tester la marketplace (démo) →</Link> <Link className="button button-light" to="/partenaire/langouste-house">Voir Langouste House →</Link></div>
           </div>
         </section>
 
