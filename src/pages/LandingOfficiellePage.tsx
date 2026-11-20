@@ -18,15 +18,15 @@ const styles = `
   .button-primary { color:white; background:#1d6b46; }
   .button-gold { color:#173b2d; background:#f4c95d; }
   .button-light { background:white; color:#1d6b46; border:1px solid #dce9df; }
-  .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:42px; align-items:center; padding:58px 0 42px; }
+  .hub .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; padding:38px 34px; margin-top:12px; border-radius:24px; background:linear-gradient(90deg,rgba(8,34,25,.82) 0%,rgba(8,34,25,.64) 55%,rgba(8,34,25,.18) 100%),url('/kopeagri-caraibes/visuals/le-vauclin-market.jpg') center/cover; box-shadow:0 12px 35px #183b2820; }
   .eyebrow { color:#b87516; text-transform:uppercase; font-size:.75rem; letter-spacing:.13em; font-weight:900; }
-  .hero h1 { max-width:700px; margin:14px 0 18px; font-size:clamp(2.6rem, 6vw, 5rem); line-height:.98; letter-spacing:-.065em; color:#123a2a; }
-  .hero h1 span { color:#1d6b46; }
-  .hero-copy { max-width:620px; font-size:1.12rem; line-height:1.65; color:#587365; }
+  .hub .hero h1 { max-width:700px; margin:14px 0 18px; font-size:clamp(2.3rem, 5vw, 4.3rem); line-height:1.05; letter-spacing:-.05em; color:#fffdf6 !important; text-shadow:0 2px 14px #061c1580; }
+  .hub .hero h1 span { color:#f8d16d !important; }
+  .hub .hero-copy { max-width:620px; font-size:1.12rem; line-height:1.65; color:#fff9ec !important; text-shadow:0 1px 8px #061c1580; }
   .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin:26px 0 18px; }
-  .micro-proof { display:flex; flex-wrap:wrap; gap:14px; color:#6f8579; font-size:.84rem; }
-  .micro-proof strong { color:#1d6b46; }
-  .hero-card { position:relative; overflow:hidden; padding:22px; border-radius:28px; color:white; background:linear-gradient(145deg,#175e40,#123d2c); box-shadow:0 24px 60px #174d3630; }
+  .hub .hero .micro-proof { display:flex; flex-wrap:wrap; gap:14px; color:#fff9e8 !important; font-size:.84rem; }
+  .hub .hero .micro-proof strong { color:#f4c95d; }
+  .hub .hero-card { position:relative; overflow:hidden; padding:18px; border-radius:20px; color:white; background:rgba(11,50,36,.88); box-shadow:0 15px 35px #09251855; }
   .hero-card:before { content:''; position:absolute; width:230px; height:230px; border-radius:50%; right:-80px; top:-80px; background:#f4c95d30; }
   .hero-photo-grid { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
   .hero-photo-grid img { width:100%; height:220px; object-fit:cover; border-radius:14px; border:1px solid #ffffff2d; }
@@ -78,7 +78,7 @@ const styles = `
   .fresco .button { background:#f0c66b; color:#16392e; }
   .hub-footer { display:flex; justify-content:space-between; gap:20px; padding:28px 0 42px; color:#71877a; font-size:.85rem; }
   .hub-footer div { display:flex; gap:16px; flex-wrap:wrap; }
-  @media (max-width: 800px) { .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .nav-links { display:none; } .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
+  @media (max-width: 800px) { .hub .hero {padding:26px 18px;background-position:58% center} .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .nav-links { display:none; } .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
   @media (max-width: 480px) { .hub-shell { width:min(100% - 24px, 1180px); } .role-grid,.workflow { grid-template-columns:1fr; } .step { border-right:0; border-bottom:1px solid #e4eee7; } .step:last-child { border-bottom:0; } .hero h1 { font-size:2.75rem; } .hero-actions .button { width:100%; } }
 `
 
