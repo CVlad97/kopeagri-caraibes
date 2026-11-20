@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 type Item = {id:string;name:string;unit:string;image:string;note:string}
 const items:Item[]=[
-{id:'langouste',name:'Langoustes vivantes ou congelées',unit:'kg',image:import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg',note:'Photo documentaire de la filière mer, non photo du produit Langouste House · stock et prix à confirmer'},
+{id:'langouste',name:'Langoustes vivantes ou congelées',unit:'kg',image:import.meta.env.BASE_URL+'visuals/langouste-authentique-1.jpg',note:'Photo réelle illustrative de langouste caribéenne, non issue du stock Langouste House · stock et prix à confirmer'},
 {id:'poisson',name:'Poissons frais selon arrivage',unit:'kg',image:import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg',note:'Photo documentaire du marché de Fort-de-France, non stock partenaire'},
 {id:'legumes',name:'Fruits & légumes pays',unit:'kg',image:import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg',note:'Photo documentaire Le Vauclin · offre LAKOU SANKOFA à confirmer'}
 ]
