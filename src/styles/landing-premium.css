@@ -20,9 +20,9 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(12, 74, 47, 0.86), rgba(6, 78, 102, 0.76), rgba(16, 42, 90, 0.86)),
+    linear-gradient(135deg, rgba(12, 74, 47, 0.76), rgba(6, 78, 70, 0.66), rgba(16, 42, 66, 0.76)),
     url('https://commons.wikimedia.org/wiki/Special:FilePath/Sugar%20cane%20banana%20martinique.JPG?width=1600') center/cover;
-  opacity: 0.96;
+  opacity: 1;
   z-index: 0;
 }
 
@@ -605,3 +605,6 @@ body.dark .landing-premium .demo-card {
 
 /* Pilot 2026 — logo, hero visual and commercial outlets */
 .public-brand-logo{display:flex;align-items:center;gap:10px;text-decoration:none}.public-brand-logo img{width:42px;height:42px;object-fit:contain;border-radius:12px;background:#fff;padding:3px;box-shadow:0 4px 14px rgba(0,0,0,.12)}.public-brand-logo span{display:flex;flex-direction:column;line-height:1.05}.public-brand-logo em{font-size:12px;font-style:normal;font-weight:700;opacity:.72}.hero-visual-card{overflow:hidden;padding:12px}.hero-main-image{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18)}.hero-image-copy{padding:14px 6px 4px}.hero-image-copy h3{margin:5px 0 12px}.outlet-section .premium-card a{display:inline-block;margin-top:10px;font-weight:800;text-decoration:none}.outlet-section .premium-card a:hover{text-decoration:underline}@media(max-width:760px){.public-brand-logo img{width:36px;height:36px}.hero-main-image{aspect-ratio:4/3}}
+
+/* Vitrine publique : deux audiences, prix non inventés et photos d'illustration. */
+.kp-audience-switch{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}.kp-audience-switch button{border:1px solid #b5c9b9;border-radius:24px;padding:12px 18px;background:#fff;color:#174a30;font-weight:700}.kp-audience-switch button[aria-pressed=true]{background:#17623b;color:#fff}.kp-market-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:16px;margin:22px 0}.kp-market-item{background:#fff;border:1px solid #dbe8dc;border-radius:15px;overflow:hidden;box-shadow:0 5px 16px #0b382012}.kp-market-item img{width:100%;height:155px;object-fit:cover;display:block}.kp-market-item>div:not(.kp-feature-symbol){padding:14px}.kp-market-item h3{font-size:18px;color:#183e28;margin:0 0 6px}.kp-market-item p{font-size:13px;color:#536b59;margin:0 0 10px}.kp-market-item strong{font-size:14px;color:#17623b;display:block}.kp-market-item a{display:block;margin-top:12px;color:#17623b;font-weight:700}.kp-feature-symbol{height:155px;display:grid;place-items:center;font-size:90px;background:linear-gradient(120deg,#f2d1ac,#f5a261)}.kp-market-disclaimer{font-size:12px;color:#536b59;margin-bottom:20px}

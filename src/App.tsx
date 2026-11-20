@@ -34,6 +34,7 @@ const PilotPartnershipPage = lazy(() => import('./pages/PilotPartnershipPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const GiePage = lazy(() => import('./pages/GiePage'))
 const SeafoodMarketPage = lazy(() => import('./pages/SeafoodMarketPage'))
+const LangousteHousePage = lazy(() => import('./pages/LangousteHousePage'))
 const MareyagePage = lazy(() => import('./pages/MareyagePage'))
 const PartnerTeamsPage = lazy(() => import('./pages/PartnerTeamsPage'))
 // NotificationsPage is statically imported by Layout.tsx (getUnreadCount) — no lazy split possible
@@ -120,6 +121,7 @@ function App() {
             <Route path="/gie" element={<ProtectedRoute><Layout><GiePage /></Layout></ProtectedRoute>} />
             <Route path="/equipes-pilotes" element={<PartnerTeamsPage />} />
             <Route path="/mareyage" element={<MareyagePage />} />
+            <Route path="/partenaires/langouste-house" element={<LangousteHousePage />} />
             <Route path="/seafood" element={<ProtectedRoute><Layout><SeafoodMarketPage /></Layout></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

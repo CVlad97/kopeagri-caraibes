@@ -145,6 +145,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   useEffect(() => {
+    // A stalled session/profile request must never leave protected pages spinning forever.
+    const loadingTimeout = window.setTimeout(() => setLoading(false), 8000)
     supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => {
       const session = data?.session
       if (session?.user) {
@@ -164,7 +166,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null); setProfile(null); setIsDemo(false); setLoading(false)
       }
     })
-    return () => subscription.unsubscribe()
+    return () => { window.clearTimeout(loadingTimeout); subscription.unsubscribe() }
   }, [])
 
   const signIn = async (email: string, password: string): Promise<string | null> => {

@@ -92,6 +92,7 @@ const roles: Role[] = [
 ]
 
 export default function LandingOfficiellePage() {
+  const [marketAudience, setMarketAudience] = useState<'particulier' | 'professionnel'>('particulier')
   const [activeRole, setActiveRole] = useState(0)
   const role = useMemo(() => roles[activeRole], [activeRole])
 
@@ -141,6 +142,21 @@ export default function LandingOfficiellePage() {
           </div>
         </section>
 
+        <section className="section" id="catalogue-public" aria-label="Catalogue public illustré">
+          <div className="section-heading"><div><div className="eyebrow">Marketplace publique · aperçu</div><h2>Fruits, légumes et produits de la mer</h2></div><p>Photographies réelles d’illustration, non contractuelles : elles ne représentent pas les stocks des partenaires.</p></div>
+          <div className="kp-audience-switch" role="group" aria-label="Type d'acheteur"><button type="button" aria-pressed={marketAudience === 'particulier'} onClick={() => setMarketAudience('particulier')}>Particulier · TTC</button><button type="button" aria-pressed={marketAudience === 'professionnel'} onClick={() => setMarketAudience('professionnel')}>Professionnel · HT / devis</button></div>
+          <div className="kp-market-preview">
+            {[
+              { name:'Légumes frais', image:'legumes.jpg', kind:'Maraîchage' },
+              { name:'Tomates', image:'tomates.jpg', kind:'Fruits et légumes' },
+              { name:'Maïs', image:'mais.jpg', kind:'Productions agricoles' },
+              { name:'Poissons frais', image:'poisson.jpg', kind:'Pêche et mareyage' },
+              { name:'Fruits frais', image:'fruits.jpg', kind:'Fruits de saison' },
+            ].map(item => <article className="kp-market-item" key={item.name}><img loading="lazy" src={`${import.meta.env.BASE_URL}market-photos/${item.image}`} alt={`Photo d'illustration : ${item.name}`} /><div><h3>{item.name}</h3><p>{item.kind}</p><strong>{marketAudience === 'particulier' ? 'Prix TTC à confirmer' : 'Prix HT sur devis'}</strong></div></article>)}
+          </div>
+          <p className="kp-market-disclaimer">Photos : Unsplash. Prix, disponibilité, origine exacte et livraison à confirmer avant toute commande. Aucun stock réel n'est garanti dans cette vitrine.</p>
+          <Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link>
+        </section>
         <section className="section" aria-labelledby="pilote-langouste">
           <div className="market-card" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:22,alignItems:'center',border:'2px solid #e6c77b'}}>
             <img src="https://delikreol.com/vendors/langouste-house/langouste-entiere-bbq.jpg" alt="Photo réelle d’une langouste cuisinée pour Langouste House" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
