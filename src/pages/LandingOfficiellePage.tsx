@@ -78,7 +78,7 @@ const styles = `
   .fresco .button { background:#f0c66b; color:#16392e; }
   .hub-footer { display:flex; justify-content:space-between; gap:20px; padding:28px 0 42px; color:#71877a; font-size:.85rem; }
   .hub-footer div { display:flex; gap:16px; flex-wrap:wrap; }
-  @media (max-width: 800px) { .hub .hero {padding:26px 18px;background-position:58% center} .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .nav-links { display:none; } .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
+  @media (max-width: 800px) { .hub .hero {padding:26px 18px;background-position:58% center} .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .hub-nav {flex-wrap:wrap} .nav-links {display:flex;order:3;width:100%;overflow-x:auto;gap:15px;padding:9px 0;white-space:nowrap;font-size:.8rem} .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
   @media (max-width: 480px) { .hub-shell { width:min(100% - 24px, 1180px); } .role-grid,.workflow { grid-template-columns:1fr; } .step { border-right:0; border-bottom:1px solid #e4eee7; } .step:last-child { border-bottom:0; } .hero h1 { font-size:2.75rem; } .hero-actions .button { width:100%; } }
 `
 
@@ -112,8 +112,8 @@ export default function LandingOfficiellePage() {
             <div className="eyebrow">Pilote Martinique · ouvert aux partenaires</div>
             <h1 id="hero-title">La production locale,<br /><span>enfin coordonnée.</span></h1>
             <p className="hero-copy">KopéAgri transforme les disponibilités dispersées en débouchés concrets : volumes regroupés, logistique organisée et origine suivie.</p>
-            <div className="hero-actions"><Link className="button button-primary" to={role.href}>{role.action} →</Link><Link className="button button-gold" to="/devis-approvisionnement">Demander un devis approvisionnement →</Link><Link className="button button-light" to="/demo">Voir la démo en 2 min</Link></div>
-            <div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
+            <div className="hero-actions"><Link className="button button-primary" to={role.href}>{role.action} →</Link><Link className="button button-gold" to="/devis-approvisionnement">Demander un devis approvisionnement →</Link><Link className="button button-light" to="/demo?next=%2Fmarketplace">Voir la marketplace en démo</Link></div>
+            <div style={{marginTop:10}}><a className="button button-light" href="#catalogue-public">Voir les photos et produits ↓</a></div><div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
 
           </div>
           <aside className="hero-card" aria-label="Aperçu du marché local"><div className="hero-photo-grid"><img src={import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg'} alt="Marché de fruits et légumes au Vauclin, Martinique" loading="eager"/><img src={import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg'} alt="Marché aux poissons à Fort-de-France, Martinique" loading="eager"/></div><p className="photo-credits">Photos : <a href="https://commons.wikimedia.org/wiki/File:Le-vauclin-fruits-and-vegetables-market.jpg" target="_blank" rel="noopener noreferrer">Olivier.jarfas (CC BY 3.0)</a> et <a href="https://commons.wikimedia.org/wiki/File:Fort-de-France_fish_market_2008_(1).jpg" target="_blank" rel="noopener noreferrer">Radosław Botev (CC BY 3.0 PL)</a>.</p>
