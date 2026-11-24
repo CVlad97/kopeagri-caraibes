@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const WA = 'https://wa.me/596696653589?text=Bonjour%2C%20je%20souhaite%20rejoindre%20Kop%C3%A9Agri'
 
 const styles = `
+
   .hub { min-height: 100vh; background: #f7faf7; color: #173b2d; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
   .hub * { box-sizing: border-box; }
   .hub a { color: inherit; text-decoration: none; }
@@ -18,7 +19,7 @@ const styles = `
   .button-primary { color:white; background:#1d6b46; }
   .button-gold { color:#173b2d; background:#f4c95d; }
   .button-light { background:white; color:#1d6b46; border:1px solid #dce9df; }
-  .hub .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; padding:38px 34px; margin-top:12px; border-radius:24px; background:linear-gradient(90deg,rgba(8,34,25,.86) 0%,rgba(8,34,25,.5) 58%,rgba(8,34,25,.12) 100%),url('/kopeagri-caraibes/visuals/bananiers-mer-demo.jpg') center/cover; box-shadow:0 12px 35px #183b2820; }
+  .hub .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; padding:38px 34px; margin-top:12px; border-radius:24px; background:linear-gradient(90deg,rgba(8,34,25,.86) 0%,rgba(8,34,25,.5) 58%,rgba(8,34,25,.12) 100%),url('${import.meta.env.BASE_URL}visuals/le-vauclin-market.jpg') center/cover; box-shadow:0 12px 35px #183b2820; }
   .eyebrow { color:#b87516; text-transform:uppercase; font-size:.75rem; letter-spacing:.13em; font-weight:900; }
   .hub .hero h1 { max-width:700px; margin:14px 0 18px; font-size:clamp(2.3rem, 5vw, 4.3rem); line-height:1.05; letter-spacing:-.05em; color:#fffdf6 !important; text-shadow:0 2px 14px #061c1580; }
   .hub .hero h1 span { color:#f8d16d !important; }
@@ -80,6 +81,37 @@ const styles = `
   .hub-footer div { display:flex; gap:16px; flex-wrap:wrap; }
   @media (max-width: 800px) { .hub .hero {padding:26px 18px;background-position:58% center} .hero,.market { grid-template-columns:1fr; } .hero { padding-top:30px; } .role-grid { grid-template-columns:1fr 1fr; } .workflow { grid-template-columns:1fr 1fr; } .step:nth-child(2) { border-right:0; } .step:nth-child(-n+2) { border-bottom:1px solid #e4eee7; } .hub-nav {flex-wrap:wrap} .nav-links {display:flex;order:3;width:100%;overflow-x:auto;gap:15px;padding:9px 0;white-space:nowrap;font-size:.8rem} .section-heading,.cta,.hub-footer { align-items:flex-start; flex-direction:column; } }
   @media (max-width: 480px) { .hub-shell { width:min(100% - 24px, 1180px); } .role-grid,.workflow { grid-template-columns:1fr; } .step { border-right:0; border-bottom:1px solid #e4eee7; } .step:last-child { border-bottom:0; } .hero h1 { font-size:2.75rem; } .hero-actions .button { width:100%; } }
+  .hub {background:#fafbf8;overflow-x:clip}
+  .hub-shell {width:min(1180px,calc(100% - 40px))}
+  .hub-nav {position:sticky;top:0;z-index:20;background:#fafbf8f5;backdrop-filter:blur(12px)}
+  .hub .hero {grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);padding:clamp(24px,4vw,48px)}
+  .hub .hero h1 {font-size:clamp(2.2rem,5vw,4rem)}
+  .hub .hero-card {box-shadow:none}
+  .hub .section {padding:32px 0}
+  .hub .fresco {padding:24px}
+  .hub .button,.hub button,.hub-mobile-nav a {min-height:44px}
+  .hub a:focus-visible,.hub button:focus-visible,.hub input:focus-visible {outline:3px solid #b87516;outline-offset:3px}
+  .hub-search {display:block;font-weight:700;margin:18px 0}
+  .hub-search input {display:block;width:min(100%,520px);min-height:48px;border:1px solid #a6b8ab;border-radius:12px;padding:12px 16px;margin-top:6px;background:white;color:#173b2d;font:inherit}
+  .hub .kp-market-preview {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .hub .kp-market-item {min-width:0;overflow:hidden;border-radius:16px;background:white;border:1px solid #dce9df;box-shadow:none}
+  .hub .kp-market-item img {width:100%;height:170px;object-fit:cover}
+  .hub .kp-market-item a {display:inline-flex;align-items:center;min-height:44px;color:#176443}
+  .hub-mobile-nav {display:none}
+  @media(max-width:800px){
+    .hub-shell {width:calc(100% - 24px)}
+    .hub .hero {grid-template-columns:minmax(0,1fr);gap:20px}
+    .hub .hero-card {padding:12px}
+    .hub .hero-photo-grid img {height:140px}
+    .hub .kp-market-preview {grid-template-columns:repeat(2,minmax(0,1fr))}
+    .hub .nav-links {display:none}
+    .hub-mobile-nav {display:grid;grid-template-columns:repeat(4,1fr);position:fixed;bottom:0;left:0;right:0;background:#fff;z-index:40;border-top:1px solid #dce9df;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 18px #173b2d12}
+    .hub-mobile-nav a {display:grid;place-items:center;font-size:.82rem;font-weight:800;color:#176443}
+    .hub-footer {padding-bottom:100px}
+  }
+  @media(max-width:480px){.hub .kp-market-preview {grid-template-columns:minmax(0,1fr)}.hub .hero h1 {font-size:2.25rem}.hub .hero-copy {font-size:1rem}.hub .section {padding:24px 0}.hub .hero-actions {margin:18px 0}.hub .snapshot {display:none}}
+  @media(prefers-reduced-motion:reduce){.hub *{transition:none!important;scroll-behavior:auto!important}}
+
 `
 
 type Role = { icon: string; title: string; description: string; href: string; action: string }
@@ -95,6 +127,7 @@ export default function LandingOfficiellePage() {
   const [marketAudience, setMarketAudience] = useState<'particulier' | 'professionnel'>('particulier')
   const [marketCategory, setMarketCategory] = useState<'tous' | 'fruits' | 'legumes' | 'mer'>('tous')
   const [activeRole, setActiveRole] = useState(0)
+  const [search, setSearch] = useState('')
   const role = useMemo(() => roles[activeRole], [activeRole])
 
   return (
@@ -110,11 +143,11 @@ export default function LandingOfficiellePage() {
         <section className="hero" aria-labelledby="hero-title">
           <div>
 
-            <div className="eyebrow">Pilote Martinique · ouvert aux partenaires</div><p style={{fontSize:12,color:'#fff9e8',margin:'0 0 5px'}}>Visuel d’accueil généré par IA pour la démonstration</p>
+            <div className="eyebrow">Pilote Martinique · ouvert aux partenaires</div>
             <h1 id="hero-title">La production locale,<br /><span>enfin coordonnée.</span></h1>
             <p className="hero-copy">KopéAgri transforme les disponibilités dispersées en débouchés concrets : volumes regroupés, logistique organisée et origine suivie.</p>
             <div className="hero-actions"><Link className="button button-primary" to={role.href}>{role.action} →</Link><Link className="button button-gold" to="/devis-approvisionnement">Demander un devis approvisionnement →</Link><a className="button button-light" href="#catalogue-public">Voir les produits</a></div>
-            <div style={{marginTop:10}}><a className="button button-light" href="#catalogue-public">Voir les photos et produits ↓</a></div><div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
+            <div className="micro-proof"><span>✓ Sans engagement</span><span>✓ Pensé pour le terrain</span><span><strong>●</strong> Données du pilote</span></div>
 
           </div>
           <aside className="hero-card" aria-label="Aperçu du marché local"><div className="hero-photo-grid"><img src={import.meta.env.BASE_URL+'visuals/le-vauclin-market.jpg'} alt="Marché de fruits et légumes au Vauclin, Martinique" loading="eager"/><img src={import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg'} alt="Marché aux poissons à Fort-de-France, Martinique" loading="eager"/></div><p className="photo-credits">Photos : <a href="https://commons.wikimedia.org/wiki/File:Le-vauclin-fruits-and-vegetables-market.jpg" target="_blank" rel="noopener noreferrer">Olivier.jarfas (CC BY 3.0)</a> et <a href="https://commons.wikimedia.org/wiki/File:Fort-de-France_fish_market_2008_(1).jpg" target="_blank" rel="noopener noreferrer">Radosław Botev (CC BY 3.0 PL)</a>.</p>
@@ -124,10 +157,33 @@ export default function LandingOfficiellePage() {
           </aside>
         </section>
 
+        <section className="section" id="catalogue-public" aria-label="Catalogue public illustré">
+          <div className="section-heading"><div><div className="eyebrow">Marketplace publique · aperçu</div><h2>Fruits, légumes et produits de la mer</h2></div><p>Photographies réelles d’illustration, non contractuelles : elles ne représentent pas les stocks des partenaires.</p></div>
+          <div className="kp-audience-switch" role="group" aria-label="Type d'acheteur"><button type="button" aria-pressed={marketAudience === 'particulier'} onClick={() => setMarketAudience('particulier')}>Particulier · TTC</button><button type="button" aria-pressed={marketAudience === 'professionnel'} onClick={() => setMarketAudience('professionnel')}>Professionnel · HT / devis</button></div>
+          <div className="kp-audience-switch" role="group" aria-label="Catégories de produits">{([['tous','Tous'],['fruits','Fruits'],['legumes','Légumes'],['mer','Produits de la mer']] as const).map(([key,label])=><button type="button" key={key} aria-pressed={marketCategory === key} onClick={()=>setMarketCategory(key)}>{label}</button>)}</div>
+          <label className="hub-search">Rechercher un produit<input type="search" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Ex. langouste, tomate, poisson" /></label><p style={{fontSize:14,color:'#456253',margin:'10px 0 16px'}}>Choisissez une catégorie, puis « Particulier » ou « Professionnel » pour consulter les conditions de prix et de livraison. Aucun compte requis pour voir les produits.</p><div className="kp-market-preview" aria-live="polite">
+            {[
+              { name:'Fruits de saison', image:'fruits.jpg', category:'fruits', description:'Assortiment de fruits frais, origine et variété à confirmer.', unit:'kg ou panier', delivery:'Retrait ou livraison à étudier' },
+              { name:'Tomates fraîches', image:'tomates.jpg', category:'legumes', description:'Tomates pour particuliers et restauration, calibre à préciser.', unit:'kg', delivery:'Livraison locale sur devis' },
+              { name:'Légumes frais', image:'legumes.jpg', category:'legumes', description:'Sélection de légumes de saison, selon les arrivages.', unit:'kg ou caisse', delivery:'Collecte ou livraison à organiser' },
+              { name:'Maïs frais', image:'mais.jpg', category:'legumes', description:'Maïs, conditionnement et quantité minimale à confirmer.', unit:'pièce ou lot', delivery:'Retrait ou livraison sur demande' },
+              { name:'Poisson frais', image:'poisson.jpg', category:'mer', description:'Pêche et mareyage, espèces et fraîcheur selon arrivages.', unit:'kg', delivery:'Transport réfrigéré à confirmer' },
+              { name:'Langouste entière cuite', image:'../visuals/langouste-house/langouste-grillee-recadree.webp', category:'mer', description:'Langouste House, Schœlcher : entière grillée ou pochée sur demande. Photo de préparation réelle, sans preuve du stock actuel.', unit:'kg', delivery:'Retrait ou livraison à confirmer', partner:true },
+            ].filter(item=>(marketCategory==='tous'||item.category===marketCategory)&&item.name.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(search.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim())).map(item => <article className="kp-market-item" key={item.name}>
+              <img loading="lazy" decoding="async" width="360" height="155" src={`${import.meta.env.BASE_URL}${item.image.startsWith('../visuals/') ? item.image.slice(3) : 'market-photos/'+item.image}`} alt={`Photo de catégorie illustrative : ${item.name}`} />
+              <div><h3>{item.name}</h3><p>{item.description}</p><p><b>Unité :</b> {item.unit}</p><p><b>Livraison :</b> {item.delivery}</p>
+              <strong>{marketAudience === 'particulier' ? (item.partner ? '86,80 € / kg · tarif communiqué le 22/10/2026, à reconfirmer' : 'Prix public TTC à confirmer') : 'Prix professionnel HT sur devis · volume à préciser'}</strong>
+              {item.partner ? <Link to="/partenaires/langouste-house">Fiche Langouste House →</Link> : <Link to="/devis-approvisionnement">Demander disponibilité et prix →</Link>}
+              </div>
+            </article>)}
+          </div>
+          <p className="kp-market-disclaimer">Photos de fruits et légumes : Unsplash. Langouste : Wikimedia Commons (CC BY-SA 2.0). Les photos ne représentent pas les stocks des partenaires. Prix, disponibilité, origine exacte et livraison à confirmer avant toute commande. Aucun stock réel n'est garanti dans cette vitrine.</p>
+          <Link className="button button-primary" to="/devis-approvisionnement">Demander un prix ou une livraison →</Link> <Link className="button button-gold" to="/demo?next=%2Fmarketplace">Tester la marketplace (démo) →</Link>
+        </section>
         <section className="fresco fresco-photos" aria-labelledby="fresco-title">
           <div className="eyebrow" style={{color:'#f0c66b'}}>Terre · Mer · Transmission · Innovation</div>
           <h2 id="fresco-title">Nos racines nourrissent l’avenir.</h2>
-          <p>Du jardin créole aux embarcations de pêche, nous réunissons les savoir-faire des producteurs, pêcheurs, transporteurs et distributeurs dans des parcours numériques traçables.</p>
+          <p>Du jardin créole aux embarcations de pêche, nous réunissons producteurs, pêcheurs et transporteurs autour de produits locaux et de demandes de devis fiables.</p>
           <div className="fresco-art fresco-photo-grid" aria-label="Photographies de fruits, légumes et produits de la mer"><img src={import.meta.env.BASE_URL+'market-photos/fruits.jpg'} alt="Fruits frais, photographie illustrative"/><img src={import.meta.env.BASE_URL+'market-photos/legumes.jpg'} alt="Légumes frais, photographie illustrative"/><img src={import.meta.env.BASE_URL+'market-photos/poisson.jpg'} alt="Poisson, photographie illustrative"/></div>
         </section>
         <section className="section" aria-labelledby="sancofa-title">
@@ -143,32 +199,9 @@ export default function LandingOfficiellePage() {
           </div>
         </section>
 
-        <section className="section" id="catalogue-public" aria-label="Catalogue public illustré">
-          <div className="section-heading"><div><div className="eyebrow">Marketplace publique · aperçu</div><h2>Fruits, légumes et produits de la mer</h2></div><p>Photographies réelles d’illustration, non contractuelles : elles ne représentent pas les stocks des partenaires.</p></div>
-          <div className="kp-audience-switch" role="group" aria-label="Type d'acheteur"><button type="button" aria-pressed={marketAudience === 'particulier'} onClick={() => setMarketAudience('particulier')}>Particulier · TTC</button><button type="button" aria-pressed={marketAudience === 'professionnel'} onClick={() => setMarketAudience('professionnel')}>Professionnel · HT / devis</button></div>
-          <div className="kp-audience-switch" role="group" aria-label="Catégories de produits">{([['tous','Tous'],['fruits','Fruits'],['legumes','Légumes'],['mer','Produits de la mer']] as const).map(([key,label])=><button type="button" key={key} aria-pressed={marketCategory === key} onClick={()=>setMarketCategory(key)}>{label}</button>)}</div>
-          <p style={{fontSize:14,color:'#456253',margin:'10px 0 16px'}}>Choisissez une catégorie, puis « Particulier » ou « Professionnel » pour consulter les conditions de prix et de livraison. Aucun compte requis pour voir les produits.</p><div className="kp-market-preview">
-            {[
-              { name:'Fruits de saison', image:'fruits.jpg', category:'fruits', description:'Assortiment de fruits frais, origine et variété à confirmer.', unit:'kg ou panier', delivery:'Retrait ou livraison à étudier' },
-              { name:'Tomates fraîches', image:'tomates.jpg', category:'legumes', description:'Tomates pour particuliers et restauration, calibre à préciser.', unit:'kg', delivery:'Livraison locale sur devis' },
-              { name:'Légumes frais', image:'legumes.jpg', category:'legumes', description:'Sélection de légumes de saison, selon les arrivages.', unit:'kg ou caisse', delivery:'Collecte ou livraison à organiser' },
-              { name:'Maïs frais', image:'mais.jpg', category:'legumes', description:'Maïs, conditionnement et quantité minimale à confirmer.', unit:'pièce ou lot', delivery:'Retrait ou livraison sur demande' },
-              { name:'Poisson frais', image:'poisson.jpg', category:'mer', description:'Pêche et mareyage, espèces et fraîcheur selon arrivages.', unit:'kg', delivery:'Transport réfrigéré à confirmer' },
-              { name:'Langouste vivante ou congelée', image:'../visuals/langouste-authentique-1.jpg', category:'mer', description:'Langouste House, Schœlcher : disponibilité au prochain arrivage à confirmer. Photographie réelle de langouste caribéenne, illustrative : ne représente pas le stock Langouste House.', unit:'kg', delivery:'Retrait ou chaîne du froid sur devis', partner:true },
-            ].filter(item=>marketCategory==='tous'||item.category===marketCategory).map(item => <article className="kp-market-item" key={item.name}>
-              <img loading="lazy" decoding="async" width="360" height="155" src={`${import.meta.env.BASE_URL}${item.image.startsWith('../visuals/') ? item.image.slice(3) : 'market-photos/'+item.image}`} alt={`Photo de catégorie illustrative : ${item.name}`} />
-              <div><h3>{item.name}</h3><p>{item.description}</p><p><b>Unité :</b> {item.unit}</p><p><b>Livraison :</b> {item.delivery}</p>
-              <strong>{marketAudience === 'particulier' ? (item.partner ? '40,84 € TTC/kg · tarif communiqué, à reconfirmer' : 'Prix public TTC à confirmer') : 'Prix professionnel HT sur devis · volume à préciser'}</strong>
-              {item.partner ? <Link to="/partenaires/langouste-house">Fiche Langouste House →</Link> : <Link to="/devis-approvisionnement">Demander disponibilité et prix →</Link>}
-              </div>
-            </article>)}
-          </div>
-          <p className="kp-market-disclaimer">Photos de fruits et légumes : Unsplash. Langouste : Wikimedia Commons (CC BY-SA 2.0). Les photos ne représentent pas les stocks des partenaires. Prix, disponibilité, origine exacte et livraison à confirmer avant toute commande. Aucun stock réel n'est garanti dans cette vitrine.</p>
-          <Link className="button button-primary" to="/devis-approvisionnement">Demander un prix ou une livraison →</Link> <Link className="button button-gold" to="/demo?next=%2Fmarketplace">Tester la marketplace (démo) →</Link>
-        </section>
         <section className="section" aria-labelledby="pilote-langouste">
           <div className="market-card" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:22,alignItems:'center',border:'2px solid #e6c77b'}}>
-            <img src={import.meta.env.BASE_URL+'visuals/fort-de-france-fish-market.jpg'} alt="Marché aux poissons de Fort-de-France : photographie illustrative de la filière mer" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
+            <img src={import.meta.env.BASE_URL+'visuals/langouste-house/terrasse.jpg'} alt="Terrasse réelle Langouste House à Fond-Lahaye" loading="lazy" style={{width:'100%',height:240,objectFit:'cover',borderRadius:14}}/>
             <div><div className="eyebrow">Partenaire pilote mis en avant</div><h2 id="pilote-langouste">Langouste House / Vivier Caraïbe</h2><p>Produits de la mer à Schœlcher : approvisionnement B2B, B2C et étude d’export, uniquement sur devis et sous réserve de disponibilité et de conformité.</p><Link className="button button-primary" to="/mareyage">Découvrir le mareyage B2B / B2C →</Link> <Link className="button button-gold" to="/demo?next=%2Fmarketplace">Tester la marketplace (démo) →</Link> <Link className="button button-light" to="/partenaire/langouste-house">Voir le partenaire Langouste House →</Link></div>
           </div>
         </section>
@@ -181,7 +214,7 @@ export default function LandingOfficiellePage() {
         <section className="section" aria-labelledby="partenaires-2026"><div className="market-card" style={{border:'1px solid #dce9df',background:'#fffdf6'}}><div className="eyebrow">Feuille de route · Réunion partenaires du 20 novembre</div><h2 id="partenaires-2026">Une plateforme simple, des services clairement séparés</h2><p>Priorités du pilote : simplifier les parcours, tester la déclaration des lots et leurs QR codes, préparer les échanges WhatsApp, puis valider la collecte et la livraison avec les partenaires. Les abonnements et commissions restent à arbitrer ; les mécanismes d’investissement seront étudiés séparément après cadrage juridique.</p><div style={{display:'flex',gap:12,flexWrap:'wrap'}}><Link className="button button-primary" to="/offres-pilote">Voir les offres envisagées →</Link><Link className="button button-light" to="/inscription">Participer au pilote →</Link></div></div></section>
         <section className="section" id="fonctionnement" aria-labelledby="role-title">
           <div className="section-heading"><div><div className="eyebrow">Un point d'entrée pour chacun</div><h2 id="role-title">Quelle est votre priorité aujourd'hui ?</h2></div><p>Choisissez votre parcours. KopéAgri vous emmène directement vers l'action la plus utile.</p></div>
-          <div className="role-grid">{roles.map((item, index) => <button type="button" className={`role ${activeRole === index ? 'active' : ''}`} key={item.title} onClick={() => setActiveRole(index)}><span className="role-icon">{item.icon}</span><h3>{item.title}</h3><p>{item.description}</p><span className="role-link">Choisir ce parcours →</span></button>)}</div>
+          <div className="role-grid">{roles.map((item, index) => <button type="button" aria-pressed={activeRole === index} className={`role ${activeRole === index ? 'active' : ''}`} key={item.title} onClick={() => setActiveRole(index)}><span className="role-icon">{item.icon}</span><h3>{item.title}</h3><p>{item.description}</p><span className="role-link">Choisir ce parcours →</span></button>)}</div>
           <div style={{ marginTop: 18, textAlign: 'center' }}><Link className="button button-primary" to={role.href}>{role.action} →</Link></div>
         </section>
 
@@ -189,7 +222,7 @@ export default function LandingOfficiellePage() {
 
         <section className="section"><div className="cta"><div><h2>Parlons de vos besoins</h2><p>Producteur, pêcheur, traiteur, acheteur ou transporteur : présentez votre activité et recevez un retour sur les prochaines étapes du pilote.</p></div><div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}><Link className="button button-primary" to="/inscription">Créer mon dossier partenaire</Link><Link className="button button-light" to="/devis-approvisionnement">Demander un devis</Link></div></div></section>
 
-        <footer className="hub-footer"><span>© KopéAgri & Pêche Caraïbes · Martinique</span><div><Link to="/legal">Mentions légales</Link><Link to="/partenariat-pilote">Partenariat pilote</Link><a href="https://delikreol.com">DELIKREOL ↗</a></div></footer>
+        <nav className="hub-mobile-nav" aria-label="Navigation mobile"><Link to="/">Accueil</Link><a href="#catalogue-public">Produits</a><Link to="/devis-approvisionnement">Devis</Link><Link to="/inscription">Compte</Link></nav><footer className="hub-footer"><span>© KopéAgri & Pêche Caraïbes · Martinique</span><div><Link to="/legal">Mentions légales</Link><Link to="/partenariat-pilote">Partenariat pilote</Link><a href="https://delikreol.com">DELIKREOL ↗</a></div></footer>
       </div>
     </main>
   )

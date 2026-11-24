@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Waves, Fish, Anchor, MapPin, Phone, Mail, Star, Calendar,
   TrendingUp, Truck, Globe, Award, Droplets, Thermometer,
@@ -366,6 +367,11 @@ export default function SeafoodMarketPage() {
         </div>
       </div>
 
+      <section style={{background:'#100e0c',color:'#fff9ee',padding:24,borderRadius:16,marginBottom:28}}>
+        <h2 style={{color:'#ff5a0a'}}>Langouste House / Vivier Caraïbe</h2>
+        <p>Approvisionnement en produits de la mer sur devis, sous réserve de confirmation du partenaire.</p>
+        <Link to="/partenaire/langouste-house" style={{color:'#ff8c3b',fontWeight:800}}>Découvrir le partenaire pilote →</Link>
+      </section>
       {/* ===== 2. STATS BAR ===== */}
       <div className="stats-grid" style={{ marginBottom: 28 }}>
         <div className="stat-card">
