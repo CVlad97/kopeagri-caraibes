@@ -14,7 +14,7 @@ test('cooked kilo calculation uses 10x Charles price per 100g, marked as unconfi
  assert.match(landing, /86,80 € \/ kg/)
 })
 test('no invented vivier evidence and authentic photo links available', () => {
- assert.match(canonical, /aucune photo du bassin du vivier n'est actuellement authentifiée/)
+ assert.match(canonical, /Photo du bassin à venir/)
  for(const name of ['bandeau-original.jpg','terrasse.jpg','langouste-grillee-recadree.webp','queue-bbq-recadree.webp']){
   assert.ok(fs.existsSync(path.join('public/visuals/langouste-house',name)),name)
  }

@@ -92,7 +92,7 @@ export default function LangousteHousePage() {
           <div>
             <span className="lh-kicker">Approvisionnement · Vivier Caraïbe</span>
             <h2 id="lh-vivier-title">Du vivier <em>à l'assiette.</em></h2>
-            <p>Charles décrit une activité de vivier à Schœlcher. Les photographies de la terrasse et des préparations sont disponibles ; <strong>aucune photo du bassin du vivier n'est actuellement authentifiée</strong>. Nous ne remplaçons pas cette preuve par une image fictive.</p>
+            <p>Pour vos achats professionnels ou particuliers, demandez les arrivages, le calibre, le conditionnement et les modalités de retrait. <strong>Photo du bassin à venir.</strong></p>
             <Link className="lh-card-link" to="/partenaire/langouste-house">Approvisionnement professionnel →</Link>
           </div>
           <img src={photos + 'preparation-01.jpg'} alt="Préparation culinaire photographiée chez Langouste House, non présentée comme une photo du vivier" width="1280" height="960" loading="lazy" decoding="async" />
