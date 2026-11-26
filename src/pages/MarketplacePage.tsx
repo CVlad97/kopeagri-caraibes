@@ -865,7 +865,7 @@ const MarketplacePage: React.FC = () => {
             </div>
 
             {/* Suggested lots */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: 12 }}>
               {aiSuggestions.map(lot => renderLotCard(lot))}
             </div>
           </div>
@@ -901,7 +901,7 @@ const MarketplacePage: React.FC = () => {
           </div>
 
           <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 0,
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: 0,
             background: '#E8F5E9', padding: 16, borderRadius: '0 0 16px 16px',
           }}>
             {antiGaspillage.map(lot => {
@@ -1034,7 +1034,7 @@ const MarketplacePage: React.FC = () => {
           <h2 style={{ fontSize: 19, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             📦 Lots disponibles
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: 18 }}>
             {standards.map(lot => renderLotCard(lot))}
           </div>
         </div>
@@ -1046,7 +1046,7 @@ const MarketplacePage: React.FC = () => {
           <h2 style={{ fontSize: 19, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             🛒 Demandes d'achat
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: 18 }}>
             {demandes.map(lot => renderLotCard(lot))}
           </div>
         </div>
@@ -1058,7 +1058,7 @@ const MarketplacePage: React.FC = () => {
           <h2 style={{ fontSize: 19, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
             🚢 Lots Export
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 18 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: 18 }}>
             {exports_.map(lot => renderLotCard(lot))}
           </div>
         </div>
@@ -1094,7 +1094,7 @@ const MarketplacePage: React.FC = () => {
 
       {/* ===== 7. QUICK ACTIONS ===== */}
       <div style={{
-        display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 14,
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: 14,
         marginTop: 24, marginBottom: 32,
       }}>
         <Link to="/lots" style={{ textDecoration: 'none' }}>
